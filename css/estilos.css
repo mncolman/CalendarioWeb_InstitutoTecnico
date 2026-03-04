@@ -1,0 +1,162 @@
+/* ----------------------- ESTILOS CSS  ------------------------------------------------------ */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* Ocupar toda la pantalla */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    /* Fondo gris claro */
+}
+
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    height: 98vh;
+    /* 98% de la altura de la ventana */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #333;
+}
+
+/* EL CULPABLE: Aquí forzamos la altura del calendario */
+#calendar {
+    background-color: white;
+    flex-grow: 1;
+    /* Ocupa todo el espacio sobrante hacia abajo */
+    min-height: 500px;
+    /* Altura mínima de seguridad */
+    border: 2px solid #ccc;
+    /* Borde gris para ver dónde termina */
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Tu código actual para pantallas grandes */
+#calendar {
+    background-color: white;
+    flex-grow: 1;
+    min-height: 500px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* REGLA PARA CELULARES (Pantallas menores a 768px) */
+@media screen and (max-width: 768px) {
+    #calendar {
+        width: 100%;
+        /* Fuerza a tomar todo el ancho */
+        padding: 3px;
+        /* Reducimos el padding para no desperdiciar pantalla */
+        border: none;
+        /* Quitamos el borde para ganar un par de píxeles extra */
+        border-radius: 0;
+        /* Que llegue bien pegado a los bordes del teléfono */
+        min-height: 80vh;
+        /* Usa el 80% del alto de la pantalla del celular en lugar de 500px fijos */
+    }
+
+    /* Si tu calendario está dentro de un contenedor padre, quitamos sus márgenes también */
+    body,
+    html,
+    .contenedor-principal {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+        /* Evita que se pueda hacer scroll horizontal accidentalmente */
+    }
+}
+
+/* El contenedor principal */
+.tarjeta-evento {
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    overflow: hidden;
+    /* Evita que el texto se salga del cuadro */
+}
+
+/* El título principal (Actividad) */
+.titulo-actividad {
+    font-weight: bold;
+    font-size: 0.95em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    /* Una rayita sutil separadora */
+    margin-bottom: 3px;
+    padding-bottom: 2px;
+    white-space: normal;
+    /* Permite que el título baje a la segunda línea si es largo */
+}
+
+/* El resto de los datos */
+.detalle-evento {
+    font-size: 1em;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border_bottom: 1px black solid !important
+}
+
+/* Sobrescribe el diseño base de todos los eventos */
+.fc-event {
+    background-color: transparent !important;
+    /* Quitamos el fondo azul por defecto */
+    color: black !important;
+    /* Forzamos a que el texto sea negro (o tu color) */
+    box-shadow: none !important;
+}
+
+/* Para que tu tarjeta ocupe el 100% del contenedor invisible */
+.fc-event-main {
+    padding: 0 !important;
+    height: 100%;
+}
+
+/* Reglas solo para la vista de la semana */
+.fc-timegrid-event {
+    background-color: black !important;
+    /* Quitamos el fondo azul por defecto */
+
+    border: 1px blud solid !important;
+    /* Quitamos el borde nativo */
+    color: black !important;
+    /* Forzamos a que el texto sea negro (o tu color) */
+    text: black !important;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 2px;
+    /* Separación si hay dos clases pegadas */
+}
+
+
+
+/* El nuevo círculo pequeñito */
+.mini-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #e0e0e0;
+    /* Gris más suave */
+    border-top: 3px solid #007bff;
+    /* Azul instituto */
+    border-radius: 50%;
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

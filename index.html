@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <base target="_top">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/app.js" defer></script>
+</head>
+
+<body>
+
+    <div class="contenedor-principal">
+        <h2>Calendario de Reservas Instituto Técnico</h2>
+
+        <div class="controles-busqueda" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
+
+            <div class="fila-superior" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+
+                <select id="selectorEspacio"
+                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
+                    <option value="">Sincronizando...</option>
+                </select>
+
+                <select id="filtro-division"
+                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
+                    <option value="">Todas las divisiones</option>
+                    <option value="1º AÑO A">1º AÑO A</option>
+                    <option value="1º AÑO B">1º AÑO B</option>
+                    <option value="1º AÑO C">1º AÑO C</option>
+                    <option value="2º AÑO A">2º AÑO A</option>
+                    <option value="2º AÑO B">2º AÑO B</option>
+                    <option value="2º AÑO C">2º AÑO C</option>
+                    <option value="3º AÑO A">3º AÑO A</option>
+                    <option value="3º AÑO B">3º AÑO B</option>
+                    <option value="3º AÑO C">3º AÑO C</option>
+                    <option value="4º AÑO MMO A">4º AÑO MMO A</option>
+                    <option value="4º AÑO MMO B">4º AÑO MMO B</option>
+                    <option value="4º AÑO TME A">4º AÑO TME A</option>
+                    <option value="4º AÑO TME B">4º AÑO TME B</option>
+                    <option value="5º AÑO MMO A">5º AÑO MMO A</option>
+                    <option value="5º AÑO MMO B">5º AÑO MMO B</option>
+                    <option value="5º AÑO TME A">5º AÑO TME A</option>
+                    <option value="5º AÑO TME B">5º AÑO TME B</option>
+                    <option value="6º AÑO MMO A">6º AÑO MMO A</option>
+                    <option value="6º AÑO MMO B">6º AÑO MMO B</option>
+                    <option value="6º AÑO TME A">6º AÑO TME A</option>
+                    <option value="6º AÑO TME B">6º AÑO TME B</option>
+                    <option value="7º AÑO MMO A">7º AÑO MMO A</option>
+                    <option value="7º AÑO MMO B">7º AÑO MMO B</option>
+                    <option value="7º AÑO TME A">7º AÑO TME A</option>
+                    <option value="7º AÑO TME B">7º AÑO TME B</option>
+                </select>
+
+                <button id="btn-limpiar"
+                    style="padding: 8px 12px; border-radius: 5px; border: 1px solid #007bff; background-color: #f8f9fa; color: #007bff; cursor: pointer; font-weight: bold; transition: 0.2s;">
+                    🔄 Limpiar
+                </button>
+
+                <div id="contenedor-carga" style="display: flex; align-items: center; gap: 8px;">
+                    <div class="mini-spinner"></div>
+                    <span style="font-size: 0.85em; color: #555;">Cargando...</span>
+                </div>
+
+            </div>
+
+            <div class="fila-inferior" style="display: flex; width: 100%;">
+                <input type="text" id="buscar-docente" autocomplete="off" list="opciones-docentes"
+                    placeholder="Escribe o selecciona un docente..."
+                    style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1; width: 100%; font-size: 1em;">
+
+                <datalist id="opciones-docentes">
+                </datalist>
+            </div>
+            <div id="panel-colegas"
+                style="display: none; width: 100%; margin-top: 10px; padding: 12px; background-color: #e9ecef; border-left: 4px solid #007bff; border-radius: 4px; font-size: 0.9em; color: #333;">
+                <strong>👥 Colegas de Gabinete:</strong>
+                <div id="lista-colegas" style="margin-top: 5px; line-height: 1.4;">
+                </div>
+            </div>
+
+        </div>
+
+        <div id='calendar'></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>
