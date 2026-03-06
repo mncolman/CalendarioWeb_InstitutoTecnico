@@ -136,10 +136,24 @@ document.addEventListener('DOMContentLoaded', function () {
     cargarDatos();
 
 
-    var selector = document.getElementById('selectorEspacio');
-    if (selector) {
-        selector.addEventListener('change', aplicarFiltros);
-    }
+    // --- CONECTAR TODOS LOS FILTROS ---
+    document.getElementById('selectorEspacio')
+        .addEventListener('change', aplicarFiltros);
+
+    document.getElementById('filtro-division')
+        .addEventListener('change', aplicarFiltros);
+
+    document.getElementById('buscar-docente')
+        .addEventListener('input', aplicarFiltros); // 'input' dispara mientras se escribe
+
+    document.getElementById('btn-limpiar')
+        .addEventListener('click', function () {
+            document.getElementById('buscar-docente').value = '';
+            document.getElementById('filtro-division').value = '';
+            document.getElementById('selectorEspacio').value = '';
+            document.getElementById('panel-colegas').style.display = 'none';
+            aplicarFiltros();
+        });
 
 });
 
@@ -297,35 +311,5 @@ function procesarDatosYCrearOpciones(listaDeEspacios) {
         selector.appendChild(option);
     });
 }
-function aplicarFiltro(espacioSeleccionado) {
-    calendar.removeAllEvents();
-    var eventosFiltrados = (espacioSeleccionado === "")
-        ? todosLosEventos
-        : todosLosEventos.filter(evt => String(evt.resourceId) === String(espacioSeleccionado));
-    calendar.addEventSource(eventosFiltrados);
-
-}
 
 
-function llenarBuscadorDocentes() {
-    let datalist = document.getElementById('opciones-docentes');
-    datalist.innerHTML = ''; // Limpiamos por las dudas
-
-    let setDocentes = new Set();
-
-    // Extraemos todos los docentes, ignorando los vacíos
-    todosLosEventos.forEach(evento => {
-        let nombreDocente = evento.extendedProps.responsable;
-        if (nombreDocente && nombreDocente.trim() !== '') {
-            setDocentes.add(nombreDocente.trim());
-        }
-    });
-
-    // Los ordenamos de la A a la Z y creamos las etiquetas <option>
-    let arrayDocentes = Array.from(setDocentes).sort();
-    arrayDocentes.forEach(docente => {
-        let opcion = document.createElement('option');
-        opcion.value = docente;
-        datalist.appendChild(opcion);
-    });
-}
