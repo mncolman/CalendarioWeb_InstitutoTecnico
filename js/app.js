@@ -8,41 +8,29 @@ document.addEventListener('DOMContentLoaded', function () {
     var loadingEl = document.getElementById('loading');
     var selector = document.getElementById('selectorEspacio');
 
-
-
-
-    // 2. Función asíncrona para traer todo de golpe
+    // 2. Función asíncrona para traer todo de UN SOLO GOLPE
     async function cargarDatos() {
         try {
-            // Disparamos los 3 fetch en paralelo
-            const [resEventos, resDocentes , resGabinetes] = await Promise.all([
-                fetch('data/eventos.json'),
-                fetch('data/docentes.json'),
-                fetch('data/gabinetes.json')
-            ]);
+            const respuesta = await fetch('https://script.google.com/macros/s/AKfycby7SUeYknaS9o0MZ_t-ZxYKdcYGskVwGIM1YJzckEy1Nijk4Ff-fKvUPU6nVJfeNxMhNw/exec');
 
-            // Convertimos las respuestas a JSON
-            const eventos = await resEventos.json();
-            const docentes = await resDocentes.json();
-            //const divisiones = await resDivisiones.json();
-            const gabinetes = await resGabinetes.json();
+            const datos = await respuesta.json();
 
-            // Guardamos los eventos para los filtros
-            todosLosEventos = eventos;
+            todosLosEventos = datos.eventos;
 
-            // 3. Llenamos la UI con las listas limpias (¡ya no hace falta iterar los eventos!)
-            llenarBuscadorDocentesNormalizado(docentes);
-            //llenarBuscadorDivisionesNormalizado(divisiones);
-            llenarSelectorGabinetesNormalizado(gabinetes);
+            // Llenamos la UI al instante
+            llenarBuscadorDocentesNormalizado(datos.docentes);
+            llenarSelectorGabinetesNormalizado(datos.gabinetes);
 
-            // 4. Cargamos el calendario
-            calendar.addEventSource(eventos);
+            // Cargamos el calendario
+            calendar.addEventSource(datos.eventos);
 
-            // 5. Matamos el spinner
+            // Matamos el spinner
+            const loadingEl = document.getElementById('contenedor-carga');
             if (loadingEl) loadingEl.style.display = 'none';
 
         } catch (error) {
-            console.error("Error catastrófico cargando los JSON:", error);
+            console.error("Error cargando los datos:", error);
+            const loadingEl = document.getElementById('contenedor-carga');
             if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
         }
     }
@@ -158,11 +146,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function llenarBuscadorDocentesNormalizado(listaDocentes) {
     let datalist = document.getElementById('opciones-docentes');
-    datalist.innerHTML = ''; 
+    datalist.innerHTML = '';
 
     listaDocentes.forEach(docente => {
         let opcion = document.createElement('option');
-        opcion.value = docente; 
+        opcion.value = docente;
         datalist.appendChild(opcion);
     });
 }
