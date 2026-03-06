@@ -103,13 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         eventClick: function (info) {
             var props = info.event.extendedProps;
+            var horaInicio = info.event.start.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            var horaFin = info.event.end.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
 
             Swal.fire({
                 title: info.event.title,
                 html: `
               <p>Profesor: <b>${props.responsable}</b></p>
-              <p>Horario: ${props.horaInicio} a ${props.horaFin}</p>
-              <p>Aula: ${info.event.extendedProps.resourceId}</p>
+              <p>Horario: ${horaInicio} a ${horaFin}</p>
+              <p>Aula: ${props.gabinete}</p>
             `,
                 confirmButtonText: 'Entendido'
             });
