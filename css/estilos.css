@@ -21,13 +21,13 @@ body {
 
 h2 {
     text-align: center;
-    margin-top: 0;
+    margin-top: 0.2em;
     color: #333;
 }
 
 /* EL CULPABLE: Aquí forzamos la altura del calendario */
 #calendar {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     flex-grow: 1;
     /* Ocupa todo el espacio sobrante hacia abajo */
     min-height: 500px;
@@ -38,15 +38,41 @@ h2 {
     padding: 10px;
 }
 
-/* Tu código actual para pantallas grandes */
-#calendar {
-    background-color: white;
-    flex-grow: 1;
-    min-height: 500px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
+.contenedor-acciones {
+    display: flex;
+    gap: 8px;
 }
+
+.btn-accion {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-accion:hover {
+    opacity: 0.85;
+}
+
+.btn-primario {
+    background-color: #0859af;
+    color: white;
+    border-color: #0859af;
+}
+
+.btn-secundario {
+    background-color: #f8f9fa;
+    color: #0859af;
+    border-color: #0859af;
+}
+.fc-day-today {
+    background-color: rgba(255, 0, 0, 0.08) !important; /* azul suave */
+}
+
+
 
 /* REGLA PARA CELULARES (Pantallas menores a 768px) */
 @media screen and (max-width: 768px) {
@@ -73,6 +99,25 @@ h2 {
         overflow-x: hidden;
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
+
+    h2 {
+        margin-top: 1em;
+    }
+
+    .controles-busqueda {
+        margin: 1em
+    }
+
+    .btn-primario {
+        width: 50%;
+    }
+
+    .btn-secundario {
+        width: 50%;
+    }
+    #selector-vista{
+        margin: 0.4em;
+    }
 }
 
 /* El contenedor principal */
@@ -98,12 +143,11 @@ h2 {
 
 /* El resto de los datos */
 .detalle-evento {
-    font-size: 1em;
+    font-size: 0.9em;
     line-height: 1.3;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border_bottom: 1px black solid !important
 }
 
 /* Sobrescribe el diseño base de todos los eventos */
@@ -125,15 +169,15 @@ h2 {
 .fc-timegrid-event {
     background-color: black !important;
     /* Quitamos el fondo azul por defecto */
-
-    border: 1px blud solid !important;
+    border: 1px solid rgb(255, 255, 255);
+    
     /* Quitamos el borde nativo */
     color: black !important;
     /* Forzamos a que el texto sea negro (o tu color) */
-    text: black !important;
     border-radius: 6px;
     overflow: hidden;
-    margin-bottom: 2px;
+    padding-inline: 3px;
+    margin: 2px;
     /* Separación si hay dos clases pegadas */
 }
 
