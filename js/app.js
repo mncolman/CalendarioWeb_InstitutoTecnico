@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hour12: false,        // false = 13:00 | true = 1:00 pm
             meridiem: false       // Ocultar am/pm si usas 24hs
         },
-        slotDuration: '00:20:00', // Cada celda vale 30 min (por defecto)
+        slotDuration: '00:15:00', 
         slotMinTime: '07:00:00',  // El calendario arranca visualmente a las 7 AM
         slotMaxTime: '23:00:00',  // Termina a las 11 PM
 
@@ -359,7 +359,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
             allDaySlot: false,
             slotMinTime: turno.slotMin,
             slotMaxTime: turno.slotMax,
-            slotDuration: '00:20:00',
+            slotDuration: '00:15:00',
             height: 500,
             contentHeight: 500,
             views: {
