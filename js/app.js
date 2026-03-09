@@ -35,13 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-
-
-    // 1. INICIALIZAR CALENDARIO
     calendar = new FullCalendar.Calendar(calendarEl, {
 
-        initialView: 'dayGridMonth',
-        initialDate: '2026-03-01', // FECHA CLAVE: Marzo 2026
+        initialView: 'timeGridWeek',
         locale: 'es',
         height: '100%', // Usar el 100% del contenedor padre
         buttonText: {
@@ -54,17 +50,21 @@ document.addEventListener('DOMContentLoaded', function () {
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridTresDias,timeGridDay'
+            right: ''
         },
-        // 2. DEFINIR LA VISTA DE 3 DÍAS Y LOS TEXTOS
+
         views: {
-            // Creamos la vista personalizada de 3 días
+            timeGridSemanaLaboral: {
+                type: 'timeGrid',
+                duration: { days: 6 }, // 5 dias
+                buttonText: 'Lun-Vie'
+            },
             timeGridTresDias: {
                 type: 'timeGrid',
-                duration: { days: 3 },
-                buttonText: '3 días' // El texto que se lee en el botón
+                duration: { days: 3 },  // 3 dias
+                buttonText: '3 días'
             },
-            // Le cambiamos el texto por defecto a los demás botones para que quede prolijo
+
             timeGridDay: {
                 buttonText: '1 día'
             },
@@ -79,25 +79,29 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
 
+        firstDay: 1,          // 0 = domingo, 1 = lunes
+        weekends: false,      // oculta sábado y domingo
+
         displayEventTime: false,
         allDaySlot: false,
 
         eventContent: function (arg) {
-            // 1. Capturamos los datos
             let actividad = arg.event.title;
-            let docente = arg.event.extendedProps.responsable || 'Sin asignar';
-            let gabinete = arg.event.extendedProps.gabinete || '';
+            let docente = arg.event.extendedProps.responsable || '';
+            let gabinete = arg.event.extendedProps.gabinete;
+            let textoGabinete = (gabinete && gabinete.trim() !== '') ? gabinete + ' - ' : '';
 
-            // 2. Armamos el diseño HTML del cuadrito
+            var horaInicio = arg.event.start.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            var horaFin = arg.event.end.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+
             let customHtml = `
         <div class="tarjeta-evento">
-          <div class="titulo-actividad">  ${actividad}</div>
-          <div class="detalle-evento">Docente:  ${docente}</div>
-          <div class="detalle-evento">Gabinete:  ${gabinete}</div>
+          <div class="titulo-actividad"> ${actividad}</div>
+          <div class="detalle-evento">${textoGabinete + docente}</div>
+          <div class="detalle-evento">Horario: ${horaInicio} a ${horaFin}</div>
         </div>
       `;
 
-            // 3. Le decimos a FullCalendar que use nuestro HTML
             return { html: customHtml };
         },
 
@@ -109,9 +113,9 @@ document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
                 title: info.event.title,
                 html: `
-              <p>Profesor: <b>${props.responsable}</b></p>
+              <p>Profesor: <b>${props.responsable || ''}</b></p>
               <p>Horario: ${horaInicio} a ${horaFin}</p>
-              <p>Aula: ${props.gabinete}</p>
+              <p>Gabinete: ${props.gabinete || ''}</p>
             `,
                 confirmButtonText: 'Entendido'
             });
@@ -127,18 +131,13 @@ document.addEventListener('DOMContentLoaded', function () {
         slotMinTime: '07:00:00',  // El calendario arranca visualmente a las 7 AM
         slotMaxTime: '23:00:00',  // Termina a las 11 PM
 
-        // IMPORTANTE: Aquí iniciamos SIN eventos. Se cargarán después.
         events: []
     });
 
     calendar.render();
 
-
-    // Ejecutamos la carga
     cargarDatos();
 
-
-    // --- CONECTAR TODOS LOS FILTROS ---
     document.getElementById('selectorEspacio')
         .addEventListener('change', aplicarFiltros);
 
@@ -266,8 +265,6 @@ function aplicarFiltros() {
     }
 
 
-
-    // Filtramos la lista maestra
     let eventosFiltrados = todosLosEventos.filter(evento => {
 
         let docenteDelEvento = (evento.extendedProps.responsable || '').toLowerCase();
@@ -282,36 +279,174 @@ function aplicarFiltros() {
         return (coincideDocente && coincideDivision && coincidegabinete);
     });
 
-    // Actualizamos el calendario a la velocidad de la luz
-    calendar.removeAllEventSources(); // Borramos lo viejo
-    calendar.addEventSource(eventosFiltrados); // Inyectamos lo nuevo
+
+    calendar.removeAllEventSources();
+    calendar.addEventSource(eventosFiltrados);
 }
 
-// Esta función recibe los datos limpios del servidor y pinta el HTML
+
 
 function procesarDatosYCrearOpciones(listaDeEspacios) {
 
     var selector = document.getElementById('selectorEspacio');
-    selector.innerHTML = ""; // Limpiamos el "Cargando..."
+    selector.innerHTML = "";
 
-    var id = "";     // Indice 0 es el ID (para el value)
-    var nombre = "Todos los gabinetes"; // Indice 1 es el Nombre (para el texto)
+    var id = "";
+    var nombre = "Todos los gabinetes";
     var option = document.createElement("option");
-    option.value = id;      // Lo que el sistema usa
+    option.value = id;
     option.text = nombre;
 
     selector.appendChild(option);
 
 
     listaDeEspacios.forEach(function (pareja) {
-        var id = pareja[0];     // Indice 0 es el ID (para el value)
-        var nombre = pareja[1]; // Indice 1 es el Nombre (para el texto)
+        var id = pareja[0];
+        var nombre = pareja[1];
         var option = document.createElement("option");
 
-        option.value = id;      // Lo que el sistema usa
-        option.text = nombre;   // Lo que el usuario ve
+        option.value = id;
+        option.text = nombre;
         selector.appendChild(option);
     });
 }
 
 
+document.getElementById('btn-descargar').addEventListener('click', async function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
+
+    const fechaInicio = calendar.view.activeStart;
+    const vistaOriginal = calendar.view.type;
+    const etiquetaVista = {
+        'dayGridMonth': fechaInicio.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' }),
+        'timeGridWeek': `Semana del ${fechaInicio.toLocaleDateString('es-AR')}`,
+        'timeGridSemanaLaboral': `Semana del ${fechaInicio.toLocaleDateString('es-AR')}`,
+        'timeGridTresDias': `${fechaInicio.toLocaleDateString('es-AR')} — ${calendar.view.activeEnd.toLocaleDateString('es-AR')}`,
+        'timeGridDay': fechaInicio.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
+    }[vistaOriginal] || fechaInicio.toLocaleDateString('es-AR');
+
+    // 1. Creamos un contenedor invisible con dimensiones fijas de escritorio
+    const tempDiv = document.createElement('div');
+    tempDiv.style.cssText = `
+        position: fixed;
+        top: -9999px;
+        left: -9999px;
+        width: 1400px;
+        height: 500px;
+        z-index: -1;
+        background: white;
+    `;
+    document.body.appendChild(tempDiv);
+
+    const pdfW = doc.internal.pageSize.getWidth();
+    const pdfH = doc.internal.pageSize.getHeight();
+    const turnos = [
+        { nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:00' },
+        { nombre: 'Tarde', slotMin: '14:00:00', slotMax: '22:00:00' }
+    ];
+    const capturas = [];
+
+    for (const turno of turnos) {
+        // 2. Creamos un calendario temporal con dimensiones fijas
+        const calTemp = new FullCalendar.Calendar(tempDiv, {
+            initialView: 'timeGridSemanaLaboral',
+            initialDate: fechaInicio,
+            locale: 'es',
+            weekends: false,
+            firstDay: 1,
+            headerToolbar: false,        // sin toolbar — solo la grilla
+            allDaySlot: false,
+            slotMinTime: turno.slotMin,
+            slotMaxTime: turno.slotMax,
+            slotDuration: '00:20:00',
+            height: 500,
+            contentHeight: 500,
+            views: {
+                timeGridSemanaLaboral: {
+                    type: 'timeGrid',
+                    duration: { days: 5 }
+                }
+            },
+            displayEventTime: false,
+
+            events: (() => {
+                // Leemos los filtros activos igual que en aplicarFiltros()
+                let textoDocente = document.getElementById('buscar-docente').value.toLowerCase().trim();
+                let textoDivision = document.getElementById('filtro-division').value.toLowerCase();
+                let textoGabinete = document.getElementById('selectorEspacio').value.toLowerCase();
+
+                return todosLosEventos.filter(evento => {
+                    let docenteEv = (evento.extendedProps.responsable || '').toLowerCase();
+                    let divisionEv = (evento.extendedProps.division || '').toLowerCase();
+                    let gabineteEv = (evento.extendedProps.gabinete || '').toLowerCase();
+
+                    let coincideDocente = docenteEv.includes(textoDocente);
+                    let coincideDivision = textoDivision === '' || divisionEv === textoDivision;
+                    let coincideGabinete = textoGabinete === '' || gabineteEv === textoGabinete;
+
+                    return coincideDocente && coincideDivision && coincideGabinete;
+                });
+            })(),
+
+            eventContent: function (arg) {
+                let actividad = arg.event.title;
+                let docente = arg.event.extendedProps.responsable || '';
+                let gabinete = arg.event.extendedProps.gabinete;
+                let textoGabinete = (gabinete && gabinete.trim() !== '') ? gabinete + ' - ' : '';
+
+                var horaInicio = arg.event.start.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+                var horaFin = arg.event.end.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+                return {
+                    html: `
+                    <div class="tarjeta-evento">
+                        <div class="titulo-actividad">${actividad}</div>
+                        <div class="detalle-evento">${textoGabinete + docente}</div>
+                        <div class="detalle-evento">Horario: ${horaInicio + " a " + horaFin}</div>
+                    </div>
+                `};
+            }
+        });
+
+        calTemp.render();
+        await new Promise(r => setTimeout(r, 500));
+
+        // 3. Capturamos el calendario temporal
+        const canvas = await html2canvas(tempDiv, {
+            scale: 2,
+            useCORS: true,
+            width: 1400,
+            height: 500,
+            scrollX: 0,
+            scrollY: 0
+        });
+
+        capturas.push({ canvas, nombre: turno.nombre });
+
+        // 4. Destruimos el calendario temporal
+        calTemp.destroy();
+        tempDiv.innerHTML = '';
+    }
+
+    // 5. Limpiamos el contenedor temporal del DOM
+    document.body.removeChild(tempDiv);
+
+    // 6. Armamos el PDF
+    const headerAltura = 6;
+    const margen = 4;
+    const espacioPorTurno = (pdfH - (headerAltura + margen) * 2) / 2;
+
+    capturas.forEach((item, i) => {
+        const imgData = item.canvas.toDataURL('image/png');
+        const offsetY = i * (espacioPorTurno + headerAltura + margen);
+        doc.setFontSize(7);
+        doc.text(`Semana  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 4, offsetY + headerAltura);
+        doc.addImage(imgData, 'PNG', 0, offsetY + headerAltura + 1, pdfW, espacioPorTurno);
+    });
+
+    doc.save(`horario-${etiquetaVista}.pdf`);
+});
+
+document.getElementById('selector-vista').addEventListener('change', function () {
+    calendar.changeView(this.value);
+});

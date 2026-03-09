@@ -77,6 +77,9 @@
                 <datalist id="opciones-docentes">
                 </datalist>
             </div>
+            <div class="w-100">
+                <button id="btn-descargar" class="btn btn-primary" type="button">Imprimir</button>
+            </div>
             <div id="panel-colegas"
                 style="display: none; width: 100%; margin-top: 10px; padding: 12px; background-color: #e9ecef; border-left: 4px solid #007bff; border-radius: 4px; font-size: 0.9em; color: #333;">
                 <strong>👥 Colegas de Gabinete:</strong>
@@ -85,12 +88,23 @@
             </div>
 
         </div>
+        <div style="display: flex; width: 100%;">
+            <select id="selector-vista"
+                style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
+                <option value="timeGridSemanaLaboral">Lun - Vie</option>
+                <option value="timeGridWeek">Semana</option>
+                <option value="dayGridMonth">Mes</option>
+                <option value="timeGridTresDias">3 días</option>
+                <option value="timeGridDay">1 día</option>
+            </select>
+        </div>
 
         <div id='calendar'></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 
 </html>
