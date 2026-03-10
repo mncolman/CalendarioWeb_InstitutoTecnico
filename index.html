@@ -8,7 +8,11 @@
     <title>Calendario Instituto Tecnico</title>
     <base target="_top">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css">
     <link rel="icon" type="image/jpg" href="assets/logo-it.jpg">
+
     <link rel="stylesheet" href="css/estilos.css">
     <script src="js/app.js" defer></script>
 </head>
@@ -16,7 +20,12 @@
 <body>
 
     <div class="contenedor-principal">
-        <h2>Calendario Instituto Técnico</h2>
+        <section id="encabezado">
+            <h2>Calendario Instituto Técnico</h2>
+            <figure>
+                <img src="assets/logo-it.jpg" alt="" >
+            </figure>
+        </section>
 
         <div class="controles-busqueda" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
 
@@ -57,8 +66,6 @@
                     <option value="7º AÑO TME B">7º AÑO TME B</option>
                 </select>
 
-
-
                 <Section id="contenedor-carga" style="display: flex; align-items: center; gap: 8px;">
                     <div class="mini-spinner"></div>
                     <span style="font-size: 0.85em; color: #555;">Cargando...</span>
@@ -66,33 +73,31 @@
 
             </Section>
 
-            <Section class="fila-inferior" style="display: flex; width: 100%;">
-                <input type="text" id="buscar-docente" autocomplete="off" list="opciones-docentes"
-                    placeholder="Escribe o selecciona un docente..."
-                    style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1; width: 100%; font-size: 1em;">
-
-                <datalist id="opciones-docentes">
-                </datalist>
-            </Section>
+            <section class="fila-inferior" style="display: flex; width: 100%;">
+                <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
+                    style="width: 100%;"></select>
+            </section>
+            
             <Section class="contenedor-acciones">
                 <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir</button>
                 <button id="btn-limpiar" class="btn-accion btn-secundario">🔄 Limpiar filtros</button>
             </Section>
+            <!--
             <Section id="panel-colegas"
                 style="display: none; width: 100%; margin-top: 10px; padding: 12px; background-color: #e9ecef; border-left: 4px solid #007bff; border-radius: 4px; font-size: 0.9em; color: #333;">
                 <strong>👥 Colegas de Gabinete:</strong>
                 <Section id="lista-colegas" style="margin-top: 5px; line-height: 1.4;">
                 </Section>
             </Section>
-
+            -->
         </div>
         <div style="display: flex; width: 100%;">
             <select id="selector-vista"
                 style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
-                <option value="timeGridWeek">Vista Semana</option>
-                <option value="timeGridSemanaLaboral">Vista Lun - Vie</option>
-                <option value="timeGridTresDias">Vista 3 días</option>
-                <option value="timeGridDay">Vista 1 día</option>
+                <option value="timeGridWeek">Vista: Semana</option>
+                <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
+                <option value="timeGridTresDias">Vista: 3 días</option>
+                <option value="timeGridDay">Vista: 1 día</option>
             </select>
         </div>
 

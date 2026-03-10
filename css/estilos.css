@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap');
+
 /* ----------------------- ESTILOS CSS  ------------------------------------------------------ */
 html,
 body {
@@ -15,14 +17,57 @@ body {
     flex-direction: column;
     height: 98vh;
     /* 98% de la altura de la ventana */
-    padding: 20px;
+    padding-inline: 20px;
     box-sizing: border-box;
 }
 
-h2 {
+#encabezado {
+    display: inline-flex;
+    width: fit-content;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    border-top: 2px #0859af8a solid;
+    border-bottom: 2px #ad121293 solid;
+    border-radius: 1em;
+
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    margin-inline: auto !important;
+    padding-inline: 0.2em;
+}
+
+#encabezado figure {
+    padding: 0;
+    padding-top: 0.19em;
+    margin: 0;
+    margin-left: 0.5em;
+    width: 2em;
+    border-radius: 5em;
+
+}
+
+#encabezado figure img {
+    padding: 0;
+    margin: 0;
+    width: 2em;
+    border-radius: 5em;
+
+}
+
+#encabezado h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    /* cambiá por la que elijas */
+    font-weight: 600;
+    font-size: 2em;
+    letter-spacing: 0.035em;
+    /* pequeño espaciado entre letras queda bien en títulos */
     text-align: center;
-    margin-top: 0.2em;
     color: #333;
+    margin: 0;
+    display: inline-flex;
+    padding-left: 0.1em;
 }
 
 /* EL CULPABLE: Aquí forzamos la altura del calendario */
@@ -68,8 +113,10 @@ h2 {
     color: #0859af;
     border-color: #0859af;
 }
+
 .fc-day-today {
-    background-color: rgba(255, 0, 0, 0.08) !important; /* azul suave */
+    background-color: rgba(255, 0, 0, 0.08) !important;
+    /* azul suave */
 }
 
 
@@ -97,11 +144,23 @@ h2 {
         padding: 0;
         width: 100%;
         overflow-x: hidden;
+        
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
+#encabezado{
+        margin-bottom: 0 !important;
 
-    h2 {
-        margin-top: 1em;
+}
+    #encabezado h2 {
+        font-size: 1.5em;
+    }
+
+    #encabezado figure {
+        width: 1.8em;
+    }
+
+    #encabezado figure img {
+        width: 1.8em;
     }
 
     .controles-busqueda {
@@ -115,7 +174,8 @@ h2 {
     .btn-secundario {
         width: 50%;
     }
-    #selector-vista{
+
+    #selector-vista {
         margin: 0.4em;
     }
 }
@@ -170,7 +230,7 @@ h2 {
     background-color: black !important;
     /* Quitamos el fondo azul por defecto */
     border: 1px solid rgb(255, 255, 255);
-    
+
     /* Quitamos el borde nativo */
     color: black !important;
     /* Forzamos a que el texto sea negro (o tu color) */

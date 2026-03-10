@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
     cargarDatos();
 
     aplicarFiltros();
-    
+
 
     calendar.render();
 
@@ -135,14 +135,14 @@ document.addEventListener('DOMContentLoaded', function () {
         .addEventListener('change', aplicarFiltros);
 
     document.getElementById('buscar-docente')
-        .addEventListener('input', aplicarFiltros); // 'input' dispara mientras se escribe
+        .addEventListener('change', aplicarFiltros);
 
     document.getElementById('btn-limpiar')
         .addEventListener('click', function () {
-            document.getElementById('buscar-docente').value = '';
+            window.tomSelectDocente.clear();
             document.getElementById('filtro-division').value = '';
             document.getElementById('selectorEspacio').value = '';
-            document.getElementById('panel-colegas').style.display = 'none';
+            //document.getElementById('panel-colegas').style.display = 'none';
             aplicarFiltros();
         });
 
@@ -150,13 +150,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function llenarBuscadorDocentesNormalizado(listaDocentes) {
-    let datalist = document.getElementById('opciones-docentes');
-    datalist.innerHTML = '';
+    if (window.tomSelectDocente) window.tomSelectDocente.destroy();
+
+    const select = document.getElementById('buscar-docente');
+    select.innerHTML = '<option value="">Todos los docentes</option>';
 
     listaDocentes.forEach(docente => {
         let opcion = document.createElement('option');
         opcion.value = docente;
-        datalist.appendChild(opcion);
+        opcion.textContent = docente;
+        select.appendChild(opcion);
+    });
+
+    // Inicializamos Tom Select
+    window.tomSelectDocente = new TomSelect('#buscar-docente', {
+        create: false,       // no permite agregar opciones nuevas
+        sortField: 'text',   // ordena alfabéticamente
+        placeholder: 'Escribe o selecciona un docente...'
     });
 }
 
@@ -248,23 +258,21 @@ function aplicarFiltros() {
    }
 
 */
-
-
     let selectorDivision = document.getElementById('filtro-division');
     let selectorGabinete = document.getElementById('selectorEspacio');
-    let textoDocente = document.getElementById('buscar-docente').value.toLowerCase().trim();
 
-    // Si ambos están vacíos y tampoco hay docente, forzamos el primer valor real de división
+    let textoDocente = window.tomSelectDocente
+        ? window.tomSelectDocente.getValue().toLowerCase().trim()
+        : document.getElementById('buscar-docente').value.toLowerCase().trim();
+
     if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocente === '') {
-        // Buscamos la primera opción que no sea la vacía
         let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
-        if (primeraOpcion) selectorDivision.value = primeraOpcion.value;
+        if (primeraOpcion){
+            selectorDivision.value = primeraOpcion.value;
+        }  
     }
-
     let textoDivision = selectorDivision.value.toLowerCase();
     let textogabinete = selectorGabinete.value.toLowerCase();
-
-
 
     let eventosFiltrados = todosLosEventos.filter(evento => {
         let docenteDelEvento = (evento.extendedProps.responsable || '').toLowerCase();
@@ -313,6 +321,19 @@ function procesarDatosYCrearOpciones(listaDeEspacios) {
 document.getElementById('btn-descargar').addEventListener('click', async function () {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
+
+
+    let textoDocente = document.getElementById('buscar-docente').value.toLowerCase().trim();
+    let textoDivision = document.getElementById('filtro-division').value.toLowerCase();
+    let textoGabinete = document.getElementById('selectorEspacio').value.toLowerCase();
+
+
+    let tipoCronograma = 'Semana';
+    if (textoDocente && textoDocente !== '') {
+        tipoCronograma = textoDocente
+    } else {
+        tipoCronograma = (textoGabinete && textoGabinete !== '') ? textoGabinete : textoDivision;
+    }
 
     const fechaInicio = calendar.view.activeStart;
     const vistaOriginal = calendar.view.type;
@@ -377,10 +398,6 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
             firstDay: 1,
 
             events: (() => {
-                // Leemos los filtros activos igual que en aplicarFiltros()
-                let textoDocente = document.getElementById('buscar-docente').value.toLowerCase().trim();
-                let textoDivision = document.getElementById('filtro-division').value.toLowerCase();
-                let textoGabinete = document.getElementById('selectorEspacio').value.toLowerCase();
 
                 return todosLosEventos.filter(evento => {
                     let docenteEv = (evento.extendedProps.responsable || '').toLowerCase();
@@ -419,7 +436,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
 
         // 3. Capturamos el calendario temporal
         const canvas = await html2canvas(tempDiv, {
-            scale: 1.6,
+            scale: 1.7,
             useCORS: true,
             width: 1400,
             height: 700,
@@ -440,27 +457,27 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
     // 6. Armamos el PDF en 2 páginas
     capturas.forEach((item, i) => {
 
-        const imgData = item.canvas.toDataURL('image/png', 0.95);
+        const imgData = item.canvas.toDataURL('image/png', 0.96);
         const pdfW = doc.internal.pageSize.getWidth();
         const pdfH = doc.internal.pageSize.getHeight();
 
         if (i > 0) doc.addPage();
 
         doc.setFontSize(13);
-        doc.text(`Semana  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 8, 8);
+        doc.text(`Cronograma: ${tipoCronograma.toLocaleUpperCase()}  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 8, 8);
 
-        const margen = 5; // 👈 cambiá este valor a gusto (en mm)
+        const margen = 5;
         doc.addImage(
             imgData, 'JPEG',
-            margen,           // margen izquierdo
+            margen,
             20,               // margen superior (respeta el encabezado)
             pdfW - margen * 3,  // ancho - margen derecho e izquierdo
             pdfH - 40 * 2,  // alto - encabezado - margen inferior
-            '',                    // alias (vacío)
+            '',
             'MEDIUM'
         );
     });
-    doc.save(`horario-${etiquetaVista}.pdf`);
+    doc.save(`${tipoCronograma + '-' + etiquetaVista}.pdf`);
 });
 
 document.getElementById('selector-vista').addEventListener('change', function () {
