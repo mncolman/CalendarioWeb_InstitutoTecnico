@@ -267,9 +267,9 @@ function aplicarFiltros() {
 
     if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocente === '') {
         let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
-        if (primeraOpcion){
+        if (primeraOpcion) {
             selectorDivision.value = primeraOpcion.value;
-        }  
+        }
     }
     let textoDivision = selectorDivision.value.toLowerCase();
     let textogabinete = selectorGabinete.value.toLowerCase();
@@ -319,6 +319,21 @@ function procesarDatosYCrearOpciones(listaDeEspacios) {
 
 
 document.getElementById('btn-descargar').addEventListener('click', async function () {
+
+    const btn = this;
+    btn.disabled = true;
+
+    Swal.fire({
+        title: 'Generando PDF...',
+        text: 'Por favor esperá un momento',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
 
@@ -366,118 +381,129 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
     ];
     const capturas = [];
 
-    for (const turno of turnos) {
-        // 2. Creamos un calendario temporal con dimensiones fijas
-        const calTemp = new FullCalendar.Calendar(tempDiv, {
-            initialView: 'timeGridWeek',
-            initialDate: fechaInicio,
-            locale: 'es',
-            weekends: false,
-            firstDay: 1,
-            headerToolbar: false,        // sin toolbar — solo la grilla
-            allDaySlot: false,
-            slotMinTime: turno.slotMin,
-            slotMaxTime: turno.slotMax,
+    try {
+        
+        for (const turno of turnos) {
+            // 2. Creamos un calendario temporal con dimensiones fijas
+            const calTemp = new FullCalendar.Calendar(tempDiv, {
+                initialView: 'timeGridWeek',
+                initialDate: fechaInicio,
+                locale: 'es',
+                weekends: false,
+                firstDay: 1,
+                headerToolbar: false,        // sin toolbar — solo la grilla
+                allDaySlot: false,
+                slotMinTime: turno.slotMin,
+                slotMaxTime: turno.slotMax,
 
-            slotLabelFormat: {
-                hour: '2-digit',      // 'numeric' para 1, 2... | '2-digit' para 01, 02...
-                minute: '2-digit',    // Mostrar minutos: 00
-                hour12: false,        // false = 13:00 | true = 1:00 pm
-                meridiem: false       // Ocultar am/pm si usas 24hs
-            },
-            slotDuration: '00:15:00',
-            height: 700,
-            contentHeight: 700,
-            views: {
-                timeGridWeek: {
-                    type: 'timeGrid',
-                }
-            },
-            displayEventTime: false,
-            weekends: false,
-            firstDay: 1,
+                slotLabelFormat: {
+                    hour: '2-digit',      // 'numeric' para 1, 2... | '2-digit' para 01, 02...
+                    minute: '2-digit',    // Mostrar minutos: 00
+                    hour12: false,        // false = 13:00 | true = 1:00 pm
+                    meridiem: false       // Ocultar am/pm si usas 24hs
+                },
+                slotDuration: '00:15:00',
+                height: 700,
+                contentHeight: 700,
+                views: {
+                    timeGridWeek: {
+                        type: 'timeGrid',
+                    }
+                },
+                displayEventTime: false,
+                weekends: false,
+                firstDay: 1,
 
-            events: (() => {
+                events: (() => {
 
-                return todosLosEventos.filter(evento => {
-                    let docenteEv = (evento.extendedProps.responsable || '').toLowerCase();
-                    let divisionEv = (evento.extendedProps.division || '').toLowerCase();
-                    let gabineteEv = (evento.extendedProps.gabinete || '').toLowerCase();
+                    return todosLosEventos.filter(evento => {
+                        let docenteEv = (evento.extendedProps.responsable || '').toLowerCase();
+                        let divisionEv = (evento.extendedProps.division || '').toLowerCase();
+                        let gabineteEv = (evento.extendedProps.gabinete || '').toLowerCase();
 
-                    let coincideDocente = docenteEv.includes(textoDocente);
-                    let coincideDivision = textoDivision === '' || divisionEv === textoDivision;
-                    let coincideGabinete = textoGabinete === '' || gabineteEv === textoGabinete;
+                        let coincideDocente = docenteEv.includes(textoDocente);
+                        let coincideDivision = textoDivision === '' || divisionEv === textoDivision;
+                        let coincideGabinete = textoGabinete === '' || gabineteEv === textoGabinete;
 
-                    return coincideDocente && coincideDivision && coincideGabinete;
-                });
-            })(),
+                        return coincideDocente && coincideDivision && coincideGabinete;
+                    });
+                })(),
 
-            eventContent: function (arg) {
-                let actividad = arg.event.title;
-                let docente = arg.event.extendedProps.responsable || '';
-                let gabinete = arg.event.extendedProps.gabinete;
-                let textoGabinete = (gabinete && gabinete.trim() !== '') ? gabinete + ' - ' : '';
+                eventContent: function (arg) {
+                    let actividad = arg.event.title;
+                    let docente = arg.event.extendedProps.responsable || '';
+                    let gabinete = arg.event.extendedProps.gabinete;
+                    let textoGabinete = (gabinete && gabinete.trim() !== '') ? gabinete + ' - ' : '';
 
-                var horaInicio = arg.event.start.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
-                var horaFin = arg.event.end.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
-                return {
-                    html: `
+                    var horaInicio = arg.event.start.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+                    var horaFin = arg.event.end.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+                    return {
+                        html: `
                     <div class="tarjeta-evento">
                         <div class="titulo-actividad">${actividad}</div>
                         <div class="detalle-evento">${textoGabinete + docente}</div>
                         <div class="detalle-evento">Horario: ${horaInicio + " a " + horaFin}</div>
                     </div>
                 `};
-            }
+                }
+            });
+
+            calTemp.render();
+            await new Promise(r => setTimeout(r, 500));
+
+            // 3. Capturamos el calendario temporal
+            const canvas = await html2canvas(tempDiv, {
+                scale: 1.7,
+                useCORS: true,
+                width: 1400,
+                height: 700,
+                scrollX: 0,
+                scrollY: 0
+            });
+
+            capturas.push({ canvas, nombre: turno.nombre });
+
+            // 4. Destruimos el calendario temporal
+            calTemp.destroy();
+            tempDiv.innerHTML = '';
+        }
+
+        // 5. Limpiamos el contenedor temporal del DOM
+        document.body.removeChild(tempDiv);
+
+        // 6. Armamos el PDF en 2 páginas
+        capturas.forEach((item, i) => {
+
+            const imgData = item.canvas.toDataURL('image/png', 0.96);
+            const pdfW = doc.internal.pageSize.getWidth();
+            const pdfH = doc.internal.pageSize.getHeight();
+
+            if (i > 0) doc.addPage();
+
+            doc.setFontSize(13);
+            doc.text(`Cronograma: ${tipoCronograma.toLocaleUpperCase()}  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 8, 8);
+
+            const margen = 5;
+            doc.addImage(
+                imgData, 'JPEG',
+                margen,
+                20,               // margen superior (respeta el encabezado)
+                pdfW - margen * 3,  // ancho - margen derecho e izquierdo
+                pdfH - 40 * 2,  // alto - encabezado - margen inferior
+                '',
+                'MEDIUM'
+            );
         });
 
-        calTemp.render();
-        await new Promise(r => setTimeout(r, 500));
 
-        // 3. Capturamos el calendario temporal
-        const canvas = await html2canvas(tempDiv, {
-            scale: 1.7,
-            useCORS: true,
-            width: 1400,
-            height: 700,
-            scrollX: 0,
-            scrollY: 0
-        });
-
-        capturas.push({ canvas, nombre: turno.nombre });
-
-        // 4. Destruimos el calendario temporal
-        calTemp.destroy();
-        tempDiv.innerHTML = '';
+        // todo el código de generación
+        Swal.close();
+        btn.disabled = false;
+        doc.save(`${tipoCronograma + '-' + etiquetaVista}.pdf`);
+        doc.save(`horario-${etiquetaVista}.pdf`);
+    } catch (error) {
+        Swal.fire('Error', 'No se pudo generar el PDF', 'error');
     }
-
-    // 5. Limpiamos el contenedor temporal del DOM
-    document.body.removeChild(tempDiv);
-
-    // 6. Armamos el PDF en 2 páginas
-    capturas.forEach((item, i) => {
-
-        const imgData = item.canvas.toDataURL('image/png', 0.96);
-        const pdfW = doc.internal.pageSize.getWidth();
-        const pdfH = doc.internal.pageSize.getHeight();
-
-        if (i > 0) doc.addPage();
-
-        doc.setFontSize(13);
-        doc.text(`Cronograma: ${tipoCronograma.toLocaleUpperCase()}  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 8, 8);
-
-        const margen = 5;
-        doc.addImage(
-            imgData, 'JPEG',
-            margen,
-            20,               // margen superior (respeta el encabezado)
-            pdfW - margen * 3,  // ancho - margen derecho e izquierdo
-            pdfH - 40 * 2,  // alto - encabezado - margen inferior
-            '',
-            'MEDIUM'
-        );
-    });
-    doc.save(`${tipoCronograma + '-' + etiquetaVista}.pdf`);
 });
 
 document.getElementById('selector-vista').addEventListener('change', function () {
