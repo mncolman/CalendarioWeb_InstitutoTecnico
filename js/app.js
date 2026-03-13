@@ -332,7 +332,14 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
         didOpen: () => Swal.showLoading()
     });
 
-
+    const estiloTemporal = document.createElement('style');
+    estiloTemporal.id = 'estilo-captura-pdf';
+    estiloTemporal.innerHTML = `
+    .fc-day-today {
+        background-color: white !important;
+    }
+`;
+    document.head.appendChild(estiloTemporal);
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
@@ -382,7 +389,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
     const capturas = [];
 
     try {
-        
+
         for (const turno of turnos) {
             // 2. Creamos un calendario temporal con dimensiones fijas
             const calTemp = new FullCalendar.Calendar(tempDiv, {
@@ -403,7 +410,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
                     meridiem: false       // Ocultar am/pm si usas 24hs
                 },
                 slotDuration: '00:15:00',
-                height: 700,
+                height: 750,
                 contentHeight: 700,
                 views: {
                     timeGridWeek: {
@@ -453,7 +460,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
 
             // 3. Capturamos el calendario temporal
             const canvas = await html2canvas(tempDiv, {
-                scale: 1.7,
+                scale: 1.8,
                 useCORS: true,
                 width: 1400,
                 height: 700,
@@ -468,13 +475,13 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
             tempDiv.innerHTML = '';
         }
 
-        // 5. Limpiamos el contenedor temporal del DOM
-        document.body.removeChild(tempDiv);
-
-        // 6. Armamos el PDF en 2 páginas
+        if (tempDiv.parentNode) tempDiv.parentNode.removeChild(tempDiv);
+        const estiloABorrar = document.getElementById('estilo-captura-pdf');
+        if (estiloABorrar) estiloABorrar.remove();
+        
         capturas.forEach((item, i) => {
 
-            const imgData = item.canvas.toDataURL('image/png', 0.96);
+            const imgData = item.canvas.toDataURL('image/jpeg', 0.98);
             const pdfW = doc.internal.pageSize.getWidth();
             const pdfH = doc.internal.pageSize.getHeight();
 
@@ -495,14 +502,14 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
             );
         });
 
-
-        // todo el código de generación
         Swal.close();
         btn.disabled = false;
         doc.save(`${tipoCronograma + '-' + etiquetaVista}.pdf`);
-        doc.save(`horario-${etiquetaVista}.pdf`);
+
     } catch (error) {
-        Swal.fire('Error', 'No se pudo generar el PDF', 'error');
+        console.error('Error completo:', error); // 👈 agregá esto
+        Swal.fire('Error', error.message, 'error'); // 👈 muestra el mensaje real
+        btn.disabled = false; // 👈 esto también faltaba en tu catch
     }
 });
 
@@ -516,3 +523,4 @@ document.getElementById('selector-vista').addEventListener('change', function ()
         calendar.changeView(this.value);
     }
 });
+
