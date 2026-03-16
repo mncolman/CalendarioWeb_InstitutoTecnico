@@ -72,6 +72,15 @@ document.addEventListener('DOMContentLoaded', function () {
         displayEventTime: false,
         allDaySlot: false,
 
+        eventClassNames: function (arg) {
+            let actividad = arg.event.title.toLowerCase();
+
+            if (actividad.includes('taller')) return ['evento-taller'];
+            if (actividad.includes('ed. fisica')) return ['evento-ed-fisica'];
+
+            return ['evento-default'];
+        },
+
         eventContent: function (arg) {
             let actividad = arg.event.title;
             let docente = arg.event.extendedProps.responsable || '';
@@ -435,6 +444,14 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
                         return coincideDocente && coincideDivision && coincideGabinete;
                     });
                 })(),
+                eventClassNames: function (arg) {
+                    let actividad = arg.event.title.toLowerCase();
+
+                    if (actividad.includes('taller')) return ['evento-taller'];
+                    if (actividad.includes('ed. fisica')) return ['evento-ed-fisica'];
+
+                    return ['evento-default'];
+                },
 
                 eventContent: function (arg) {
                     let actividad = arg.event.title;
@@ -478,7 +495,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
         if (tempDiv.parentNode) tempDiv.parentNode.removeChild(tempDiv);
         const estiloABorrar = document.getElementById('estilo-captura-pdf');
         if (estiloABorrar) estiloABorrar.remove();
-        
+
         capturas.forEach((item, i) => {
 
             const imgData = item.canvas.toDataURL('image/jpeg', 0.98);
