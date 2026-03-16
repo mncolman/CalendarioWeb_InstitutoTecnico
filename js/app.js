@@ -446,8 +446,11 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
                 })(),
                 eventClassNames: function (arg) {
                     let actividad = arg.event.title.toLowerCase();
+                    let gabinete = (arg.extendedProps.gabinete || '').toLowerCase();
+
 
                     if (actividad.includes('taller')) return ['evento-taller'];
+                    if (gabinete.includes('taller')) return ['evento-taller'];
                     if (actividad.includes('ed. fisica')) return ['evento-ed-fisica'];
 
                     return ['evento-default'];
