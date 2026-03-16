@@ -27,7 +27,7 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    
+
     border-top: 2px #0859af8a solid;
     border-bottom: 2px #ad121293 solid;
     border-radius: 1em;
@@ -70,12 +70,12 @@ body {
     padding-left: 0.1em;
 }
 
-/* EL CULPABLE: Aquí forzamos la altura del calendario */
+
 #calendar {
     background-color: rgb(255, 255, 255);
     flex-grow: 1;
-    /* Ocupa todo el espacio sobrante hacia abajo */
-    min-height: 600px;
+
+    min-height: 800px;
     /* Altura mínima de seguridad */
     border: 2px solid #ccc;
     /* Borde gris para ver dónde termina */
@@ -115,7 +115,7 @@ body {
 }
 
 .fc-day-today {
-    background-color: rgba(255, 0, 0, 0.219) !important;
+    background-color: rgba(255, 0, 0, 0.144) !important;
     /* azul suave */
 }
 
@@ -144,13 +144,15 @@ body {
         padding: 0;
         width: 100%;
         overflow-x: hidden;
-        
+
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
-#encabezado{
+
+    #encabezado {
         margin-bottom: 0 !important;
 
-}
+    }
+
     #encabezado h2 {
         font-size: 1.5em;
     }
@@ -186,6 +188,7 @@ body {
     flex-direction: column;
     padding: 3px;
     overflow: hidden;
+    color: black;
     /* Evita que el texto se salga del cuadro */
 }
 
@@ -195,8 +198,7 @@ body {
     font-size: 0.95em;
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     /* Una rayita sutil separadora */
-    margin-bottom: 3px;
-    padding-bottom: 2px;
+    margin-bottom: 2px;
     white-space: normal;
     /* Permite que el título baje a la segunda línea si es largo */
 }
@@ -212,12 +214,31 @@ body {
 
 /* Sobrescribe el diseño base de todos los eventos */
 .fc-event {
-    background-color: transparent !important;
+    background-color: rgba(245, 245, 245, 0.74);
     /* Quitamos el fondo azul por defecto */
     color: black !important;
     /* Forzamos a que el texto sea negro (o tu color) */
     box-shadow: none !important;
+    padding: 0 !important;
+    margin:0 ;
+    margin-left: 5px !important;
+    margin-block: 3px !important;
 }
+.fc-event.evento-default {
+    background-color: rgba(245, 245, 245, 0.808);
+    border-color: #1a3a6b !important;
+}
+
+.fc-event.evento-taller {
+    background-color: #fffbc2 !important;
+    border-color: #ff9215 !important;
+}
+
+.fc-event.evento-ed-fisica {
+    background-color: #dcffd7 !important;
+    border-color: #006e09 !important;
+}
+
 
 /* Para que tu tarjeta ocupe el 100% del contenedor invisible */
 .fc-event-main {
@@ -227,12 +248,7 @@ body {
 
 /* Reglas solo para la vista de la semana */
 .fc-timegrid-event {
-    background-color: black !important;
-    /* Quitamos el fondo azul por defecto */
-    border: 1px solid rgb(255, 255, 255);
-
-    /* Quitamos el borde nativo */
-    color: black !important;
+    border: 1px rgb(0, 0, 0) solid;
     /* Forzamos a que el texto sea negro (o tu color) */
     border-radius: 6px;
     overflow: hidden;
@@ -240,6 +256,15 @@ body {
     margin: 2px;
     /* Separación si hay dos clases pegadas */
 }
+.tarjeta-taller {
+    background-color: #fff563;   /* violeta por ejemplo */
+    border-left: 3px solid #ff0000;
+}
+.tarjeta-ed-fisica {
+    background-color: #b0fcba;   /* violeta por ejemplo */
+    border-left: 3px solid #00ff22;
+}
+
 
 
 
