@@ -74,7 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         eventClassNames: function (arg) {
             let actividad = arg.event.title.toLowerCase();
+            console.log(arg)
+            let gabinete = arg.event.extendedProps.gabinete;
 
+            if (gabinete && gabinete !== '') {
+                gabinete = gabinete.toLowerCase();
+
+                if (gabinete.includes('taller')) return ['evento-taller'];
+            }
+            
             if (actividad.includes('taller')) return ['evento-taller'];
             if (actividad.includes('ed. fisica')) return ['evento-ed-fisica'];
 
@@ -446,8 +454,7 @@ document.getElementById('btn-descargar').addEventListener('click', async functio
                 })(),
                 eventClassNames: function (arg) {
                     let actividad = arg.event.title.toLowerCase();
-                    let gabinete = (arg.extendedProps.gabinete || '').toLowerCase();
-
+                    let gabinete = arg.extendedProps.gabinete.toLowerCase();
 
                     if (actividad.includes('taller')) return ['evento-taller'];
                     if (gabinete.includes('taller')) return ['evento-taller'];
