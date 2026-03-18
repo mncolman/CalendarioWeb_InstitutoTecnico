@@ -1,9 +1,20 @@
 // ----------------- LÓGICA JAVASCRIPT ---------------------------------
 
+
+
+
 var todosLosEventos = [];
 var calendar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    //seguridad
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+        window.location.href = '../pages/login.html';
+        return;
+    }
+
     var calendarEl = document.getElementById('calendar');
 
     // 2. Función asíncrona para traer todo de UN SOLO GOLPE
@@ -82,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (gabinete.includes('taller')) return ['evento-taller'];
             }
-            
+
             if (actividad.includes('taller')) return ['evento-taller'];
             if (actividad.includes('ed. fisica')) return ['evento-ed-fisica'];
 

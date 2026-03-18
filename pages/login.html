@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Acceso — Instituto Técnico</title>
+    <link rel="icon" type="image/jpg" href="assets/logo-it.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../css/login.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="card-login">
+
+        <div class="card-header">
+            <div class="card-header-content">
+                <div class="logo-wrapper">
+                    <img src="../assets/logo-it.jpg" alt="Logo Instituto Técnico">
+                </div>
+                <h1>Instituto Técnico</h1>
+                <p>Universidad Nacional de Tucumán</p>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="campo">
+                <label for="input-usuario">Usuario</label>
+                <input type="text" id="input-usuario" placeholder="Ingresá tu DNI" autocomplete="off">
+            </div>
+
+            <div class="campo">
+                <label for="input-password">Contraseña</label>
+                <input type="password" id="input-password" placeholder="••••••••" autocomplete="off">
+            </div>
+
+            <button class="btn-ingresar" id="btn-ingresar">INGRESAR</button>
+
+            <div class="mensaje-error" id="mensaje-error">
+                Usuario o contraseña incorrectos.
+            </div>
+        </div>
+
+        <div class="card-footer">
+            Acceso exclusivo para personal e alumnos del instituto
+        </div>
+
+    </div>
+
+    <script>
+        const btnIngresar  = document.getElementById('btn-ingresar');
+        const inputUsuario = document.getElementById('input-usuario');
+        const inputPass    = document.getElementById('input-password');
+        const mensajeError = document.getElementById('mensaje-error');
+
+        // Permitir Enter en cualquier campo
+        [inputUsuario, inputPass].forEach(input => {
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') intentarLogin();
+            });
+        });
+
+        btnIngresar.addEventListener('click', intentarLogin);
+
+        async function intentarLogin() {
+            const usuario = inputUsuario.value.trim();
+            const pass    = inputPass.value.trim();
+
+            if (!usuario || !pass) {
+                mostrarError('Completá usuario y contraseña.');
+                return;
+            }
+
+            btnIngresar.disabled = true;
+            btnIngresar.textContent = 'Verificando...';
+            mensajeError.style.display = 'none';
+
+            try {
+                // 👇 ACÁ VA TU LLAMADA A GAS cuando lo implementes
+                // const res   = await fetch(`URL_GAS?accion=login&dni=${usuario}&pass=${pass}`);
+                // const datos = await res.json();
+
+                // --- SIMULACIÓN PARA LA PRESENTACIÓN ---
+                await new Promise(r => setTimeout(r, 1000)); // simula latencia
+                const datos = (usuario === '42547066' && pass === '42547066col')
+                    ? { ok: true,  token: 'token-simulado-abc123' }
+                    : { ok: false, mensaje: 'Credenciales incorrectas' };
+                // ----------------------------------------
+
+                if (datos.ok) {
+                    sessionStorage.setItem('token', datos.token);
+                    window.location.href = '../index.html';
+                } else {
+                    mostrarError(datos.mensaje || 'Usuario o contraseña incorrectos.');
+                }
+
+            } catch (err) {
+                mostrarError('Error de conexión. Intentá de nuevo.');
+            } finally {
+                btnIngresar.disabled = false;
+                btnIngresar.textContent = 'INGRESAR';
+            }
+        }
+
+        function mostrarError(texto) {
+            mensajeError.textContent = texto;
+            mensajeError.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
