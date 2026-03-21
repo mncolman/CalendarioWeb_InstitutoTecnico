@@ -12,16 +12,15 @@ var todosLosEventos = [];
 var calendar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Seguridad
-    const token = sessionStorage.getItem('token');
+    
+    const token = localStorage.getItem('token');
     if (!token) {
-        window.location.href = '../pages/login.html';
+        window.location.href = 'index.html';
         return;
     }
 
     var calendarEl = document.getElementById('calendar');
 
-    // Inicializamos el calendario (acá va toda tu configuración gigante de FullCalendar)
     calendar = new FullCalendar.Calendar(calendarEl, {
 
         initialView: 'timeGridWeek',
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         views: {
             timeGridTresDias: {
                 type: 'timeGrid',
-                duration: { days: 3 },  // 3 dias
+                duration: { days: 3 },  
                 buttonText: '3 días'
             },
 
@@ -54,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 buttonText: 'semana'
             },
             listWeek: {
-                buttonText: 'agenda' // Por si usas la vista de lista en celulares
+                buttonText: 'agenda'
             }
         },
 
@@ -136,17 +135,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             todosLosEventos = datos.eventos;
 
-            // Delegamos el llenado del DOM al módulo de filtros
             llenarBuscadorDocentes(datos.docentes);
             llenarSelectorGabinetes(datos.gabinetes);
 
-            // Aplicamos el primer filtro inicial
             aplicarFiltros(todosLosEventos, calendar);
 
-            // Encendemos los botones (change, click)
             configurarListenersFiltros(todosLosEventos, calendar);
 
-            // Matamos el spinner
             const loadingEl = document.getElementById('contenedor-carga');
             if (loadingEl) loadingEl.style.display = 'none';
 
@@ -160,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 
-    // Eventos sueltos que quedaron (como el de la vista y el PDF)
     document.getElementById('btn-descargar').addEventListener('click', async function () {
         await generarPDF(this, calendar, todosLosEventos);
     });
