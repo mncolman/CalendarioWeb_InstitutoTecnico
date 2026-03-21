@@ -1,142 +1,61 @@
 <!DOCTYPE html>
-
 <html lang="es" translate="no">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" content="notranslate">
-
-    <title>Calendario Instituto Tecnico</title>
-    <base target="_top">
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css">
+    <title>Acceso — Instituto Técnico</title>
     <link rel="icon" type="image/jpg" href="assets/logo-it.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../css/login.css">
 
-    <link rel="stylesheet" href="css/estilos.css">
-    <script src="js/app.js" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script type="module" src="js/login.js"></script>
+
+
 </head>
 
 <body>
 
-    <div class="contenedor-principal">
-        <section id="encabezado">
-            <h2>Calendario Instituto Técnico</h2>
-            <figure>
-                <img src="assets/logo-it.jpg" alt="">
-            </figure>
-        </section>
+    <div class="card-login">
 
-        <div class="controles-busqueda" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
-
-            <Section class="fila-superior" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-
-                <select id="selectorEspacio"
-                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option value="">Sincronizando...</option>
-                </select>
-
-                <select id="filtro-division"
-                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option value="">Todas las divisiones</option>
-                    <option value="1º AÑO A">1º AÑO A</option>
-                    <option value="1º AÑO B">1º AÑO B</option>
-                    <option value="1º AÑO C">1º AÑO C</option>
-                    <option value="2º AÑO A">2º AÑO A</option>
-                    <option value="2º AÑO B">2º AÑO B</option>
-                    <option value="2º AÑO C">2º AÑO C</option>
-                    <option value="3º AÑO A">3º AÑO A</option>
-                    <option value="3º AÑO B">3º AÑO B</option>
-                    <option value="3º AÑO C">3º AÑO C</option>
-                    <option value="4º AÑO MMO A">4º AÑO MMO A</option>
-                    <option value="4º AÑO MMO B">4º AÑO MMO B</option>
-                    <option value="4º AÑO TME A">4º AÑO TME A</option>
-                    <option value="4º AÑO TME B">4º AÑO TME B</option>
-                    <option value="5º AÑO MMO A">5º AÑO MMO A</option>
-                    <option value="5º AÑO MMO B">5º AÑO MMO B</option>
-                    <option value="5º AÑO TME A">5º AÑO TME A</option>
-                    <option value="5º AÑO TME B">5º AÑO TME B</option>
-                    <option value="6º AÑO MMO A">6º AÑO MMO A</option>
-                    <option value="6º AÑO MMO B">6º AÑO MMO B</option>
-                    <option value="6º AÑO TME A">6º AÑO TME A</option>
-                    <option value="6º AÑO TME B">6º AÑO TME B</option>
-                    <option value="7º AÑO MMO A">7º AÑO MMO A</option>
-                    <option value="7º AÑO MMO B">7º AÑO MMO B</option>
-                    <option value="7º AÑO TME A">7º AÑO TME A</option>
-                    <option value="7º AÑO TME B">7º AÑO TME B</option>
-                </select>
-
-                <Section id="contenedor-carga" style="display: flex; align-items: center; gap: 8px;">
-                    <div class="mini-spinner"></div>
-                    <span style="font-size: 0.85em; color: #555;">Cargando...</span>
-                </Section>
-
-            </Section>
-
-            <section class="fila-inferior" style="display: flex; width: 100%;">
-                <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
-                    style="width: 100%;"></select>
-            </section>
-
-            <Section class="contenedor-acciones">
-                <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir</button>
-                <button id="btn-limpiar" class="btn-accion btn-secundario">🔄 Limpiar filtros</button>
-            </Section>
-            <!--
-            <Section id="panel-colegas"
-                style="display: none; width: 100%; margin-top: 10px; padding: 12px; background-color: #e9ecef; border-left: 4px solid #007bff; border-radius: 4px; font-size: 0.9em; color: #333;">
-                <strong>👥 Colegas de Gabinete:</strong>
-                <Section id="lista-colegas" style="margin-top: 5px; line-height: 1.4;">
-                </Section>
-            </Section>
-            -->
-        </div>
-        <div style="display: flex; width: 100%;">
-            <select id="selector-vista"
-                style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
-                <option value="timeGridWeek">Vista: Semana</option>
-                <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
-                <option value="timeGridTresDias">Vista: 3 días</option>
-                <option value="timeGridDay">Vista: 1 día</option>
-            </select>
+        <div class="card-header">
+            <div class="card-header-content">
+                <div class="logo-wrapper">
+                    <img src="../assets/logo-it.jpg" alt="Logo Instituto Técnico">
+                </div>
+                <h1>Instituto Técnico</h1>
+                <p>Universidad Nacional de Tucumán</p>
+            </div>
         </div>
 
-        <article id='calendar' translate="no"></article>
+        <div class="card-body">
+            <div class="campo">
+                <label for="input-usuario">Usuario</label>
+                <input type="text" id="input-usuario" placeholder="Ingresá tu DNI" autocomplete="off">
+            </div>
+
+            <div class="campo">
+                <label for="input-password">Contraseña</label>
+                <input type="password" id="input-password" placeholder="••••••••" autocomplete="off">
+            </div>
+
+            <button class="btn-ingresar" id="btn-ingresar">INGRESAR</button>
+
+            <div class="mensaje-error" id="mensaje-error">
+                Usuario o contraseña incorrectos.
+            </div>
+        </div>
+
+        <div class="card-footer">
+            Acceso exclusivo para personal y alumnos del instituto técnico
+        </div>
+
     </div>
-    <footer id="footer">
-        <div class="footer-principal">
 
-            <figure class="footer-logo">
-                <a href="https://it.unt.edu.ar">
-                    <img src="assets/logo-it.jpg" alt="Logo Instituto Técnico">
-                </a>
-            </figure>
-
-            <div class="footer-info">
-                <p>Gral. Paz 920 - CP 4000</p>
-                <p>San Miguel de Tucumán - Tucumán - Argentina</p>
-                <p class="footer-cue">CUE: 909000400</p>
-            </div>
-
-            <div class="footer-redes">
-                <a href="https://www.instagram.com/institutotecnico.unt" aria-label="Instagram">📷</a>
-                <a href="#" aria-label="WhatsApp">💬</a>
-                <a href="#" aria-label="Email">✉️</a>
-                <a href="https://www.facebook.com/tecnicoUNT" aria-label="Facebook">📘</a>
-            </div>
-
-        </div>
-
-        <div class="footer-copyright">
-            <p>Copyright © 2026 | Instituto Técnico - UNT</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 
 </html>

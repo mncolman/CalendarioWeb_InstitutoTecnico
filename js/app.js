@@ -1,42 +1,37 @@
 // ----------------- LÓGICA JAVASCRIPT ---------------------------------
-
-
+import { fetchDatosIniciales } from './api/api.js';
 
 
 var todosLosEventos = [];
 var calendar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
-
+    
     //seguridad
     const token = sessionStorage.getItem('token');
     if (!token) {
-        window.location.href = '../pages/login.html';
+        window.location.href = '/index.html';
         return;
     }
 
     var calendarEl = document.getElementById('calendar');
 
-    // 2. Función asíncrona para traer todo de UN SOLO GOLPE
     async function cargarDatos() {
         try {
-            const respuesta = await fetch('https://script.google.com/macros/s/AKfycby7SUeYknaS9o0MZ_t-ZxYKdcYGskVwGIM1YJzckEy1Nijk4Ff-fKvUPU6nVJfeNxMhNw/exec');
+            const token = sessionStorage.getItem('token');
 
-            const datos = await respuesta.json();
+            const datos = await fetchDatosIniciales(token);
 
             todosLosEventos = datos.eventos;
-
             llenarBuscadorDocentesNormalizado(datos.docentes);
             llenarSelectorGabinetesNormalizado(datos.gabinetes);
 
             aplicarFiltros();
 
-            // Matamos el spinner
             const loadingEl = document.getElementById('contenedor-carga');
             if (loadingEl) loadingEl.style.display = 'none';
 
         } catch (error) {
-            console.error("Error cargando los datos:", error);
             const loadingEl = document.getElementById('contenedor-carga');
             if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
         }
