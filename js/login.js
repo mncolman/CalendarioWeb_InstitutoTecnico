@@ -1,6 +1,3 @@
-
-
-
 const btnIngresar = document.getElementById('btn-ingresar');
 const inputUsuario = document.getElementById('input-usuario');
 const inputPass = document.getElementById('input-password');
