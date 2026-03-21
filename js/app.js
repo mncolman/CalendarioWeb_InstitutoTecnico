@@ -1,43 +1,27 @@
 // ----------------- LÓGICA JAVASCRIPT ---------------------------------
 import { fetchDatosIniciales } from './api/api.js';
 import { generarPDF } from './utils/generadorPDF.js';
-
+import { 
+    llenarBuscadorDocentes, 
+    llenarSelectorGabinetes, 
+    aplicarFiltros, 
+    configurarListenersFiltros 
+} from './modules/filtros.js';
 
 var todosLosEventos = [];
 var calendar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
-
-    //seguridad
+    // Seguridad
     const token = sessionStorage.getItem('token');
     if (!token) {
-        window.location.href = '/index.html';
+        window.location.href = '../pages/login.html';
         return;
     }
 
     var calendarEl = document.getElementById('calendar');
 
-    async function cargarDatos() {
-        try {
-            const token = sessionStorage.getItem('token');
-
-            const datos = await fetchDatosIniciales(token);
-
-            todosLosEventos = datos.eventos;
-            llenarBuscadorDocentesNormalizado(datos.docentes);
-            llenarSelectorGabinetesNormalizado(datos.gabinetes);
-
-            aplicarFiltros();
-
-            const loadingEl = document.getElementById('contenedor-carga');
-            if (loadingEl) loadingEl.style.display = 'none';
-
-        } catch (error) {
-            const loadingEl = document.getElementById('contenedor-carga');
-            if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
-        }
-    }
-
+    // Inicializamos el calendario (acá va toda tu configuración gigante de FullCalendar)
     calendar = new FullCalendar.Calendar(calendarEl, {
 
         initialView: 'timeGridWeek',
@@ -81,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         eventClassNames: function (arg) {
             let actividad = arg.event.title.toLowerCase();
-            console.log(arg)
             let gabinete = arg.event.extendedProps.gabinete;
 
             if (gabinete && gabinete !== '') {
@@ -145,81 +128,96 @@ document.addEventListener('DOMContentLoaded', function () {
         events: []
     });
 
+
+    // Función principal de carga
+    async function cargarDatos() {
+        try {
+            const datos = await fetchDatosIniciales(token);
+
+            todosLosEventos = datos.eventos;
+
+            // Delegamos el llenado del DOM al módulo de filtros
+            llenarBuscadorDocentes(datos.docentes);
+            llenarSelectorGabinetes(datos.gabinetes);
+
+            // Aplicamos el primer filtro inicial
+            aplicarFiltros(todosLosEventos, calendar);
+
+            // Encendemos los botones (change, click)
+            configurarListenersFiltros(todosLosEventos, calendar);
+
+            // Matamos el spinner
+            const loadingEl = document.getElementById('contenedor-carga');
+            if (loadingEl) loadingEl.style.display = 'none';
+
+        } catch (error) {
+            const loadingEl = document.getElementById('contenedor-carga');
+            if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
+        }
+    }
+
     cargarDatos();
-
-    aplicarFiltros();
-
 
     calendar.render();
 
-    document.getElementById('selectorEspacio')
-        .addEventListener('change', aplicarFiltros);
+    // Eventos sueltos que quedaron (como el de la vista y el PDF)
+    document.getElementById('btn-descargar').addEventListener('click', async function () {
+        await generarPDF(this, calendar, todosLosEventos);
+    });
 
-    document.getElementById('filtro-division')
-        .addEventListener('change', aplicarFiltros);
-
-    document.getElementById('buscar-docente')
-        .addEventListener('change', aplicarFiltros);
-
-    document.getElementById('btn-limpiar')
-        .addEventListener('click', function () {
-            window.tomSelectDocente.clear();
-            document.getElementById('filtro-division').value = '';
-            document.getElementById('selectorEspacio').value = '';
-            //document.getElementById('panel-colegas').style.display = 'none';
-            aplicarFiltros();
-        });
-
+    document.getElementById('selector-vista').addEventListener('change', function () {
+        if (this.value === 'timeGridSemanaLaboral') {
+            calendar.setOption('weekends', false);
+            calendar.changeView('timeGridWeek');
+        } else {
+            calendar.setOption('weekends', true);
+            calendar.changeView(this.value);
+        }
+    });
 });
 
 
-function llenarBuscadorDocentesNormalizado(listaDocentes) {
-    if (window.tomSelectDocente) window.tomSelectDocente.destroy();
 
-    const select = document.getElementById('buscar-docente');
-    select.innerHTML = '<option value="">Todos los docentes</option>';
 
-    listaDocentes.forEach(docente => {
-        let opcion = document.createElement('option');
-        opcion.value = docente;
-        opcion.textContent = docente;
-        select.appendChild(opcion);
-    });
 
-    // Inicializamos Tom Select
-    window.tomSelectDocente = new TomSelect('#buscar-docente', {
-        create: false,       // no permite agregar opciones nuevas
-        sortField: 'text',   // ordena alfabéticamente
-        placeholder: 'Escribe o selecciona un docente...'
-    });
-}
 
-function llenarSelectorGabinetesNormalizado(listaGabinetes) {
-    let selector = document.getElementById('selectorEspacio');
-    selector.innerHTML = "";
 
-    let optionDefault = document.createElement("option");
-    optionDefault.value = "";
-    optionDefault.text = "Todos los gabinetes";
-    selector.appendChild(optionDefault);
 
-    listaGabinetes.forEach(function (pareja) {
-        let id = pareja[0];
-        let nombre = pareja[1];
 
-        let option = document.createElement("option");
-        option.value = id;
-        option.text = nombre;
 
-        selector.appendChild(option);
-    });
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*   
 
 // --- LA FUNCIÓN DE FILTRADO ---
 function aplicarFiltros() {
     let divListaColegas = document.getElementById('lista-colegas');
-    /*   
    // Solo activamos este cálculo pesado si escribieron al menos 3 letras 
    // (para no buscar coincidencia con la letra "a" y colgar el navegador)
    if (textoDocente.length >= 3) {
@@ -281,7 +279,7 @@ function aplicarFiltros() {
        panelColegas.style.display = 'none';
    }
 
-*/
+
     let selectorDivision = document.getElementById('filtro-division');
     let selectorGabinete = document.getElementById('selectorEspacio');
 
@@ -314,46 +312,4 @@ function aplicarFiltros() {
     calendar.addEventSource(eventosFiltrados);
 
 }
-
-
-function procesarDatosYCrearOpciones(listaDeEspacios) {
-
-    var selector = document.getElementById('selectorEspacio');
-    selector.innerHTML = "";
-
-    var id = "";
-    var nombre = "Todos los gabinetes";
-    var option = document.createElement("option");
-    option.value = id;
-    option.text = nombre;
-
-    selector.appendChild(option);
-
-
-    listaDeEspacios.forEach(function (pareja) {
-        var id = pareja[0];
-        var nombre = pareja[1];
-        var option = document.createElement("option");
-
-        option.value = id;
-        option.text = nombre;
-        selector.appendChild(option);
-    });
-}
-
-
-document.getElementById('btn-descargar').addEventListener('click', async function () {
-    await generarPDF(this, calendar, todosLosEventos);
-});
-
-document.getElementById('selector-vista').addEventListener('change', function () {
-    if (this.value === 'timeGridSemanaLaboral') {
-        calendar.setOption('weekends', false);
-        calendar.changeView('timeGridWeek');
-
-    } else {
-        calendar.setOption('weekends', true);
-        calendar.changeView(this.value);
-    }
-});
-
+*/
