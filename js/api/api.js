@@ -1,5 +1,5 @@
 
-const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbwfREJscoxQRun5Vs9aH07iNklshhshVkr6fKMj2XC6TJ0ishxsNK6k6nxcGhrDupJgrw/exec';
+const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbxh9iEYHMbFXpv6nzoyFkhkjhc1-k_VrSZ1edKabAVeF0vM2JJB1fWUvBPD9pOpGoK0pw/exec';
 
 export async function fetchDatosIniciales(tokenUsuario) {
     try {

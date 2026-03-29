@@ -50,12 +50,12 @@ export function aplicarFiltros(todosLosEventos, calendar) {
         ? window.tomSelectDocente.getValue().toLowerCase().trim()
         : document.getElementById('buscar-docente').value.toLowerCase().trim();
 
-    if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocente === '') {
+   /* if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocente === '') {
         let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
         if (primeraOpcion) {
             selectorDivision.value = primeraOpcion.value;
         }
-    }
+    }*/
     
     let textoDivision = selectorDivision.value.toLowerCase();
     let textogabinete = selectorGabinete.value.toLowerCase();
