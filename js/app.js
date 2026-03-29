@@ -135,7 +135,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Función principal de carga
-    async function cargarDatos(tokensito,rol, filtro) {
+    async function cargarDatos(tokensito, rol, filtro) {
+
+        Swal.fire({
+            title: 'Cargando el calendario...',
+
+
+            // 1. EL FILTRO OSCURO: Un degradado negro al 70% de opacidad SOBRE la imagen
+            background: `
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        url("./assets/it-logo-grande.png") center / cover no-repeat
+    `,
+
+            // 2. TEXTO BLANCO para que contraste con el fondo oscuro
+            color: '#ffffff',
+
+            // 3. TAMAÑO CUADRADO: Le inyectamos la clase CSS que creamos en el paso 1
+            customClass: {
+                popup: 'alerta-cuadrada'
+            },
+            html: 'Espere unos segundos..',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false, // Ocultamos el botón de "OK"
+            didOpen: () => {
+                Swal.showLoading(); // Esto hace aparecer el spinner animado
+            }
+        });
+
         try {
             const datos = await fetchDatosIniciales(tokensito);
 
@@ -150,8 +177,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             configurarListenersFiltros(todosLosEventos, calendar);
 
-            const loadingEl = document.getElementById('contenedor-carga');
-            if (loadingEl) loadingEl.style.display = 'none';
+
+            Swal.close();
 
         } catch (error) {
             console.log(error)
@@ -160,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    cargarDatos(tokenGuardado,rolGuardado,filtroGuardado);
+    cargarDatos(tokenGuardado, rolGuardado, filtroGuardado);
     ajustarInterfazPorRol();
 
 

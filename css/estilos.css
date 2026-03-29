@@ -265,31 +265,15 @@ body {
     border-left: 3px solid #00ff22;
 }
 
-
-
-
-/* El nuevo círculo pequeñito */
-.mini-spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid #e0e0e0;
-    /* Gris más suave */
-    border-top: 3px solid #007bff;
-    /* Azul instituto */
-    border-radius: 50%;
-    animation: girar 1s linear infinite;
+/* Agregá esto a tu archivo CSS */
+.alerta-cuadrada {
+    width: 350px !important;  /* Ajustá este valor al tamaño de tu imagen */
+    height: 350px !important; /* Mismo valor para que sea un cuadrado perfecto */
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;  /* Centra el texto y el spinner en el medio */
+    border-radius: 15px;      /* Opcional: bordes redondeados */
 }
-
-@keyframes girar {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 
 #footer {
     background-color: #1a3a6b;
