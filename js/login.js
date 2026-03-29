@@ -1,4 +1,4 @@
-import { verificarCredenciales } from './api/api.js'; 
+import { verificarCredenciales } from './api/api.js';
 
 const btnIngresar = document.getElementById('btn-ingresar');
 const inputUsuario = document.getElementById('input-usuario');
@@ -27,12 +27,19 @@ async function intentarLogin() {
     mensajeError.style.display = 'none';
 
     try {
-  
+
         const datos = await verificarCredenciales(usuario, pass);
 
         if (datos.ok) {
-            
+            console.log("DATOS DEL LOGIN:" + datos.toString())
             localStorage.setItem('token', datos.token);
+            localStorage.setItem('rolUsuario', datos.rol);
+            localStorage.setItem('nombreUsuario', datos.nombre);
+
+            if (datos.filtro) {
+                localStorage.setItem('filtroUsuario', datos.filtro);
+            }
+
             window.location.href = 'dashboard.html';
         } else {
             mostrarError(datos.mensaje || 'Usuario o contraseña incorrectos.');

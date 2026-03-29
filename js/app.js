@@ -1,23 +1,29 @@
 // ----------------- LÓGICA JAVASCRIPT ---------------------------------
 import { fetchDatosIniciales } from './api/api.js';
 import { generarPDF } from './utils/generadorPDF.js';
-import { 
-    llenarBuscadorDocentes, 
-    llenarSelectorGabinetes, 
-    aplicarFiltros, 
-    configurarListenersFiltros 
+import { cerrarSesion } from './modules/Auth.js';
+import { ajustarInterfazPorRol } from './modules/filtros.js';
+import {
+    llenarBuscadorDocentes,
+    llenarSelectorGabinetes,
+    aplicarFiltros,
+    configurarListenersFiltros
 } from './modules/filtros.js';
 
 var todosLosEventos = [];
 var calendar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
-    
-    const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = 'index.html';
+
+    const tokenGuardado = localStorage.getItem('token');
+    const rolGuardado = localStorage.getItem('rolUsuario');
+    const filtroGuardado = localStorage.getItem('filtroUsuario');
+
+    if (!tokenGuardado) {
+        cerrarSesion();
         return;
     }
+
 
     var calendarEl = document.getElementById('calendar');
 
@@ -42,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         views: {
             timeGridTresDias: {
                 type: 'timeGrid',
-                duration: { days: 3 },  
+                duration: { days: 3 },
                 buttonText: '3 días'
             },
 
@@ -129,18 +135,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Función principal de carga
-    async function cargarDatos() {
+    async function cargarDatos(tokensito,rol, filtro) {
         try {
-            const datos = await fetchDatosIniciales(token);
-            
-            console.log("Respuesta cruda de Google:", datos);
+            const datos = await fetchDatosIniciales(tokensito);
+
+            if (!datos) return;
 
             todosLosEventos = datos.eventos;
 
             llenarBuscadorDocentes(datos.docentes);
             llenarSelectorGabinetes(datos.gabinetes);
 
-            aplicarFiltros(todosLosEventos, calendar);
+            aplicarFiltros(todosLosEventos, calendar, rol, filtro);
 
             configurarListenersFiltros(todosLosEventos, calendar);
 
@@ -154,7 +160,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    cargarDatos();
+    cargarDatos(tokenGuardado,rolGuardado,filtroGuardado);
+    ajustarInterfazPorRol();
 
 
     calendar.render();
