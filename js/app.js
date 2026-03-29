@@ -132,6 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
     async function cargarDatos() {
         try {
             const datos = await fetchDatosIniciales(token);
+            
+            console.log("Respuesta cruda de Google:", datos);
 
             todosLosEventos = datos.eventos;
 
@@ -146,12 +148,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (loadingEl) loadingEl.style.display = 'none';
 
         } catch (error) {
+            console.log(error)
             const loadingEl = document.getElementById('contenedor-carga');
             if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
         }
     }
 
     cargarDatos();
+
 
     calendar.render();
 
