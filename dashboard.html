@@ -20,7 +20,6 @@
 </head>
 
 <body>
-
     <div class="contenedor-principal">
         <section id="encabezado">
             <h2>Calendario Instituto Técnico</h2>
@@ -29,7 +28,32 @@
             </figure>
         </section>
 
-        <div id="controles-busqueda" class="controles-busqueda" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
+        <nav class="navbar-principal">
+
+            <button class="menu-toggle" id="btn-menu">
+                ☰
+            </button>
+
+            <div class="nav-colapsable" id="menu-colapsable">
+
+                <ul class="nav-enlaces">
+                    <li><a href="#calendario" class="activo">Calendario</a></li>
+                    <li><a href="#mapa">Mapa Instituto</a></li>
+                    <li><a href="#libro">Libro de Temas</a></li>
+                </ul>
+
+                <hr class="divisor-movil">
+
+                <div class="nav-usuario">
+                    <span id="saludo-usuario" class="saludo">Hola, Profe</span>
+                    <button id="btn-cerrar-sesion" type="button" class="btn-salir">Cerrar Sesión</button>
+                </div>
+
+            </div>
+        </nav>
+
+        <div id="controles-busqueda" class="controles-busqueda"
+            style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
 
             <Section class="fila-superior" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
 
@@ -75,19 +99,11 @@
                     style="width: 100%;"></select>
             </section>
 
-            <Section class="contenedor-acciones">
-                <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir</button>
-                <button id="btn-limpiar" class="btn-accion btn-secundario">🔄 Limpiar filtros</button>
-            </Section>
-            <!--
-            <Section id="panel-colegas"
-                style="display: none; width: 100%; margin-top: 10px; padding: 12px; background-color: #e9ecef; border-left: 4px solid #007bff; border-radius: 4px; font-size: 0.9em; color: #333;">
-                <strong>👥 Colegas de Gabinete:</strong>
-                <Section id="lista-colegas" style="margin-top: 5px; line-height: 1.4;">
-                </Section>
-            </Section>
-            -->
         </div>
+        <Section class="contenedor-acciones">
+            <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir</button>
+            <button id="btn-limpiar" class="btn-accion btn-secundario">🔄 Limpiar filtros</button>
+        </Section>
         <div style="display: flex; width: 100%;">
             <select id="selector-vista"
                 style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">

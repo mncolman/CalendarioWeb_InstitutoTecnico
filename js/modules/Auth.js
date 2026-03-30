@@ -1,6 +1,6 @@
 export function cerrarSesion() {
 
-  localStorage.removeItem('tokenEscolar');
+  localStorage.removeItem('token');
   localStorage.removeItem('rolUsuario');
   localStorage.removeItem('nombreUsuario');
   // Si agregaste el "filtro" al storage, borralo acá también

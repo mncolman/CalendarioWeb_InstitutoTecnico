@@ -21,6 +21,7 @@ body {
     box-sizing: border-box;
 }
 
+
 #encabezado {
     display: inline-flex;
     width: fit-content;
@@ -69,6 +70,159 @@ body {
     display: inline-flex;
     padding-left: 0.1em;
 }
+
+
+/* barra nav*/
+.navbar-principal {
+  display: flex;
+  justify-content: space-between; /* Separa los 3 bloques equitativamente */
+  align-items: center; /* Centra todo verticalmente */
+  padding: 15px 30px;
+  margin-bottom: 1em;
+  background-color: #2c3e50; /* Un azul oscuro institucional */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+
+/* La lista de enlaces central */
+.nav-enlaces {
+  display: flex;
+  gap: 30px; /* Separación perfecta entre los 3 botones */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-enlaces a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-enlaces a:hover, .nav-enlaces a.activo {
+  color: #3498db; /* Color de resalte al pasar el mouse o estar activo */
+}
+
+/* El bloque de la derecha */
+.nav-usuario {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacio entre el saludo y el botón */
+}
+
+.btn-salir {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-salir:hover {
+  background-color: #c0392b;
+}
+
+/* --- ESTILOS BASE PARA EL BOTÓN HAMBURGUESA --- */
+.menu-toggle {
+  display: none; /* Oculto por defecto en computadoras */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Ocultamos la línea divisoria en PC */
+.divisor-movil {
+  display: none; 
+}
+
+/* Por defecto (PC), el contenedor colapsable se comporta como una fila (Flexbox) */
+.nav-colapsable {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+
+/* --- LA MAGIA PARA CELULARES (Menos de 768px) --- */
+@media (max-width: 768px) {
+  
+  /* 1. Mostramos el botón hamburguesa */
+  .menu-toggle {
+    display: block; 
+  }
+
+  /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
+  .navbar-principal {
+    flex-wrap: wrap;
+    position: relative; /* Para poder posicionar el menú desplegable debajo */
+  }
+
+  /* 3. Transformamos el contenedor de enlaces en un menú desplegable */
+  .nav-colapsable {
+    display: none; /* Oculto hasta que toquen el botón */
+    flex-direction: column; /* Apila todo hacia abajo */
+    width: 100%; /* Ocupa todo el ancho */
+    position: absolute;
+    top: 100%; /* Se ubica justo debajo de la navbar */
+    left: 0;
+    background-color: #34495e; /* Un tono apenas más claro que la navbar para diferenciar */
+    padding: 20px 0;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000; /* Asegura que flote por encima del calendario */
+  }
+
+  /* 4. Esta clase se la agregamos con JavaScript cuando tocan el botón */
+  .nav-colapsable.abierto {
+    display: flex; 
+  }
+
+  /* 5. Acomodamos los enlaces para que parezcan botones grandes de menú */
+  .nav-enlaces {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 0;
+  }
+
+  .nav-enlaces li {
+    width: 100%;
+  }
+
+  .nav-enlaces a {
+    display: block;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* 6. Acomodamos la sección de usuario al final del menú */
+  .divisor-movil {
+    display: block;
+    width: 80%;
+    margin: 15px auto;
+    border: 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .nav-usuario {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    padding-bottom: 10px;
+  }
+
+  .btn-salir {
+    width: 80%; /* Botón de salir ancho y fácil de tocar */
+  }
+}
+
+/* barra nav*/
 
 
 #calendar {

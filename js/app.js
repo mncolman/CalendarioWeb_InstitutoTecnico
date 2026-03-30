@@ -141,25 +141,22 @@ document.addEventListener('DOMContentLoaded', function () {
             title: 'Cargando el calendario...',
 
 
-            // 1. EL FILTRO OSCURO: Un degradado negro al 70% de opacidad SOBRE la imagen
             background: `
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
         url("./assets/it-logo-grande.png") center / cover no-repeat
     `,
 
-            // 2. TEXTO BLANCO para que contraste con el fondo oscuro
             color: '#ffffff',
 
-            // 3. TAMAÑO CUADRADO: Le inyectamos la clase CSS que creamos en el paso 1
             customClass: {
                 popup: 'alerta-cuadrada'
             },
             html: 'Espere unos segundos..',
             allowOutsideClick: false,
             allowEscapeKey: false,
-            showConfirmButton: false, // Ocultamos el botón de "OK"
+            showConfirmButton: false,
             didOpen: () => {
-                Swal.showLoading(); // Esto hace aparecer el spinner animado
+                Swal.showLoading();
             }
         });
 
@@ -206,6 +203,42 @@ document.addEventListener('DOMContentLoaded', function () {
             calendar.changeView(this.value);
         }
     });
+
+    document.getElementById('btn-cerrar-sesion').addEventListener('click', (e) => {
+        e.preventDefault(); // Evitamos que el link haga cosas raras
+
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: "Tendrás que volver a ingresar tus credenciales la próxima vez.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, salir',
+            cancelButtonText: 'Cancelar',
+            backdrop: `rgba(0,0,0,0.6)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cerrarSesion();
+            }
+        });
+    });
+
+    // Lógica del botón hamburguesa
+    const btnMenu = document.getElementById('btn-menu');
+    const menuColapsable = document.getElementById('menu-colapsable');
+
+    if (btnMenu && menuColapsable) {
+        btnMenu.addEventListener('click', () => {
+            // "toggle" le pone la clase si no la tiene, y se la saca si ya la tiene
+            menuColapsable.classList.toggle('abierto');
+        });
+    }
+
+    // (Acá va el código del saludo y el SweetAlert que ya teníamos armados)
+
+
+
 });
 
 
