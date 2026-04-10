@@ -41,22 +41,37 @@ export function llenarSelectorGabinetes(listaGabinetes) {
     });
 }
 
-// Extraemos la lógica de filtrado. Recibe los eventos crudos y el calendario para actualizarlo.
-export function aplicarFiltros(todosLosEventos, calendar) {
+export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
+    calendar.removeAllEventSources();
+
     let selectorDivision = document.getElementById('filtro-division');
     let selectorGabinete = document.getElementById('selectorEspacio');
+    let contenedorFiltros = document.getElementById('controles-busqueda');
+
+
+    if (rol && rol !== 'admi') {
+        if (rol === 'doce') {
+            window.tomSelectDocente.setValue(filtro);
+        } else if (rol === 'alum') {
+            selectorDivision.value = filtro;
+        }
+    } else {
+        let textoDocenteTemp = window.tomSelectDocente
+            ? window.tomSelectDocente.getValue().toLowerCase().trim()
+            : document.getElementById('buscar-docente').value.toLowerCase().trim();
+
+        if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocenteTemp === '') {
+            let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
+            if (primeraOpcion) {
+                selectorDivision.value = primeraOpcion.value;
+            }
+        }
+    }
 
     let textoDocente = window.tomSelectDocente
         ? window.tomSelectDocente.getValue().toLowerCase().trim()
         : document.getElementById('buscar-docente').value.toLowerCase().trim();
 
-    if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocente === '') {
-        let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
-        if (primeraOpcion) {
-            selectorDivision.value = primeraOpcion.value;
-        }
-    }
-    
     let textoDivision = selectorDivision.value.toLowerCase();
     let textogabinete = selectorGabinete.value.toLowerCase();
 
@@ -65,15 +80,13 @@ export function aplicarFiltros(todosLosEventos, calendar) {
         let divisionDelEvento = (evento.extendedProps.division || '').toLowerCase();
         let gabineteDelEvento = (evento.extendedProps.gabinete || '').toLowerCase();
 
-        let coincideDocente = docenteDelEvento.includes(textoDocente);
+        let coincideDocente = textoDocente === '' || docenteDelEvento.includes(textoDocente);
         let coincideDivision = textoDivision === '' || divisionDelEvento === textoDivision;
         let coincidegabinete = textogabinete === '' || gabineteDelEvento === textogabinete;
 
         return coincideDocente && coincideDivision && coincidegabinete;
     });
 
-    // Limpiamos la grilla y le pasamos los eventos sobrevivientes
-    calendar.removeAllEventSources();
     calendar.addEventSource(eventosFiltrados);
 }
 
@@ -92,4 +105,20 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
         document.getElementById('selectorEspacio').value = '';
         dispararFiltro();
     });
+}
+
+export function ajustarInterfazPorRol() {
+    const rol = localStorage.getItem('rolUsuario')
+    const panelFiltros = document.getElementById("controles-busqueda");
+    
+    
+    if (!panelFiltros) {
+        return;
+    }
+    panelFiltros.style.display = 'none';
+
+    if (rol === 'admi') {
+        panelFiltros.style.display = "flex";
+    }
+
 }
