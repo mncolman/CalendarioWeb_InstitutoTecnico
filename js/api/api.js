@@ -1,6 +1,6 @@
 import { cerrarSesion } from '../modules/Auth.js';
 
-const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbx6PXUHym1H3GUh01zklHbX43L7IEmc3lMLwJHy83HRhPE9zJWfLfgloW88cTssZw3tLQ/exec';
+const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbxPHGm8YopN84gvQ8E5VVyBBVw9SbTlk_tJD0_EnkLaNmZBkTdLB_0gbNjXO8HfpwyEWw/exec';
 
 export async function fetchDatosIniciales(tokenUsuario) {
     try {
