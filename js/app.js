@@ -1,35 +1,31 @@
 // ----------------- LÓGICA JAVASCRIPT ---------------------------------
+import { fetchDatosIniciales } from './api/api.js';
+import { generarPDF } from './utils/generadorPDF.js';
+import { cerrarSesion } from './modules/Auth.js';
+import { ajustarInterfazPorRol } from './modules/filtros.js';
+import {
+    llenarBuscadorDocentes,
+    llenarSelectorGabinetes,
+    aplicarFiltros,
+    configurarListenersFiltros
+} from './modules/filtros.js';
 
 var todosLosEventos = [];
 var calendar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
 
-    // 2. Función asíncrona para traer todo de UN SOLO GOLPE
-    async function cargarDatos() {
-        try {
-            const respuesta = await fetch('https://script.google.com/macros/s/AKfycby7SUeYknaS9o0MZ_t-ZxYKdcYGskVwGIM1YJzckEy1Nijk4Ff-fKvUPU6nVJfeNxMhNw/exec');
+    const tokenGuardado = localStorage.getItem('token');
+    const rolGuardado = localStorage.getItem('rolUsuario');
+    const filtroGuardado = localStorage.getItem('filtroUsuario');
 
-            const datos = await respuesta.json();
-
-            todosLosEventos = datos.eventos;
-
-            llenarBuscadorDocentesNormalizado(datos.docentes);
-            llenarSelectorGabinetesNormalizado(datos.gabinetes);
-
-            aplicarFiltros();
-
-            // Matamos el spinner
-            const loadingEl = document.getElementById('contenedor-carga');
-            if (loadingEl) loadingEl.style.display = 'none';
-
-        } catch (error) {
-            console.error("Error cargando los datos:", error);
-            const loadingEl = document.getElementById('contenedor-carga');
-            if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
-        }
+    if (!tokenGuardado) {
+        cerrarSesion();
+        return;
     }
+
+
+    var calendarEl = document.getElementById('calendar');
 
     calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -52,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         views: {
             timeGridTresDias: {
                 type: 'timeGrid',
-                duration: { days: 3 },  // 3 dias
+                duration: { days: 3 },
                 buttonText: '3 días'
             },
 
@@ -63,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 buttonText: 'semana'
             },
             listWeek: {
-                buttonText: 'agenda' // Por si usas la vista de lista en celulares
+                buttonText: 'agenda'
             }
         },
 
@@ -74,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         eventClassNames: function (arg) {
             let actividad = arg.event.title.toLowerCase();
-            console.log(arg)
             let gabinete = arg.event.extendedProps.gabinete;
 
             if (gabinete && gabinete !== '') {
@@ -82,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (gabinete.includes('taller')) return ['evento-taller'];
             }
-            
+
             if (actividad.includes('taller')) return ['evento-taller'];
             if (actividad.includes('ed. fisica')) return ['evento-ed-fisica'];
 
@@ -138,81 +133,156 @@ document.addEventListener('DOMContentLoaded', function () {
         events: []
     });
 
-    cargarDatos();
 
-    aplicarFiltros();
+    // Función principal de carga
+    async function cargarDatos(tokensito, rol, filtro) {
+
+        Swal.fire({
+            title: 'Cargando el calendario...',
+
+
+            background: `
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        url("./assets/it-logo-grande.png") center / cover no-repeat
+    `,
+
+            color: '#ffffff',
+
+            customClass: {
+                popup: 'alerta-cuadrada'
+            },
+            html: 'Espere unos segundos..',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        try {
+            const datos = await fetchDatosIniciales(tokensito);
+
+            if (!datos) return;
+
+            todosLosEventos = datos.eventos;
+
+            llenarBuscadorDocentes(datos.docentes);
+            llenarSelectorGabinetes(datos.gabinetes);
+
+            aplicarFiltros(todosLosEventos, calendar, rol, filtro);
+
+            configurarListenersFiltros(todosLosEventos, calendar);
+
+
+            Swal.close();
+
+        } catch (error) {
+            console.log(error)
+            const loadingEl = document.getElementById('contenedor-carga');
+            if (loadingEl) loadingEl.innerHTML = '<span style="color: red;">Error de conexión</span>';
+        }
+    }
+
+    cargarDatos(tokenGuardado, rolGuardado, filtroGuardado);
+    ajustarInterfazPorRol();
 
 
     calendar.render();
 
-    document.getElementById('selectorEspacio')
-        .addEventListener('change', aplicarFiltros);
+    document.getElementById('btn-descargar').addEventListener('click', async function () {
+        await generarPDF(this, calendar, todosLosEventos);
+    });
 
-    document.getElementById('filtro-division')
-        .addEventListener('change', aplicarFiltros);
+    document.getElementById('selector-vista').addEventListener('change', function () {
+        if (this.value === 'timeGridSemanaLaboral') {
+            calendar.setOption('weekends', false);
+            calendar.changeView('timeGridWeek');
+        } else {
+            calendar.setOption('weekends', true);
+            calendar.changeView(this.value);
+        }
+    });
 
-    document.getElementById('buscar-docente')
-        .addEventListener('change', aplicarFiltros);
+    document.getElementById('btn-cerrar-sesion').addEventListener('click', (e) => {
+        e.preventDefault(); // Evitamos que el link haga cosas raras
 
-    document.getElementById('btn-limpiar')
-        .addEventListener('click', function () {
-            window.tomSelectDocente.clear();
-            document.getElementById('filtro-division').value = '';
-            document.getElementById('selectorEspacio').value = '';
-            //document.getElementById('panel-colegas').style.display = 'none';
-            aplicarFiltros();
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: "Tendrás que volver a ingresar tus credenciales la próxima vez.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, salir',
+            cancelButtonText: 'Cancelar',
+            backdrop: `rgba(0,0,0,0.6)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cerrarSesion();
+            }
         });
+    });
+
+    // Lógica del botón hamburguesa
+    const btnMenu = document.getElementById('btn-menu');
+    const menuColapsable = document.getElementById('menu-colapsable');
+
+    if (btnMenu && menuColapsable) {
+        btnMenu.addEventListener('click', () => {
+            // "toggle" le pone la clase si no la tiene, y se la saca si ya la tiene
+            menuColapsable.classList.toggle('abierto');
+        });
+    }
+
+    // (Acá va el código del saludo y el SweetAlert que ya teníamos armados)
+
+
 
 });
 
 
-function llenarBuscadorDocentesNormalizado(listaDocentes) {
-    if (window.tomSelectDocente) window.tomSelectDocente.destroy();
 
-    const select = document.getElementById('buscar-docente');
-    select.innerHTML = '<option value="">Todos los docentes</option>';
 
-    listaDocentes.forEach(docente => {
-        let opcion = document.createElement('option');
-        opcion.value = docente;
-        opcion.textContent = docente;
-        select.appendChild(opcion);
-    });
 
-    // Inicializamos Tom Select
-    window.tomSelectDocente = new TomSelect('#buscar-docente', {
-        create: false,       // no permite agregar opciones nuevas
-        sortField: 'text',   // ordena alfabéticamente
-        placeholder: 'Escribe o selecciona un docente...'
-    });
-}
 
-function llenarSelectorGabinetesNormalizado(listaGabinetes) {
-    let selector = document.getElementById('selectorEspacio');
-    selector.innerHTML = "";
 
-    let optionDefault = document.createElement("option");
-    optionDefault.value = "";
-    optionDefault.text = "Todos los gabinetes";
-    selector.appendChild(optionDefault);
 
-    listaGabinetes.forEach(function (pareja) {
-        let id = pareja[0];
-        let nombre = pareja[1];
 
-        let option = document.createElement("option");
-        option.value = id;
-        option.text = nombre;
 
-        selector.appendChild(option);
-    });
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 // --- LA FUNCIÓN DE FILTRADO ---
 function aplicarFiltros() {
     let divListaColegas = document.getElementById('lista-colegas');
-    /*   
    // Solo activamos este cálculo pesado si escribieron al menos 3 letras 
    // (para no buscar coincidencia con la letra "a" y colgar el navegador)
    if (textoDocente.length >= 3) {
@@ -274,7 +344,7 @@ function aplicarFiltros() {
        panelColegas.style.display = 'none';
    }
 
-*/
+
     let selectorDivision = document.getElementById('filtro-division');
     let selectorGabinete = document.getElementById('selectorEspacio');
 
@@ -550,4 +620,4 @@ document.getElementById('selector-vista').addEventListener('change', function ()
         calendar.changeView(this.value);
     }
 });
-
+*/
