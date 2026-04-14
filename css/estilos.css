@@ -29,7 +29,7 @@ body {
     justify-content: center;
     align-items: center;
 
-    border-top: 2px #0859af8a solid;
+    border-top: 2px #043161 solid;
     border-bottom: 2px #ad121293 solid;
     border-radius: 1em;
 
@@ -79,7 +79,7 @@ body {
   align-items: center; /* Centra todo verticalmente */
   padding: 15px 30px;
   margin-bottom: 1em;
-  background-color: #2c3e50; /* Un azul oscuro institucional */
+  background-color: #043161; /* Un azul oscuro institucional */
   color: white;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   border-radius: 4px;
@@ -95,14 +95,13 @@ body {
 }
 
 .nav-enlaces a {
-  color: white;
+  color: rgb(255, 255, 255);
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
 }
 
 .nav-enlaces a:hover, .nav-enlaces a.activo {
-  color: #3498db; /* Color de resalte al pasar el mouse o estar activo */
+  font-weight: 550;
+
 }
 
 /* El bloque de la derecha */
@@ -113,7 +112,7 @@ body {
 }
 
 .btn-salir {
-  background-color: #e74c3c;
+  background-color: #d41500cb;
   color: white;
   border: none;
   padding: 8px 15px;
@@ -132,7 +131,7 @@ body {
   background: none;
   border: none;
   color: white;
-  font-size: 28px;
+  font-size: 20px;
   cursor: pointer;
 }
 
@@ -156,13 +155,21 @@ body {
   /* 1. Mostramos el botón hamburguesa */
   .menu-toggle {
     display: block; 
+    font-size: 2em;
+    display: flex;
+    align-items: start;
   }
 
   /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
   .navbar-principal {
+    margin-top: 0.9em;
+    margin-bottom: 0;
     flex-wrap: wrap;
     position: relative; /* Para poder posicionar el menú desplegable debajo */
-  }
+    border-radius: 0;
+    padding-block: 0.4em;
+    padding-inline: 0.5em !important;
+}
 
   /* 3. Transformamos el contenedor de enlaces en un menú desplegable */
   .nav-colapsable {
@@ -211,6 +218,7 @@ body {
   }
 
   .nav-usuario {
+    margin-top: 1.3em;
     flex-direction: column;
     width: 100%;
     gap: 15px;
@@ -220,6 +228,10 @@ body {
   .btn-salir {
     width: 80%; /* Botón de salir ancho y fácil de tocar */
   }
+
+  .contenedor-acciones {
+    margin-inline: 0.3em;
+   }
 }
 
 /* barra nav*/
@@ -228,8 +240,7 @@ body {
 #calendar {
     background-color: rgb(255, 255, 255);
     flex-grow: 1;
-
-    min-height: 800px;
+    min-height: 1100px;
     /* Altura mínima de seguridad */
     border: 2px solid #ccc;
     /* Borde gris para ver dónde termina */
@@ -240,6 +251,11 @@ body {
 .contenedor-acciones {
     display: flex;
     gap: 8px;
+    margin-bottom: 0.5em;
+}
+.contenedor-busqueda {
+
+    margin-bottom: 0em;
 }
 
 .btn-accion {
@@ -257,7 +273,7 @@ body {
 }
 
 .btn-primario {
-    background-color: #0859af;
+    background-color: #043161;
     color: white;
     border-color: #0859af;
 }
@@ -272,7 +288,14 @@ body {
     background-color: rgba(255, 0, 0, 0.144) !important;
     /* azul suave */
 }
-
+.fc-scroller::-webkit-scrollbar {
+  width: 8px;
+}
+.fc-scroller::-webkit-scrollbar-thumb {
+  /* La magia del degradado: 45 grados, del rojo al azul */
+  background: linear-gradient(45deg, #000000ad); 
+  border-radius: 4px;
+}
 
 
 /* REGLA PARA CELULARES (Pantallas menores a 768px) */
@@ -286,8 +309,9 @@ body {
         /* Quitamos el borde para ganar un par de píxeles extra */
         border-radius: 0;
         /* Que llegue bien pegado a los bordes del teléfono */
-        min-height: 80vh;
+        min-height: 85dvh;
         /* Usa el 80% del alto de la pantalla del celular en lugar de 500px fijos */
+        padding-top: 0.7em !important;
     }
 
     /* Si tu calendario está dentro de un contenedor padre, quitamos sus márgenes también */
@@ -308,7 +332,7 @@ body {
     }
 
     #encabezado h2 {
-        font-size: 1.5em;
+        font-size: 1.7em;
     }
 
     #encabezado figure {
@@ -320,7 +344,9 @@ body {
     }
 
     .controles-busqueda {
-        margin: 1em
+        margin-inline: 0.4em;
+        margin-bottom: 0.6em !important;
+        margin-top: 0.6em;
     }
 
     .btn-primario {
@@ -334,6 +360,17 @@ body {
     #selector-vista {
         margin: 0.4em;
     }
+    .fc-toolbar-title{
+        font-size: 1.25em !important;
+    }
+    .fc-timegrid-slot-label-cushion{
+        font-size: 0.9em;
+    }
+    /* Fuerzo el estilo solo para el scroll del calendario */
+.fc-scroller::-webkit-scrollbar {
+  width: 0;
+}
+
 }
 
 /* El contenedor principal */
@@ -343,7 +380,6 @@ body {
     padding: 3px;
     overflow: hidden;
     color: black;
-    /* Evita que el texto se salga del cuadro */
 }
 
 /* El título principal (Actividad) */
