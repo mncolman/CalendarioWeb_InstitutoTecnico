@@ -402,6 +402,7 @@ body {
 
     .btn-primario {
         width: 50%;
+        margin: auto;
     }
 
     .btn-secundario {
@@ -532,7 +533,7 @@ body {
 }
 
 #footer {
-    background-color: #1a3a6b;
+    background-color: #022041;
     color: #e0e8f5;
     font-size: 0.9em;
     margin-top: 2em;

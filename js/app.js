@@ -212,8 +212,8 @@ document.addEventListener('DOMContentLoaded', function () {
             text: "Tendrás que volver a ingresar tus credenciales la próxima vez.",
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#043161',
+            cancelButtonColor: 'rgb(199, 9, 9)',
             confirmButtonText: 'Sí, salir',
             cancelButtonText: 'Cancelar',
             backdrop: `rgba(0,0,0,0.6)`
