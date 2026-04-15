@@ -127,8 +127,8 @@ document.addEventListener('DOMContentLoaded', function () {
             meridiem: false       // Ocultar am/pm si usas 24hs
         },
         slotDuration: '00:15:00',
-        slotMinTime: '07:00:00',  // El calendario arranca visualmente a las 7 AM
-        slotMaxTime: '23:00:00',  // Termina a las 11 PM
+        slotMinTime: '07:00:00',
+        slotMaxTime: '19:00:01',
 
         events: []
     });
@@ -235,12 +235,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // (Acá va el código del saludo y el SweetAlert que ya teníamos armados)
-
-
 
 });
 
+document.getElementById('selector-turno').addEventListener('change', function (e) {
+    const turno = e.target.value;
+    const contenedorCalendario = document.getElementById('calendar');
+
+    if (turno === 'mañana') {
+        calendar.setOption('slotMinTime', '07:00:00');
+        calendar.setOption('slotMaxTime', '14:00:01');
+        contenedorCalendario.style.minHeight = '830px';
+        contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
+
+    } else if (turno === 'tarde') {
+        calendar.setOption('slotMinTime', '14:00:00');
+        calendar.setOption('slotMaxTime', '19:00:01');
+        contenedorCalendario.style.minHeight = '630px';
+        contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
+
+    } else if (turno === 'noche') {
+        calendar.setOption('slotMinTime', '19:00:00');
+        calendar.setOption('slotMaxTime', '23:00:01');
+        contenedorCalendario.style.minHeight = '530px';
+        contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
+
+    } else if (turno === 'completo') {
+        calendar.setOption('slotMinTime', '07:00:00');
+        calendar.setOption('slotMaxTime', '23:00:01');
+        contenedorCalendario.style.minHeight = '1100px';
+        contenedorCalendario.classList.add('modo-completo');
+
+    } else {
+        // turno mañana/tarde
+        calendar.setOption('slotMinTime', '07:00:00');
+        calendar.setOption('slotMaxTime', '19:00:01');
+        contenedorCalendario.style.minHeight = '850px';
+        contenedorCalendario.classList.add('modo-completo');
+    }
+
+    setTimeout(() => { calendar.updateSize(); }, 10);
+});
 
 
 

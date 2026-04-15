@@ -20,9 +20,9 @@
 </head>
 
 <body>
-    <div class="contenedor-principal">
+    <main class="contenedor-principal">
         <section id="encabezado">
-            <h2>Calendario Instituto Técnico</h2>
+            <h2>CALENDARIO INSTITUTO TECNICO</h2>
             <figure>
                 <img src="assets/logo-it.jpg" alt="">
             </figure>
@@ -41,7 +41,7 @@
                 <ul class="nav-enlaces">
                     <li><a href="#calendario" class="activo">Calendario</a></li>
                     <li><a aria-disabled="true" href="#mapa">Mapa Instituto</a></li>
-                 <!--     <li><a href="#libro">Libro de Temas</a></li> -->
+                    <!--     <li><a href="#libro">Libro de Temas</a></li> -->
                 </ul>
 
 
@@ -101,13 +101,24 @@
             </section>
 
         </div>
+        <div style="display: flex; width: 100%;">
+            <select id="selector-turno"
+                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
+                <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
+                <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
+                <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
+                <option value="noche">Turno Noche (19:00 - 23:00)</option>
+                <option value="completo">Turno Completo (07:00 - 23:00)</option>
+            </select>
+        </div>
         <Section class="contenedor-acciones">
-            <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir</button>
+            <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
             <button id="btn-limpiar" class="btn-accion btn-secundario">🔄 Limpiar filtros</button>
         </Section>
+
         <div style="display: flex; width: 100%;">
             <select id="selector-vista"
-                style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
+                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
                 <option value="timeGridWeek">Vista: Semana</option>
                 <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
                 <option value="timeGridTresDias">Vista: 3 días</option>
@@ -115,8 +126,8 @@
             </select>
         </div>
 
-        <article id='calendar' translate="no"></article>
-    </div>
+        <article id='calendar' class="modo-completo" translate="no"></article>
+    </main>
     <footer id="footer">
         <div class="footer-principal">
 

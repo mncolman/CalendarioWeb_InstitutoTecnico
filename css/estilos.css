@@ -21,54 +21,57 @@ body {
     box-sizing: border-box;
 }
 
-
 #encabezado {
-    display: inline-flex;
+
+    background-color: rgb(255, 255, 255) !important;
+    display: flex; /* Cambiamos inline-flex por flex puro */
     width: fit-content;
+    width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 15px; /* La separación perfecta entre logo y texto, sin usar márgenes */
 
-    border-top: 2px #043161 solid;
-    border-bottom: 2px #ad121293 solid;
-    border-radius: 1em;
+    margin: 1.2em auto; /* Centrado horizontal automático */
+    padding: 2em 1em; /* Padding equilibrado: poco arriba/abajo, más a los costados */
+    border-radius: 10px;
 
-    margin-top: 1em;
-    margin-bottom: 1.5em;
-    margin-inline: auto !important;
-    padding-inline: 0.2em;
+    /* ACÁ PONÉS TU COLOR DE FONDO. Este es un gris súper clarito de ejemplo */
+    background-color: #f4f6f8; 
+    box-sizing: border-box;
 }
 
+/* Limpiamos la etiqueta figure para que no moleste */
 #encabezado figure {
-    padding: 0;
-    padding-top: 0.19em;
     margin: 0;
-    margin-left: 0.5em;
-    width: 2em;
-    border-radius: 5em;
-
+    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
 #encabezado figure img {
-    padding: 0;
+    /* MAGIA FLUIDA: Mínimo 2.5rem, ideal 6vw (relativo a pantalla), Máximo 3.5rem */
+    width: clamp(2.5rem, 6vw, 3.5rem); 
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
     margin: 0;
-    width: 2em;
-    border-radius: 5em;
-
+    padding: 0;
 }
 
 #encabezado h2 {
     font-family: 'Barlow Condensed', sans-serif;
-    /* cambiá por la que elijas */
     font-weight: 600;
-    font-size: 2em;
-    letter-spacing: 0.035em;
-    /* pequeño espaciado entre letras queda bien en títulos */
+    
+    /* MAGIA FLUIDA: Mínimo 1.8rem (celular), ideal 5vw, Máximo 3.35em (PC) */
+    font-size: clamp(1.4rem, 5vw, 3.35rem); 
+    
+    letter-spacing: 0.01em;
     text-align: center;
     color: #333;
     margin: 0;
-    display: inline-flex;
-    padding-left: 0.1em;
+    padding: 0;
+    line-height: 1.1; /* Clave para que el texto no estire el contenedor verticalmente */
 }
 
 
@@ -152,6 +155,11 @@ body {
 /* --- LA MAGIA PARA CELULARES (Menos de 768px) --- */
 @media (max-width: 768px) {
   
+#encabezado {
+    padding: 1.5em 1em; 
+
+}
+
   /* 1. Mostramos el botón hamburguesa */
   .menu-toggle {
     display: block; 
@@ -162,7 +170,7 @@ body {
 
   /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
   .navbar-principal {
-    margin-top: 0.9em;
+    margin-top: 0;
     margin-bottom: 0;
     flex-wrap: wrap;
     position: relative; /* Para poder posicionar el menú desplegable debajo */
@@ -248,10 +256,26 @@ body {
     padding: 10px;
 }
 
+/* =========================================
+   LÍNEAS DIVISORAS (Tiro de precisión al TD)
+========================================= */
+
+.modo-completo td.fc-timegrid-slot-label[data-time="14:00:00"] .fc-timegrid-slot-label-cushion,
+.modo-completo td.fc-timegrid-slot-label[data-time="19:00:00"] .fc-timegrid-slot-label-cushion {
+    color: #043161 !important;
+    font-weight: bold !important;
+    border-radius: 4px;
+}
+
+.modo-completo td.fc-timegrid-slot-lane[data-time="14:00:00"],
+.modo-completo td.fc-timegrid-slot-lane[data-time="19:00:00"] {
+    border-top: 2px solid #043161a6 !important; 
+}
+
 .contenedor-acciones {
     display: flex;
     gap: 8px;
-    margin-bottom: 0.5em;
+    margin-block: 0.5em;
 }
 .contenedor-busqueda {
 
@@ -327,20 +351,8 @@ body {
     }
 
     #encabezado {
-        margin-bottom: 0 !important;
+        margin-bottom: 1em !important;
 
-    }
-
-    #encabezado h2 {
-        font-size: 1.7em;
-    }
-
-    #encabezado figure {
-        width: 1.8em;
-    }
-
-    #encabezado figure img {
-        width: 1.8em;
     }
 
     .controles-busqueda {
@@ -357,7 +369,7 @@ body {
         width: 50%;
     }
 
-    #selector-vista {
+    #selector-vista, #selector-turno{
         margin: 0.4em;
     }
     .fc-toolbar-title{
@@ -371,6 +383,9 @@ body {
   width: 0;
 }
 
+#encabezado figure img {
+    padding-top: 0;
+}
 }
 
 /* El contenedor principal */
