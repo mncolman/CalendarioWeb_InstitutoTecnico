@@ -21,10 +21,11 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
 
-    // Leemos los filtros desde el DOM
     let textoDocente = document.getElementById('buscar-docente').value.toLowerCase().trim();
     let textoDivision = document.getElementById('filtro-division').value.toLowerCase();
     let textoGabinete = document.getElementById('selectorEspacio').value.toLowerCase();
+    
+    let turnoSeleccionado = document.getElementById('selector-turno').value;
 
     let tipoCronograma = 'Semana';
     if (textoDocente && textoDocente !== '') {
@@ -43,21 +44,40 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
         'timeGridDay': fechaInicio.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
     }[vistaOriginal] || fechaInicio.toLocaleDateString('es-AR');
 
-    // Contenedor invisible
+    // Contenedor invisible (Le sacamos la altura fija de 700px)
     const tempDiv = document.createElement('div');
     tempDiv.style.cssText = `
-        position: fixed; top: -9999px; left: -9999px; width: 1400px; height: 700px; z-index: -1; background: white;
+        position: fixed; top: -9999px; left: -9999px; width: 1400px; z-index: -1; background: white;
     `;
     document.body.appendChild(tempDiv);
 
-    const turnos = [
-        { nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:05:00' },
-        { nombre: 'Tarde', slotMin: '14:00:00', slotMax: '20:05:00' }
-    ];
+    // ==========================================
+    // 🎯 NUEVO: TURNOS CON TUS ALTURAS EXACTAS
+    // ==========================================
+    let turnos = [];
+    
+    if (turnoSeleccionado === 'mañana') {
+        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:01', altura: 730 });
+    } else if (turnoSeleccionado === 'tarde') {
+        turnos.push({ nombre: 'Tarde', slotMin: '14:00:00', slotMax: '19:00:01', altura: 500 });
+    } else if (turnoSeleccionado === 'noche') {
+        turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 400 });
+    } else if (turnoSeleccionado === 'completo') {
+        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:01', altura: 830 });
+        turnos.push({ nombre: 'Tarde', slotMin: '14:00:00', slotMax: '19:00:01', altura: 600 });
+        turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 500 });
+    } else {
+        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:01', altura: 830 });
+        turnos.push({ nombre: 'Tarde', slotMin: '14:00:00', slotMax: '19:00:01', altura: 600 });
+    }
+
     const capturas = [];
 
     try {
         for (const turno of turnos) {
+            // 1. Le damos al Div contenedor la altura exacta de este turno
+            tempDiv.style.height = `${turno.altura}px`;
+
             const calTemp = new FullCalendar.Calendar(tempDiv, {
                 initialView: 'timeGridWeek',
                 initialDate: fechaInicio,
@@ -70,8 +90,11 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
                 slotMaxTime: turno.slotMax,
                 slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false, meridiem: false },
                 slotDuration: '00:15:00',
-                height: 750,
-                contentHeight: 700,
+                
+                // 2. Le pasamos tu altura al motor de FullCalendar
+                height: turno.altura,
+                contentHeight: turno.altura, 
+                
                 displayEventTime: false,
                 events: todosLosEventos.filter(evento => {
                     let docenteEv = (evento.extendedProps.responsable || '').toLowerCase();
@@ -104,7 +127,8 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
             calTemp.render();
             await new Promise(r => setTimeout(r, 500));
 
-            const canvas = await html2canvas(tempDiv, { scale: 1.7, useCORS: true, width: 1400, height: 700 });
+            // 3. Le decimos a la "cámara" que saque la foto usando tu altura exacta
+            const canvas = await html2canvas(tempDiv, { scale: 1.7, useCORS: true, width: 1400, height: turno.altura });
             capturas.push({ canvas, nombre: turno.nombre });
 
             calTemp.destroy();
@@ -115,15 +139,19 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
         const estiloABorrar = document.getElementById('estilo-captura-pdf');
         if (estiloABorrar) estiloABorrar.remove();
 
-        capturas.forEach((item, i) => {
+       capturas.forEach((item, i) => {
             const imgData = item.canvas.toDataURL('image/jpeg', 0.92);
             const pdfW = doc.internal.pageSize.getWidth();
-            const pdfH = doc.internal.pageSize.getHeight();
-
+            
             if (i > 0) doc.addPage();
             doc.setFontSize(13);
             doc.text(`Cronograma: ${tipoCronograma.toLocaleUpperCase()}  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 8, 8);
-            doc.addImage(imgData, 'JPEG', 5, 20, pdfW - 15, pdfH - 80, '', 'MEDIUM');
+            
+            const imgWidth = pdfW - 10; 
+            
+            const imgHeight = (item.canvas.height * imgWidth) / item.canvas.width ;
+
+            doc.addImage(imgData, 'JPEG', 5, 20, imgWidth, imgHeight, '', 'MEDIUM');
         });
 
         Swal.close();
