@@ -1,6 +1,6 @@
 import { cerrarSesion } from '../modules/Auth.js';
 
-const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbwzzzzD0BujM_j7lG06a2dXssxl83AInUndCDfBY7hW0VNR3xJA2PQ4IP8yNbaxTEOWiA/exec';
+const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbxDTs6xUJUgJm0aGTCSiMGQoHtZZG6cXx7-CEecnJtRUK5HCMGkkhLlaXGd2FWGoKeboQ/exec';
 
 export async function fetchDatosIniciales(tokenUsuario) {
     try {
@@ -17,9 +17,8 @@ export async function fetchDatosIniciales(tokenUsuario) {
         // Suponiendo que tu variable se llama "datos"
 console.table(datos.tiempos_ms);
 
-        if (datos.error) {
+if (datos.error) {
             if (datos.sesionExpirada) {
-                console.warn("El token expiró o fue borrado de la hoja de cálculo.");
 
                 Swal.fire({
                     icon: 'warning',

@@ -105,7 +105,7 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
         document.getElementById('selectorEspacio').value = '';
 
         const selectorTurno = document.getElementById('selector-turno');
-        selectorTurno.value = 'mañana/tarde';    
+        selectorTurno.value = 'mañana/tarde';
 
         //truco auxiliar para simular un clic del usuario
         selectorTurno.dispatchEvent(new Event('change'))
@@ -117,8 +117,9 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
 export function ajustarInterfazPorRol() {
     const rol = localStorage.getItem('rolUsuario')
     const panelFiltros = document.getElementById("controles-busqueda");
-    
-    
+    const btnLimpiar = document.getElementById("btn-limpiar");
+
+
     if (!panelFiltros) {
         return;
     }
@@ -126,6 +127,8 @@ export function ajustarInterfazPorRol() {
 
     if (rol === 'admi') {
         panelFiltros.style.display = "flex";
+    } else {
+        btnLimpiar.style.display = 'none';
     }
 
 }
