@@ -23,21 +23,24 @@ body {
 
 #encabezado {
 
-    background-color: rgb(255, 255, 255) !important;
-    display: flex; /* Cambiamos inline-flex por flex puro */
+    background: linear-gradient(135deg, #f819009c, #ffffff, #ffffff, #ffffff, #022279d7);
+    display: flex;
+    /* Cambiamos inline-flex por flex puro */
     width: fit-content;
     width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 15px; /* La separación perfecta entre logo y texto, sin usar márgenes */
-
-    margin: 1.2em auto; /* Centrado horizontal automático */
-    padding: 2em 1em; /* Padding equilibrado: poco arriba/abajo, más a los costados */
-    border-radius: 10px;
+    gap: 15px;
+    /* La separación perfecta entre logo y texto, sin usar márgenes */
+    border-radius: 3px;
+    margin: 1.2em auto;
+    /* Centrado horizontal automático */
+    padding: 2em 1em;
+    /* Padding equilibrado: poco arriba/abajo, más a los costados */
 
     /* ACÁ PONÉS TU COLOR DE FONDO. Este es un gris súper clarito de ejemplo */
-    background-color: #f4f6f8; 
+    background-color: #f4f6f8;
     box-sizing: border-box;
 }
 
@@ -51,7 +54,7 @@ body {
 
 #encabezado figure img {
     /* MAGIA FLUIDA: Mínimo 2.5rem, ideal 6vw (relativo a pantalla), Máximo 3.5rem */
-    width: clamp(2.5rem, 6vw, 3.5rem); 
+    width: clamp(2.5rem, 6vw, 3.5rem);
     height: auto;
     border-radius: 50%;
     object-fit: cover;
@@ -62,184 +65,223 @@ body {
 #encabezado h2 {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 600;
-    
+
     /* MAGIA FLUIDA: Mínimo 1.8rem (celular), ideal 5vw, Máximo 3.35em (PC) */
-    font-size: clamp(1.4rem, 5vw, 3.35rem); 
-    
+    font-size: clamp(1.6rem, 5vw, 3.35rem);
+
     letter-spacing: 0.01em;
     text-align: center;
     color: #333;
     margin: 0;
     padding: 0;
-    line-height: 1.1; /* Clave para que el texto no estire el contenedor verticalmente */
+    line-height: 1.1;
+    /* Clave para que el texto no estire el contenedor verticalmente */
 }
 
 
 /* barra nav*/
 .navbar-principal {
-  display: flex;
-  justify-content: space-between; /* Separa los 3 bloques equitativamente */
-  align-items: center; /* Centra todo verticalmente */
-  padding: 15px 30px;
-  margin-bottom: 1em;
-  background-color: #043161; /* Un azul oscuro institucional */
-  color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    /* Separa los 3 bloques equitativamente */
+    align-items: center;
+    /* Centra todo verticalmente */
+    padding: 15px 30px;
+    margin-bottom: 1em;
+    background-color: #043161;
+    /* Un azul oscuro institucional */
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
 }
 
 /* La lista de enlaces central */
 .nav-enlaces {
-  display: flex;
-  gap: 30px; /* Separación perfecta entre los 3 botones */
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    gap: 30px;
+    /* Separación perfecta entre los 3 botones */
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-enlaces a {
-  color: rgb(255, 255, 255);
-  text-decoration: none;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
 }
 
-.nav-enlaces a:hover, .nav-enlaces a.activo {
-  font-weight: 550;
+.nav-enlaces a:hover,
+.nav-enlaces a.activo {
+    font-weight: 550;
 
 }
 
 /* El bloque de la derecha */
 .nav-usuario {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Espacio entre el saludo y el botón */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Espacio entre el saludo y el botón */
 }
 
 .btn-salir {
-  background-color: #d41500cb;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
+    background-color: #e21e08ce;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .btn-salir:hover {
-  background-color: #c0392b;
+    background-color: #c0392b;
 }
 
 /* --- ESTILOS BASE PARA EL BOTÓN HAMBURGUESA --- */
 .menu-toggle {
-  display: none; /* Oculto por defecto en computadoras */
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
+    display: none;
+    /* Oculto por defecto en computadoras */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 /* Ocultamos la línea divisoria en PC */
 .divisor-movil {
-  display: none; 
+    display: none;
 }
 
 /* Por defecto (PC), el contenedor colapsable se comporta como una fila (Flexbox) */
 .nav-colapsable {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+.controles-busqueda{
+    background-color: #5d8fc43a;
+    border-radius: 4px;
+    padding-bottom: 0.8em;
+    padding-inline: 0.5em;
+    margin: 0 !important;
+    
+}
+
+.controles-busqueda p {
+    margin: 0 !important;
+    padding-left: 0.3em;
+    padding-top: 0.7em;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: rgb(39, 39, 39);
 }
 
 
 /* --- LA MAGIA PARA CELULARES (Menos de 768px) --- */
 @media (max-width: 768px) {
-  
-#encabezado {
-    padding: 1.5em 1em; 
 
-}
+    #encabezado {
+        padding: 1.4em 1em;
+        margin: 0 !important;
+        border-radius: 0;
 
-  /* 1. Mostramos el botón hamburguesa */
-  .menu-toggle {
-    display: block; 
-    font-size: 2em;
-    display: flex;
-    align-items: start;
-  }
+    }
 
-  /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
-  .navbar-principal {
-    margin-top: 0;
-    margin-bottom: 0;
-    flex-wrap: wrap;
-    position: relative; /* Para poder posicionar el menú desplegable debajo */
-    border-radius: 0;
-    padding-block: 0.4em;
-    padding-inline: 0.5em !important;
-}
+    /* 1. Mostramos el botón hamburguesa */
+    .menu-toggle {
+        display: block;
+        font-size: 1.6em;
+        display: flex;
+        align-items: start;
+    }
 
-  /* 3. Transformamos el contenedor de enlaces en un menú desplegable */
-  .nav-colapsable {
-    display: none; /* Oculto hasta que toquen el botón */
-    flex-direction: column; /* Apila todo hacia abajo */
-    width: 100%; /* Ocupa todo el ancho */
-    position: absolute;
-    top: 100%; /* Se ubica justo debajo de la navbar */
-    left: 0;
-    background-color: #34495e; /* Un tono apenas más claro que la navbar para diferenciar */
-    padding: 20px 0;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1000; /* Asegura que flote por encima del calendario */
-  }
+    /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
+    .navbar-principal {
+        margin-top: 0;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+        position: relative;
+        /* Para poder posicionar el menú desplegable debajo */
+        border-radius: 0;
+        padding-block: 0.4em;
+        padding-inline: 0.5em !important;
+    }
 
-  /* 4. Esta clase se la agregamos con JavaScript cuando tocan el botón */
-  .nav-colapsable.abierto {
-    display: flex; 
-  }
+    /* 3. Transformamos el contenedor de enlaces en un menú desplegable */
+    .nav-colapsable {
+        display: none;
+        /* Oculto hasta que toquen el botón */
+        flex-direction: column;
+        /* Apila todo hacia abajo */
+        width: 100%;
+        /* Ocupa todo el ancho */
+        position: absolute;
+        top: 100%;
+        /* Se ubica justo debajo de la navbar */
+        left: 0;
+        background-color: #34495e;
+        /* Un tono apenas más claro que la navbar para diferenciar */
+        padding: 20px 0;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        /* Asegura que flote por encima del calendario */
+    }
 
-  /* 5. Acomodamos los enlaces para que parezcan botones grandes de menú */
-  .nav-enlaces {
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
-    gap: 0;
-  }
+    /* 4. Esta clase se la agregamos con JavaScript cuando tocan el botón */
+    .nav-colapsable.abierto {
+        display: flex;
+    }
 
-  .nav-enlaces li {
-    width: 100%;
-  }
+    /* 5. Acomodamos los enlaces para que parezcan botones grandes de menú */
+    .nav-enlaces {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        gap: 0;
+    }
 
-  .nav-enlaces a {
-    display: block;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
+    .nav-enlaces li {
+        width: 100%;
+    }
 
-  /* 6. Acomodamos la sección de usuario al final del menú */
-  .divisor-movil {
-    display: block;
-    width: 80%;
-    margin: 15px auto;
-    border: 0;
-    border-top: 1px solid rgba(255,255,255,0.2);
-  }
+    .nav-enlaces a {
+        display: block;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-  .nav-usuario {
-    margin-top: 1.3em;
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-    padding-bottom: 10px;
-  }
+    /* 6. Acomodamos la sección de usuario al final del menú */
+    .divisor-movil {
+        display: block;
+        width: 80%;
+        margin: 15px auto;
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-  .btn-salir {
-    width: 80%; /* Botón de salir ancho y fácil de tocar */
-  }
+    .nav-usuario {
+        margin-top: 1.3em;
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+        padding-bottom: 10px;
+    }
 
-  .contenedor-acciones {
-    margin-inline: 0.3em;
-   }
+    .btn-salir {
+        width: 80%;
+        /* Botón de salir ancho y fácil de tocar */
+    }
+
+    .contenedor-acciones {
+        padding-inline: 0.3em;
+        margin-top: 0 !important;
+        margin-bottom: 0.3em !important;
+        background-color: #043161;
+        padding-block: 0.7em;
+    }
 }
 
 /* barra nav*/
@@ -269,7 +311,7 @@ body {
 
 .modo-completo td.fc-timegrid-slot-lane[data-time="14:00:00"],
 .modo-completo td.fc-timegrid-slot-lane[data-time="19:00:00"] {
-    border-top: 2px solid #043161a6 !important; 
+    border-top: 2px solid #043161a6 !important;
 }
 
 .contenedor-acciones {
@@ -277,6 +319,7 @@ body {
     gap: 8px;
     margin-block: 0.5em;
 }
+
 .contenedor-busqueda {
 
     margin-bottom: 0em;
@@ -299,26 +342,28 @@ body {
 .btn-primario {
     background-color: #043161;
     color: white;
-    border-color: #0859af;
+    border-color: #ffffff;
 }
 
 .btn-secundario {
     background-color: #f8f9fa;
-    color: #0859af;
-    border-color: #0859af;
+    color: #0a3d74;
+    border-color: #137beb;
 }
 
 .fc-day-today {
     background-color: rgba(255, 0, 0, 0.144) !important;
     /* azul suave */
 }
+
 .fc-scroller::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
+
 .fc-scroller::-webkit-scrollbar-thumb {
-  /* La magia del degradado: 45 grados, del rojo al azul */
-  background: linear-gradient(45deg, #000000ad); 
-  border-radius: 4px;
+    /* La magia del degradado: 45 grados, del rojo al azul */
+    background: linear-gradient(45deg, #000000ad);
+    border-radius: 4px;
 }
 
 
@@ -350,14 +395,8 @@ body {
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
 
-    #encabezado {
-        margin-bottom: 1em !important;
-
-    }
-
     .controles-busqueda {
         margin-inline: 0.4em;
-        margin-bottom: 0.6em !important;
         margin-top: 0.6em;
     }
 
@@ -369,23 +408,26 @@ body {
         width: 50%;
     }
 
-    #selector-vista, #selector-turno{
+    #selector-vista{
         margin: 0.4em;
     }
-    .fc-toolbar-title{
+
+    .fc-toolbar-title {
         font-size: 1.25em !important;
     }
-    .fc-timegrid-slot-label-cushion{
+
+    .fc-timegrid-slot-label-cushion {
         font-size: 0.9em;
     }
-    /* Fuerzo el estilo solo para el scroll del calendario */
-.fc-scroller::-webkit-scrollbar {
-  width: 0;
-}
 
-#encabezado figure img {
-    padding-top: 0;
-}
+    /* Fuerzo el estilo solo para el scroll del calendario */
+    .fc-scroller::-webkit-scrollbar {
+        width: 0;
+    }
+
+    #encabezado figure img {
+        padding-top: 0;
+    }
 }
 
 /* El contenedor principal */
@@ -425,10 +467,11 @@ body {
     /* Forzamos a que el texto sea negro (o tu color) */
     box-shadow: none !important;
     padding: 0 !important;
-    margin:0 ;
+    margin: 0;
     margin-left: 5px !important;
     margin-block: 3px !important;
 }
+
 .fc-event.evento-default {
     background-color: rgba(245, 245, 245, 0.808);
     border-color: #1a3a6b !important;
@@ -461,23 +504,31 @@ body {
     margin: 2px;
     /* Separación si hay dos clases pegadas */
 }
+
 .tarjeta-taller {
-    background-color: #fff563;   /* violeta por ejemplo */
+    background-color: #fff563;
+    /* violeta por ejemplo */
     border-left: 3px solid #ff0000;
 }
+
 .tarjeta-ed-fisica {
-    background-color: #b0fcba;   /* violeta por ejemplo */
+    background-color: #b0fcba;
+    /* violeta por ejemplo */
     border-left: 3px solid #00ff22;
 }
 
 /* Agregá esto a tu archivo CSS */
 .alerta-cuadrada {
-    width: 350px !important;  /* Ajustá este valor al tamaño de tu imagen */
-    height: 350px !important; /* Mismo valor para que sea un cuadrado perfecto */
+    width: 350px !important;
+    /* Ajustá este valor al tamaño de tu imagen */
+    height: 350px !important;
+    /* Mismo valor para que sea un cuadrado perfecto */
     display: flex !important;
     flex-direction: column;
-    justify-content: center;  /* Centra el texto y el spinner en el medio */
-    border-radius: 15px;      /* Opcional: bordes redondeados */
+    justify-content: center;
+    /* Centra el texto y el spinner en el medio */
+    border-radius: 15px;
+    /* Opcional: bordes redondeados */
 }
 
 #footer {

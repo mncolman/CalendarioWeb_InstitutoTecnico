@@ -92,7 +92,7 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
 
 // Configuramos todos los listeners de una sola vez
 export function configurarListenersFiltros(todosLosEventos, calendar) {
-    // Función auxiliar chiquita para no repetir parámetros
+
     const dispararFiltro = () => aplicarFiltros(todosLosEventos, calendar);
 
     document.getElementById('selectorEspacio').addEventListener('change', dispararFiltro);
@@ -103,6 +103,13 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
         if (window.tomSelectDocente) window.tomSelectDocente.clear();
         document.getElementById('filtro-division').value = '';
         document.getElementById('selectorEspacio').value = '';
+
+        const selectorTurno = document.getElementById('selector-turno');
+        selectorTurno.value = 'mañana/tarde';    
+
+        //truco auxiliar para simular un clic del usuario
+        selectorTurno.dispatchEvent(new Event('change'))
+
         dispararFiltro();
     });
 }

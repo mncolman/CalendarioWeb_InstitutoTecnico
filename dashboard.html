@@ -55,8 +55,8 @@
 
         <div id="controles-busqueda" class="controles-busqueda"
             style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 10px;">
-
-            <Section class="fila-superior" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <p class="m-0">Filtros del calendario</p>
+            <Section class="fila-superior" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
 
                 <select id="selectorEspacio"
                     style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
@@ -100,16 +100,16 @@
                     style="width: 100%; height: 2.6em;"></select>
             </section>
 
-        </div>
-        <div style="display: flex; width: 100%;">
-            <select id="selector-turno"
-                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
-                <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
-                <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
-                <option value="noche">Turno Noche (19:00 - 23:00)</option>
-                <option value="completo">Turno Completo (07:00 - 23:00)</option>
-            </select>
+            <div style="display: flex; width: 100%;">
+                <select id="selector-turno"
+                    style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
+                    <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
+                    <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
+                    <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
+                    <option value="noche">Turno Noche (19:00 - 23:00)</option>
+                    <option value="completo">Turno Completo (07:00 - 23:00)</option>
+                </select>
+            </div>
         </div>
         <Section class="contenedor-acciones">
             <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
