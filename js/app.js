@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: ''
         },
-
+        weekends: false,
         views: {
             timeGridTresDias: {
                 type: 'timeGrid',
