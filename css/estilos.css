@@ -409,10 +409,6 @@ body {
         width: 50%;
     }
 
-    #selector-vista{
-        margin: 0.4em;
-    }
-
     .fc-toolbar-title {
         font-size: 1.25em !important;
     }
@@ -607,4 +603,44 @@ body {
         align-items: center;
         text-align: center;
     }
+}
+
+
+/* --- ESTILOS PARA EL SELECTOR DE TURNOS --- */
+.contenedor-turno {
+    margin-bottom: 1rem;
+}
+
+.label-turno {
+    color: rgb(255, 255, 255);
+    background-color: rgb(7, 9, 122);
+    display: inline-block;
+    padding-inline: 0.4rem;
+    padding-block: 0.2rem;
+    margin-bottom: 0rem;
+    font-size: 0.8rem;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+        font-weight: 700;
+}
+
+.select-moderno {
+    width: 96.3vw;
+    padding: 0.5rem 0.3rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+/* Efecto de brillo azul cuando haces clic (focus) */
+.select-moderno:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }

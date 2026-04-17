@@ -100,30 +100,40 @@
                     style="width: 100%; height: 2.6em;"></select>
             </section>
 
-            <div style="display: flex; width: 100%;">
-                <select id="selector-turno"
-                    style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
-                    <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
-                    <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
-                    <option value="noche">Turno Noche (19:00 - 23:00)</option>
-                    <option value="completo">Turno Completo (07:00 - 23:00)</option>
-                </select>
-            </div>
         </div>
         <Section class="contenedor-acciones">
             <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
         </Section>
+        <div id="controles-formato" class="controles-busqueda"
+            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 10px;">
+            <p class="m-0">Formato del calendario</p>
+            <Section class="fila-superior" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
+                <div >
+                    <div class="contenedor-turno">
+                        <select id="selector-turno" class="select-moderno">
+                            <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
+                            <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
+                            <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
+                            <option value="noche">Turno Noche (19:00 - 23:00)</option>
+                            <option value="completo">Turno Completo (07:00 - 23:00)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; width: 100%;">
 
-        <div style="display: flex; width: 100%;">
-            <select id="selector-vista"
-                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
-                <option value="timeGridWeek">Vista: Semana</option>
-                <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
-                <option value="timeGridTresDias">Vista: 3 días</option>
-                <option value="timeGridDay">Vista: 1 día</option>
-            </select>
+                    <select id="selector-vista"
+                        style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
+                        <option value="timeGridWeek">Vista: Semana</option>
+                        <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
+                        <option value="timeGridTresDias">Vista: 3 días</option>
+                        <option value="timeGridDay">Vista: 1 día</option>
+                    </select>
+                </div>
+
+            </Section>
+
         </div>
+
 
         <article id='calendar' class="modo-completo" translate="no"></article>
     </main>
