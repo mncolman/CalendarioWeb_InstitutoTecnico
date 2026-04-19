@@ -128,7 +128,6 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
 export function ajustarInterfazPorRol() {
     const rol = localStorage.getItem('rolUsuario')
     const panelFiltros = document.getElementById("controles-busqueda");
-    const btnLimpiar = document.getElementById("btn-limpiar");
 
 
     if (!panelFiltros) {
@@ -138,8 +137,6 @@ export function ajustarInterfazPorRol() {
 
     if (rol === 'admi') {
         panelFiltros.style.display = "flex";
-    } else {
-        btnLimpiar.style.display = 'none';
     }
 
 }

@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: ''
         },
-
+        weekends: false,
         views: {
             timeGridTresDias: {
                 type: 'timeGrid',
@@ -111,6 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             Swal.fire({
                 title: info.event.title,
+                scrollbarPadding: false,
+                allowOutsideClick: true,
+                heightAuto: false,
                 html: `
               <p>Profesor: <b>${props.responsable || ''}</b></p>
               <p>Horario: ${horaInicio} a ${horaFin}</p>
@@ -167,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             todosLosEventos = datos.eventos;
 
+            console.log(datos);
             llenarBuscadorDocentes(datos.docentes);
             llenarSelectorGabinetes(datos.gabinetes);
 

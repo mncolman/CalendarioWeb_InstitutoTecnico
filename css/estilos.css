@@ -42,6 +42,10 @@ body {
     /* ACÁ PONÉS TU COLOR DE FONDO. Este es un gris súper clarito de ejemplo */
     background-color: #f4f6f8;
     box-sizing: border-box;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.78);
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.78);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.78);
+
 }
 
 /* Limpiamos la etiqueta figure para que no moleste */
@@ -161,22 +165,31 @@ body {
     flex-grow: 1;
     justify-content: space-between;
 }
-.controles-busqueda{
+
+.controles-busqueda, .controles-formato {
+
     background-color: #5d8fc43a;
-    border-radius: 4px;
-    padding-bottom: 0.8em;
+    border-radius: 6px;
     padding-inline: 0.5em;
     margin: 0 !important;
-    
+    border: 1px solid rgba(0, 0, 0, 0.404);
 }
 
-.controles-busqueda p {
-    margin: 0 !important;
-    padding-left: 0.3em;
-    padding-top: 0.7em;
+.controles-busqueda p, .controles-formato p {
+  width: fit-content;
+    font-family: 'Barlow Condensed', sans-serif;
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em;
+    margin-inline: 0.11em;
     font-weight: 600;
-    font-size: 1.1em;
+    font-size: clamp(1.7em, 3vw, 2.3em);
     color: rgb(39, 39, 39);
+
+/* LA MAGIA DEL BORDE: */
+    border-bottom: 1px solid transparent; /* Reservamos el espacio */
+    border-image: linear-gradient(#022279d7, #022279d7);
+    border-image-slice: 1; /* Le dice a CSS que aplique el gradiente entero */
+
 }
 
 
@@ -277,10 +290,11 @@ body {
 
     .contenedor-acciones {
         padding-inline: 0.3em;
-        margin-top: 0 !important;
+        margin-block: 0 !important;
         margin-bottom: 0.3em !important;
         background-color: #043161;
         padding-block: 0.7em;
+        margin-bottom: 0 !important;
     }
 }
 
@@ -343,6 +357,7 @@ body {
     background-color: #043161;
     color: white;
     border-color: #ffffff;
+    padding: 0.65rem;
 }
 
 .btn-secundario {
@@ -395,7 +410,7 @@ body {
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
 
-    .controles-busqueda {
+    .controles-busqueda,.controles-formato {
         margin-inline: 0.4em;
         margin-top: 0.6em;
     }
@@ -425,6 +440,42 @@ body {
     #encabezado figure img {
         padding-top: 0;
     }
+
+    .fila-doble-select {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .grupo-selector,
+    .select-sencillo {
+        display: flex;
+        width: 100%;
+        max-width: 100% !important;
+
+    }
+
+    .select-sencillo {
+
+        margin-bottom: 0.7em !important;
+    }
+
+    .grupo-selector {
+
+        margin: 0 !important;
+    }
+
+    select,
+    select option,
+    .option {
+        font-size: 0.9rem !important;
+    }
+
+
+
+
+
 }
 
 /* El contenedor principal */
@@ -606,10 +657,7 @@ body {
 }
 
 
-/* --- ESTILOS PARA EL SELECTOR DE TURNOS --- */
-.contenedor-turno {
-    margin-bottom: 1rem;
-}
+
 
 .label-turno {
     color: rgb(255, 255, 255);
@@ -621,26 +669,68 @@ body {
     font-size: 0.8rem;
     border-top-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem;
-        font-weight: 700;
+    font-weight: 700;
 }
 
-.select-moderno {
-    width: 96.3vw;
-    padding: 0.5rem 0.3rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
+/* Contenedor para mantener el orden */
+.grupo-selector {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 15px;
+    max-width: 50%;
+    /* Evita que el selector se estire por toda la pantalla */
+}
+
+/* Contenedor para mantener el orden */
+.unico-selector {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 15px;
+    /* Evita que el selector se estire por toda la pantalla */
+}
+
+/* Estilo del texto del Label */
+.label-sencillo {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #000000e0;
+    margin-bottom: 6px;
+    margin-left: 0.3em;
+}
+
+/* Estilo del Select (Reemplaza tus estilos en línea) */
+.select-sencillo {
+    padding: 10px;
+    border-radius: 6px;
     border: 1px solid #ced4da;
-    border-radius: 0.375rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: #ffffff;
+    font-size: 15px;
+    color: #333;
     cursor: pointer;
+    transition: border-color 0.2s ease;
 }
 
-/* Efecto de brillo azul cuando haces clic (focus) */
-.select-moderno:focus {
+/* Efecto cuando el usuario hace clic o navega con el teclado */
+.select-sencillo:focus {
+    outline: none;
     border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.fila-doble-select {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+select option,
+.option {
+    font-size: 1rem;
+}
+
+.controles-formato{
+    margin-bottom: 0.5em !important;
 }

@@ -54,79 +54,99 @@
         </nav>
 
         <div id="controles-busqueda" class="controles-busqueda"
-            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 10px;">
+            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 0px;">
             <p class="m-0">Filtros del calendario</p>
-            <Section class="fila-superior" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
 
-                <select id="selectorEspacio"
-                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option value="">Sincronizando...</option>
-                </select>
+            <Section class="fila-doble-select">
 
-                <select id="filtro-division"
-                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option value="">Todas las divisiones</option>
-                    <option value="1º AÑO A">1º AÑO A</option>
-                    <option value="1º AÑO B">1º AÑO B</option>
-                    <option value="1º AÑO C">1º AÑO C</option>
-                    <option value="2º AÑO A">2º AÑO A</option>
-                    <option value="2º AÑO B">2º AÑO B</option>
-                    <option value="2º AÑO C">2º AÑO C</option>
-                    <option value="3º AÑO A">3º AÑO A</option>
-                    <option value="3º AÑO B">3º AÑO B</option>
-                    <option value="3º AÑO C">3º AÑO C</option>
-                    <option value="4º AÑO MMO A">4º AÑO MMO A</option>
-                    <option value="4º AÑO MMO B">4º AÑO MMO B</option>
-                    <option value="4º AÑO TME A">4º AÑO TME A</option>
-                    <option value="4º AÑO TME B">4º AÑO TME B</option>
-                    <option value="5º AÑO MMO A">5º AÑO MMO A</option>
-                    <option value="5º AÑO MMO B">5º AÑO MMO B</option>
-                    <option value="5º AÑO TME A">5º AÑO TME A</option>
-                    <option value="5º AÑO TME B">5º AÑO TME B</option>
-                    <option value="6º AÑO MMO A">6º AÑO MMO A</option>
-                    <option value="6º AÑO MMO B">6º AÑO MMO B</option>
-                    <option value="6º AÑO TME A">6º AÑO TME A</option>
-                    <option value="6º AÑO TME B">6º AÑO TME B</option>
-                    <option value="7º AÑO MMO A">7º AÑO MMO A</option>
-                    <option value="7º AÑO MMO B">7º AÑO MMO B</option>
-                    <option value="7º AÑO TME A">7º AÑO TME A</option>
-                    <option value="7º AÑO TME B">7º AÑO TME B</option>
-                </select>
+                <div class="grupo-selector">
+                    <label for="selectorEspacio" class="label-sencillo">Gabinete / Espacio</label>
+
+                    <select id="selectorEspacio" class="select-sencillo">
+                        <option value="">Sincronizando...</option>
+                    </select>
+                </div>
+                <!--
+                <div class="grupo-selector">
+                    <label for="selectorCategoria" class="label-sencillo">Categoria</label>
+                    <select id="selectorCategoria" class="select-sencillo">
+                        <option value="SECUNDARIO">Ciclo Básico/Profesional</option>
+                        <option value="TECNICATURAS">Tecnicaturas</option>
+                        <option value="OFICIOS">Oficios</option>
+                        <option value="ATTP">ATTP</option>
+                    </select>
+                </div>
+                -->
+                <div class="grupo-selector">
+
+                    <label for="filtro-division" class="label-sencillo">Division</label>
+                    <select id="filtro-division" class="select-sencillo">
+                        <option value="">Todas las divisiones</option>
+                        <option value="1º AÑO A">1º AÑO A</option>
+                        <option value="1º AÑO B">1º AÑO B</option>
+                        <option value="1º AÑO C">1º AÑO C</option>
+                        <option value="2º AÑO A">2º AÑO A</option>
+                        <option value="2º AÑO B">2º AÑO B</option>
+                        <option value="2º AÑO C">2º AÑO C</option>
+                        <option value="3º AÑO A">3º AÑO A</option>
+                        <option value="3º AÑO B">3º AÑO B</option>
+                        <option value="3º AÑO C">3º AÑO C</option>
+                        <option value="4º AÑO MMO A">4º AÑO MMO A</option>
+                        <option value="4º AÑO MMO B">4º AÑO MMO B</option>
+                        <option value="4º AÑO TME A">4º AÑO TME A</option>
+                        <option value="4º AÑO TME B">4º AÑO TME B</option>
+                        <option value="5º AÑO MMO A">5º AÑO MMO A</option>
+                        <option value="5º AÑO MMO B">5º AÑO MMO B</option>
+                        <option value="5º AÑO TME A">5º AÑO TME A</option>
+                        <option value="5º AÑO TME B">5º AÑO TME B</option>
+                        <option value="6º AÑO MMO A">6º AÑO MMO A</option>
+                        <option value="6º AÑO MMO B">6º AÑO MMO B</option>
+                        <option value="6º AÑO TME A">6º AÑO TME A</option>
+                        <option value="6º AÑO TME B">6º AÑO TME B</option>
+                        <option value="7º AÑO MMO A">7º AÑO MMO A</option>
+                        <option value="7º AÑO MMO B">7º AÑO MMO B</option>
+                        <option value="7º AÑO TME A">7º AÑO TME A</option>
+                        <option value="7º AÑO TME B">7º AÑO TME B</option>
+                    </select>
+                </div>
 
             </Section>
 
-            <section class="fila-inferior" style="display: flex; width: 100%; ">
+            <section class="unico-selector">
+                <label for="buscar-docente" class="label-sencillo">Docente</label>
+
                 <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
                     style="width: 100%; height: 2.6em;"></select>
             </section>
-
         </div>
+
         <Section class="contenedor-acciones">
             <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
         </Section>
-        <div id="controles-formato" class="controles-busqueda"
+
+        <div id="controles-formato" class="controles-formato"
             style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 10px;">
             <p class="m-0">Formato del calendario</p>
-            <Section class="fila-superior" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
-                <div >
-                    <div class="contenedor-turno">
-                        <select id="selector-turno" class="select-moderno">
-                            <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
-                            <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
-                            <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
-                            <option value="noche">Turno Noche (19:00 - 23:00)</option>
-                            <option value="completo">Turno Completo (07:00 - 23:00)</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="display: flex; width: 100%;">
+            
+            <Section class="fila-doble-select" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
 
-                    <select id="selector-vista"
-                        style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                        <option value="timeGridWeek">Vista: Semana</option>
-                        <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
-                        <option value="timeGridTresDias">Vista: 3 días</option>
-                        <option value="timeGridDay">Vista: 1 día</option>
+                <div class="grupo-selector">
+                    <label for="selector-turno" class="label-sencillo">Franja Horaria</label>
+
+                    <select id="selector-turno" class="select-sencillo">
+                        <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
+                        <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
+                        <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
+                        <option value="noche">Turno Noche (19:00 - 23:00)</option>
+                        <option value="completo">Turno Completo (07:00 - 23:00)</option>
+                    </select>
+                </div>
+                <div class="grupo-selector">
+                    <label for="selector-vista" class="label-sencillo">Vista de Calendario</label>
+                    <select id="selector-vista" class="select-sencillo">
+                        <option value="timeGridSemanaLaboral">Lunes - Viernes</option>
+                        <option value="timeGridTresDias">3 días</option>
+                        <option value="timeGridDay">1 día</option>
                     </select>
                 </div>
 
