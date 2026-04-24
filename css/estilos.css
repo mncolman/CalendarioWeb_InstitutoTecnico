@@ -166,7 +166,8 @@ body {
     justify-content: space-between;
 }
 
-.controles-busqueda, .controles-formato {
+.controles-busqueda,
+.controles-formato {
 
     background-color: #5d8fc43a;
     border-radius: 6px;
@@ -175,8 +176,9 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.404);
 }
 
-.controles-busqueda p, .controles-formato p {
-  width: fit-content;
+.controles-busqueda p,
+.controles-formato p {
+    width: fit-content;
     font-family: 'Barlow Condensed', sans-serif;
     margin-top: 0.3em !important;
     margin-bottom: 0.3em;
@@ -185,10 +187,12 @@ body {
     font-size: clamp(1.7em, 3vw, 2.3em);
     color: rgb(39, 39, 39);
 
-/* LA MAGIA DEL BORDE: */
-    border-bottom: 1px solid transparent; /* Reservamos el espacio */
+    /* LA MAGIA DEL BORDE: */
+    border-bottom: 1px solid transparent;
+    /* Reservamos el espacio */
     border-image: linear-gradient(#022279d7, #022279d7);
-    border-image-slice: 1; /* Le dice a CSS que aplique el gradiente entero */
+    border-image-slice: 1;
+    /* Le dice a CSS que aplique el gradiente entero */
 
 }
 
@@ -296,11 +300,13 @@ body {
         padding-block: 0.7em;
         margin-bottom: 0 !important;
     }
-    .controles-busqueda, .controles-formato {
 
-    border-radius: 0px;
+    .controles-busqueda,
+    .controles-formato {
 
-}
+        border-radius: 0px;
+
+    }
 }
 
 /* barra nav*/
@@ -415,7 +421,8 @@ body {
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
 
-    .controles-busqueda,.controles-formato {
+    .controles-busqueda,
+    .controles-formato {
         margin-inline: 0.4em;
         margin-top: 0.6em;
     }
@@ -539,6 +546,10 @@ body {
     background-color: #dcffd7 !important;
     border-color: #006e09 !important;
 }
+.fc-event.evento-attp {
+    background-color: #daf9fd !important;
+    border-color: #001a6e !important;
+}
 
 
 /* Para que tu tarjeta ocupe el 100% del contenedor invisible */
@@ -558,17 +569,7 @@ body {
     /* Separación si hay dos clases pegadas */
 }
 
-.tarjeta-taller {
-    background-color: #fff563;
-    /* violeta por ejemplo */
-    border-left: 3px solid #ff0000;
-}
 
-.tarjeta-ed-fisica {
-    background-color: #b0fcba;
-    /* violeta por ejemplo */
-    border-left: 3px solid #00ff22;
-}
 
 /* Agregá esto a tu archivo CSS */
 .alerta-cuadrada {
@@ -736,6 +737,6 @@ select option,
     font-size: 1rem;
 }
 
-.controles-formato{
+.controles-formato {
     margin-bottom: 0.5em !important;
 }
