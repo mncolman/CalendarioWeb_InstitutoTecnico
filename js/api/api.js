@@ -1,6 +1,6 @@
 import { cerrarSesion } from '../modules/Auth.js';
 
-const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbx6PXUHym1H3GUh01zklHbX43L7IEmc3lMLwJHy83HRhPE9zJWfLfgloW88cTssZw3tLQ/exec';
+const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbxjOsQFzfmdF_ihIdl6ipezdhkk1ogxRg1QeFghYAu9exAavBYbiZD2qeF8ezsPrFIb/exec';
 
 export async function fetchDatosIniciales(tokenUsuario) {
     try {
@@ -14,25 +14,27 @@ export async function fetchDatosIniciales(tokenUsuario) {
 
         const datos = await respuesta.json();
 
+        // Suponiendo que tu variable se llama "datos"
+        console.table(datos);
+
         if (datos.error) {
             if (datos.sesionExpirada) {
-                console.warn("El token expiró o fue borrado de la hoja de cálculo.");
 
                 Swal.fire({
                     icon: 'warning',
                     title: 'Sesión Expirada',
                     text: 'Tu sesión ha expirado por seguridad. Por favor, volvé a ingresar.',
                     confirmButtonText: 'Entendido',
-                    allowOutsideClick: false, 
-                    allowEscapeKey: false     
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        cerrarSesion(); 
+                        cerrarSesion();
                     }
                 });
 
                 return null; // Salimos para que no siga ejecutando el resto de la app
-                
+
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -48,44 +50,44 @@ export async function fetchDatosIniciales(tokenUsuario) {
 
     } catch (error) {
         console.error("Falló la comunicación con Google:", error);
-        
+
         Swal.fire({
             icon: 'error',
             title: 'Error de conexión',
             text: 'No se pudo contactar con el servidor. Revisá tu internet.'
         });
-        
+
         throw error;
     }
 }
 
 export async function verificarCredenciales(usuario, password) {
-        try {
-            const opciones = {
-                method: 'POST',
-                // Le agregamos estos headers para que Google no rechace el paquete
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8",
-                },
-                // Le decimos que siga el redireccionamiento interno de Google
-                redirect: "follow",
-                body: JSON.stringify({
-                    accion: 'login',
-                    usuario: usuario,
-                    pass: password
-                })
-            };
+    try {
+        const opciones = {
+            method: 'POST',
+            // Le agregamos estos headers para que Google no rechace el paquete
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8",
+            },
+            // Le decimos que siga el redireccionamiento interno de Google
+            redirect: "follow",
+            body: JSON.stringify({
+                accion: 'login',
+                usuario: usuario,
+                pass: password
+            })
+        };
 
-            const respuesta = await fetch(URL_BACKEND, opciones);
+        const respuesta = await fetch(URL_BACKEND, opciones);
 
-            if (!respuesta.ok) {
-                throw new Error(`HTTP error! status: ${respuesta.status}`);
-            }
-
-            return await respuesta.json();
-
-        } catch (error) {
-            console.error("Fallo la comunicación de Login con Google:", error);
-            throw error;
+        if (!respuesta.ok) {
+            throw new Error(`HTTP error! status: ${respuesta.status}`);
         }
+
+        return await respuesta.json();
+
+    } catch (error) {
+        console.error("Fallo la comunicación de Login con Google:", error);
+        throw error;
     }
+}
