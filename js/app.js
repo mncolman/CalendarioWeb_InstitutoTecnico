@@ -241,8 +241,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-});
-
 document.getElementById('selector-turno').addEventListener('change', function (e) {
     const turno = e.target.value;
     const contenedorCalendario = document.getElementById('calendar');
@@ -281,5 +279,9 @@ document.getElementById('selector-turno').addEventListener('change', function (e
 
     setTimeout(() => { calendar.updateSize(); }, 10);
 });
+
+
+});
+
 
 
