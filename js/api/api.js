@@ -14,8 +14,6 @@ export async function fetchDatosIniciales(tokenUsuario) {
 
         const datos = await respuesta.json();
 
-
-
         if (datos.error) {
             if (datos.sesionExpirada) {
 
