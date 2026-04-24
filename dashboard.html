@@ -112,7 +112,7 @@
 
             </Section>
 
-            <section class="unico-selector"> 
+            <section class="unico-selector">
                 <label for="buscar-docente" class="label-sencillo">Docente</label>
 
                 <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
@@ -123,13 +123,35 @@
         <Section class="contenedor-acciones">
             <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
         </Section>
-        <div style="display: flex; width: 100%;">
-            <select id="selector-vista"
-                style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 120px;">
-                <option value="timeGridSemanaLaboral">Vista: Lun - Vie</option>
-                <option value="timeGridTresDias">Vista: 3 días</option>
-                <option value="timeGridDay">Vista: 1 día</option>
-            </select>
+
+        <div id="controles-formato" class="controles-formato"
+            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 10px;">
+            <p class="m-0">Formato del calendario</p>
+            
+            <Section class="fila-doble-select" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
+
+                <div class="grupo-selector">
+                    <label for="selector-turno" class="label-sencillo">Franja Horaria</label>
+
+                    <select id="selector-turno" class="select-sencillo">
+                        <option selected value="mañana/tarde">Turno Mañana/Tarde (07:00 - 19:00)</option>
+                        <option value="mañana">Turno Mañana (07:00 - 14:00)</option>
+                        <option value="tarde">Turno Tarde (14:00 - 19:00)</option>
+                        <option value="noche">Turno Noche (19:00 - 23:00)</option>
+                        <option value="completo">Turno Completo (07:00 - 23:00)</option>
+                    </select>
+                </div>
+                <div class="grupo-selector">
+                    <label for="selector-vista" class="label-sencillo">Vista de Calendario</label>
+                    <select id="selector-vista" class="select-sencillo">
+                        <option value="timeGridSemanaLaboral">Lunes - Viernes</option>
+                        <option value="timeGridTresDias">3 días</option>
+                        <option value="timeGridDay">1 día</option>
+                    </select>
+                </div>
+
+            </Section>
+
         </div>
 
 
