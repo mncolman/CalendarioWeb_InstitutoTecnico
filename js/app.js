@@ -246,12 +246,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (turno === 'mañana') {
             calendar.setOption('slotMinTime', '07:00:00');
-            calendar.setOption('slotMaxTime', '14:00:01');
+            calendar.setOption('slotMaxTime', '13:30:01');
             contenedorCalendario.style.minHeight = '830px';
             contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
 
         } else if (turno === 'tarde') {
-            calendar.setOption('slotMinTime', '14:00:00');
+            calendar.setOption('slotMinTime', '13:30:00');
             calendar.setOption('slotMaxTime', '19:00:01');
             contenedorCalendario.style.minHeight = '630px';
             contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
