@@ -171,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             todosLosEventos = datos.eventos;
 
-            console.log(datos);
             llenarBuscadorDocentes(datos.docentes);
             llenarSelectorGabinetes(datos.gabinetes);
 
