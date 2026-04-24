@@ -241,44 +241,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-document.getElementById('selector-turno').addEventListener('change', function (e) {
-    const turno = e.target.value;
-    const contenedorCalendario = document.getElementById('calendar');
+    document.getElementById('selector-turno').addEventListener('change', function (e) {
+        const turno = e.target.value;
+        const contenedorCalendario = document.getElementById('calendar');
 
-    if (turno === 'mañana') {
-        calendar.setOption('slotMinTime', '07:00:00');
-        calendar.setOption('slotMaxTime', '14:00:01');
-        contenedorCalendario.style.minHeight = '830px';
-        contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
+        if (turno === 'mañana') {
+            calendar.setOption('slotMinTime', '07:00:00');
+            calendar.setOption('slotMaxTime', '14:00:01');
+            contenedorCalendario.style.minHeight = '830px';
+            contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
 
-    } else if (turno === 'tarde') {
-        calendar.setOption('slotMinTime', '14:00:00');
-        calendar.setOption('slotMaxTime', '19:00:01');
-        contenedorCalendario.style.minHeight = '630px';
-        contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
+        } else if (turno === 'tarde') {
+            calendar.setOption('slotMinTime', '14:00:00');
+            calendar.setOption('slotMaxTime', '19:00:01');
+            contenedorCalendario.style.minHeight = '630px';
+            contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
 
-    } else if (turno === 'noche') {
-        calendar.setOption('slotMinTime', '19:00:00');
-        calendar.setOption('slotMaxTime', '23:00:01');
-        contenedorCalendario.style.minHeight = '530px';
-        contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
+        } else if (turno === 'noche') {
+            calendar.setOption('slotMinTime', '19:00:00');
+            calendar.setOption('slotMaxTime', '23:00:01');
+            contenedorCalendario.style.minHeight = '530px';
+            contenedorCalendario.classList.remove('modo-completo'); // Apagamos las líneas
 
-    } else if (turno === 'completo') {
-        calendar.setOption('slotMinTime', '07:00:00');
-        calendar.setOption('slotMaxTime', '23:00:01');
-        contenedorCalendario.style.minHeight = '1100px';
-        contenedorCalendario.classList.add('modo-completo');
+        } else if (turno === 'completo') {
+            calendar.setOption('slotMinTime', '07:00:00');
+            calendar.setOption('slotMaxTime', '23:00:01');
+            contenedorCalendario.style.minHeight = '1100px';
+            contenedorCalendario.classList.add('modo-completo');
 
-    } else {
-        // turno mañana/tarde
-        calendar.setOption('slotMinTime', '07:00:00');
-        calendar.setOption('slotMaxTime', '19:00:01');
-        contenedorCalendario.style.minHeight = '850px';
-        contenedorCalendario.classList.add('modo-completo');
-    }
+        } else {
+            // turno mañana/tarde
+            calendar.setOption('slotMinTime', '07:00:00');
+            calendar.setOption('slotMaxTime', '19:00:01');
+            contenedorCalendario.style.minHeight = '850px';
+            contenedorCalendario.classList.add('modo-completo');
+        }
 
-    setTimeout(() => { calendar.updateSize(); }, 10);
-});
+        setTimeout(() => { calendar.updateSize(); }, 10);
+    });
 
 
 });
