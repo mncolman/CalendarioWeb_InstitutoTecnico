@@ -14,9 +14,6 @@ export async function fetchDatosIniciales(tokenUsuario) {
 
         const datos = await respuesta.json();
 
-        // Suponiendo que tu variable se llama "datos"
-        console.table(datos);
-
         if (datos.error) {
             if (datos.sesionExpirada) {
 
