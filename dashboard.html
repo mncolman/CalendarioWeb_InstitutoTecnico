@@ -20,9 +20,9 @@
 </head>
 
 <body>
-    <div class="contenedor-principal">
+    <main class="contenedor-principal">
         <section id="encabezado">
-            <h2>Calendario Instituto Técnico</h2>
+            <h2>CALENDARIO INSTITUTO TECNICO</h2>
             <figure>
                 <img src="assets/logo-it.jpg" alt="">
             </figure>
@@ -31,7 +31,9 @@
         <nav class="navbar-principal">
 
             <button class="menu-toggle" id="btn-menu">
-                ☰
+                <span>
+                    ☰
+                </span>
             </button>
 
             <div class="nav-colapsable" id="menu-colapsable">
@@ -39,13 +41,12 @@
                 <ul class="nav-enlaces">
                     <li><a href="#calendario" class="activo">Calendario</a></li>
                     <li><a aria-disabled="true" href="#mapa">Mapa Instituto</a></li>
-                 <!--     <li><a href="#libro">Libro de Temas</a></li> -->
+                    <!--     <li><a href="#libro">Libro de Temas</a></li> -->
                 </ul>
 
-                <hr class="divisor-movil">
 
                 <div class="nav-usuario">
-                    <span id="saludo-usuario" class="saludo">Hola, .........</span>
+                    <span id="saludo-usuario" class="saludo"></span>
                     <button id="btn-cerrar-sesion" type="button" class="btn-salir">Cerrar Sesión</button>
                 </div>
 
@@ -53,56 +54,74 @@
         </nav>
 
         <div id="controles-busqueda" class="controles-busqueda"
-            style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
+            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 0px;">
+            <p class="m-0">Filtros del calendario</p>
 
-            <Section class="fila-superior" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <Section class="fila-doble-select">
 
-                <select id="selectorEspacio"
-                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option value="">Sincronizando...</option>
-                </select>
+                <div class="grupo-selector">
+                    <label for="selectorEspacio" class="label-sencillo">Gabinete / Espacio</label>
 
-                <select id="filtro-division"
-                    style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; flex: 1; min-width: 140px;">
-                    <option value="">Todas las divisiones</option>
-                    <option value="1º AÑO A">1º AÑO A</option>
-                    <option value="1º AÑO B">1º AÑO B</option>
-                    <option value="1º AÑO C">1º AÑO C</option>
-                    <option value="2º AÑO A">2º AÑO A</option>
-                    <option value="2º AÑO B">2º AÑO B</option>
-                    <option value="2º AÑO C">2º AÑO C</option>
-                    <option value="3º AÑO A">3º AÑO A</option>
-                    <option value="3º AÑO B">3º AÑO B</option>
-                    <option value="3º AÑO C">3º AÑO C</option>
-                    <option value="4º AÑO MMO A">4º AÑO MMO A</option>
-                    <option value="4º AÑO MMO B">4º AÑO MMO B</option>
-                    <option value="4º AÑO TME A">4º AÑO TME A</option>
-                    <option value="4º AÑO TME B">4º AÑO TME B</option>
-                    <option value="5º AÑO MMO A">5º AÑO MMO A</option>
-                    <option value="5º AÑO MMO B">5º AÑO MMO B</option>
-                    <option value="5º AÑO TME A">5º AÑO TME A</option>
-                    <option value="5º AÑO TME B">5º AÑO TME B</option>
-                    <option value="6º AÑO MMO A">6º AÑO MMO A</option>
-                    <option value="6º AÑO MMO B">6º AÑO MMO B</option>
-                    <option value="6º AÑO TME A">6º AÑO TME A</option>
-                    <option value="6º AÑO TME B">6º AÑO TME B</option>
-                    <option value="7º AÑO MMO A">7º AÑO MMO A</option>
-                    <option value="7º AÑO MMO B">7º AÑO MMO B</option>
-                    <option value="7º AÑO TME A">7º AÑO TME A</option>
-                    <option value="7º AÑO TME B">7º AÑO TME B</option>
-                </select>
+                    <select id="selectorEspacio" class="select-sencillo">
+                        <option value="">Sincronizando...</option>
+                    </select>
+                </div>
+                <!--
+                <div class="grupo-selector">
+                    <label for="selectorCategoria" class="label-sencillo">Categoria</label>
+                    <select id="selectorCategoria" class="select-sencillo">
+                        <option value="SECUNDARIO">Ciclo Básico/Profesional</option>
+                        <option value="TECNICATURAS">Tecnicaturas</option>
+                        <option value="OFICIOS">Oficios</option>
+                        <option value="ATTP">ATTP</option>
+                    </select>
+                </div>
+                -->
+                <div class="grupo-selector">
+
+                    <label for="filtro-division" class="label-sencillo">Division</label>
+                    <select id="filtro-division" class="select-sencillo">
+                        <option value="">Todas las divisiones</option>
+                        <option value="1º AÑO A">1º AÑO A</option>
+                        <option value="1º AÑO B">1º AÑO B</option>
+                        <option value="1º AÑO C">1º AÑO C</option>
+                        <option value="2º AÑO A">2º AÑO A</option>
+                        <option value="2º AÑO B">2º AÑO B</option>
+                        <option value="2º AÑO C">2º AÑO C</option>
+                        <option value="3º AÑO A">3º AÑO A</option>
+                        <option value="3º AÑO B">3º AÑO B</option>
+                        <option value="3º AÑO C">3º AÑO C</option>
+                        <option value="4º AÑO MMO A">4º AÑO MMO A</option>
+                        <option value="4º AÑO MMO B">4º AÑO MMO B</option>
+                        <option value="4º AÑO TME A">4º AÑO TME A</option>
+                        <option value="4º AÑO TME B">4º AÑO TME B</option>
+                        <option value="5º AÑO MMO A">5º AÑO MMO A</option>
+                        <option value="5º AÑO MMO B">5º AÑO MMO B</option>
+                        <option value="5º AÑO TME A">5º AÑO TME A</option>
+                        <option value="5º AÑO TME B">5º AÑO TME B</option>
+                        <option value="6º AÑO MMO A">6º AÑO MMO A</option>
+                        <option value="6º AÑO MMO B">6º AÑO MMO B</option>
+                        <option value="6º AÑO TME A">6º AÑO TME A</option>
+                        <option value="6º AÑO TME B">6º AÑO TME B</option>
+                        <option value="7º AÑO MMO A">7º AÑO MMO A</option>
+                        <option value="7º AÑO MMO B">7º AÑO MMO B</option>
+                        <option value="7º AÑO TME A">7º AÑO TME A</option>
+                        <option value="7º AÑO TME B">7º AÑO TME B</option>
+                    </select>
+                </div>
 
             </Section>
 
-            <section class="fila-inferior" style="display: flex; width: 100%;">
-                <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
-                    style="width: 100%;"></select>
-            </section>
+            <section class="unico-selector">
+                <label for="buscar-docente" class="label-sencillo">Docente</label>
 
+                <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
+                    style="width: 100%; height: 2.6em;"></select>
+            </section>
         </div>
+
         <Section class="contenedor-acciones">
-            <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir</button>
-            <button id="btn-limpiar" class="btn-accion btn-secundario">🔄 Limpiar filtros</button>
+            <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
         </Section>
         <div style="display: flex; width: 100%;">
             <select id="selector-vista"
@@ -113,8 +132,9 @@
             </select>
         </div>
 
-        <article id='calendar' translate="no"></article>
-    </div>
+
+        <article id='calendar' class="modo-completo" translate="no"></article>
+    </main>
     <footer id="footer">
         <div class="footer-principal">
 

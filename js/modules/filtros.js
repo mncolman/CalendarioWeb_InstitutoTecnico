@@ -90,28 +90,46 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
     calendar.addEventSource(eventosFiltrados);
 }
 
-// Configuramos todos los listeners de una sola vez
+// Reemplazá tu configurarListenersFiltros por esta versión
 export function configurarListenersFiltros(todosLosEventos, calendar) {
-    // Función auxiliar chiquita para no repetir parámetros
-    const dispararFiltro = () => aplicarFiltros(todosLosEventos, calendar);
+    let selectorDivision = document.getElementById('filtro-division');
+    let selectorGabinete = document.getElementById('selectorEspacio');
+    let selectorDocente = document.getElementById('buscar-docente');
 
-    document.getElementById('selectorEspacio').addEventListener('change', dispararFiltro);
-    document.getElementById('filtro-division').addEventListener('change', dispararFiltro);
-    document.getElementById('buscar-docente').addEventListener('change', dispararFiltro);
+    // Función centralizada para manejar la exclusividad
+    const manejarExclusividad = (origen) => {
+        // 1. Vaciamos silenciosamente los selectores que NO fueron los que el usuario tocó
+        if (origen !== 'division') {
+            selectorDivision.value = '';
+        }
+        if (origen !== 'gabinete') {
+            selectorGabinete.value = '';
+        }
+        if (origen !== 'docente') {
+            if (window.tomSelectDocente) {
+                // El "true" es vital: lo limpia sin avisar, evitando bucles infinitos
+                window.tomSelectDocente.clear(true); 
+            } else {
+                selectorDocente.value = '';
+            }
+        }
 
-    document.getElementById('btn-limpiar').addEventListener('click', function () {
-        if (window.tomSelectDocente) window.tomSelectDocente.clear();
-        document.getElementById('filtro-division').value = '';
-        document.getElementById('selectorEspacio').value = '';
-        dispararFiltro();
-    });
+        // 2. Ahora que solo hay uno activo, disparamos tu filtro original
+        aplicarFiltros(todosLosEventos, calendar);
+    };
+
+    // Le decimos a cada selector que avise "quién es" cuando lo cambian
+    selectorDivision.addEventListener('change', () => manejarExclusividad('division'));
+    selectorGabinete.addEventListener('change', () => manejarExclusividad('gabinete'));
+    selectorDocente.addEventListener('change', () => manejarExclusividad('docente'));
+
 }
 
 export function ajustarInterfazPorRol() {
     const rol = localStorage.getItem('rolUsuario')
     const panelFiltros = document.getElementById("controles-busqueda");
-    
-    
+
+
     if (!panelFiltros) {
         return;
     }

@@ -26,7 +26,7 @@ body {
     overflow: hidden;
 
     /* 👇 ACÁ VA TU IMAGEN DE FONDO PRINCIPAL */
-    background-image: url('/assets/FRENTE-DE-INSTITUTO-TECNICO-1.jpg');
+    background-image: url('../assets/FRENTE-DE-INSTITUTO-TECNICO-1.jpg');
     background-size: cover;
     background-position: center;
     background-color: var(--azul-oscuro);
@@ -82,7 +82,6 @@ body::before {
     text-align: center;
 
     /* 👇 ACÁ VA TU IMAGEN DE FONDO DEL FORMULARIO / HEADER */
-    background-image: url('assets/fondo-card.jpg');
     background-size: cover;
     background-position: center;
     /*background-color: var(--azul-medio);*/

@@ -21,205 +21,292 @@ body {
     box-sizing: border-box;
 }
 
-
 #encabezado {
-    display: inline-flex;
+
+    background: linear-gradient(135deg, #f819009c, #ffffff, #ffffff, #ffffff, #022279d7);
+    display: flex;
+    /* Cambiamos inline-flex por flex puro */
     width: fit-content;
+    width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 15px;
+    /* La separación perfecta entre logo y texto, sin usar márgenes */
+    border-radius: 3px;
+    margin: 1.2em auto;
+    /* Centrado horizontal automático */
+    padding: 2em 1em;
+    /* Padding equilibrado: poco arriba/abajo, más a los costados */
 
-    border-top: 2px #0859af8a solid;
-    border-bottom: 2px #ad121293 solid;
-    border-radius: 1em;
+    /* ACÁ PONÉS TU COLOR DE FONDO. Este es un gris súper clarito de ejemplo */
+    background-color: #f4f6f8;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.78);
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.78);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.78);
 
-    margin-top: 1em;
-    margin-bottom: 1.5em;
-    margin-inline: auto !important;
-    padding-inline: 0.2em;
 }
 
+/* Limpiamos la etiqueta figure para que no moleste */
 #encabezado figure {
-    padding: 0;
-    padding-top: 0.19em;
     margin: 0;
-    margin-left: 0.5em;
-    width: 2em;
-    border-radius: 5em;
-
+    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
 #encabezado figure img {
-    padding: 0;
+    /* MAGIA FLUIDA: Mínimo 2.5rem, ideal 6vw (relativo a pantalla), Máximo 3.5rem */
+    width: clamp(2.5rem, 6vw, 3.5rem);
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
     margin: 0;
-    width: 2em;
-    border-radius: 5em;
-
+    padding: 0;
 }
 
 #encabezado h2 {
     font-family: 'Barlow Condensed', sans-serif;
-    /* cambiá por la que elijas */
     font-weight: 600;
-    font-size: 2em;
-    letter-spacing: 0.035em;
-    /* pequeño espaciado entre letras queda bien en títulos */
+
+    /* MAGIA FLUIDA: Mínimo 1.8rem (celular), ideal 5vw, Máximo 3.35em (PC) */
+    font-size: clamp(1.6rem, 5vw, 3.35rem);
+
+    letter-spacing: 0.01em;
     text-align: center;
     color: #333;
     margin: 0;
-    display: inline-flex;
-    padding-left: 0.1em;
+    padding: 0;
+    line-height: 1.1;
+    /* Clave para que el texto no estire el contenedor verticalmente */
 }
 
 
 /* barra nav*/
 .navbar-principal {
-  display: flex;
-  justify-content: space-between; /* Separa los 3 bloques equitativamente */
-  align-items: center; /* Centra todo verticalmente */
-  padding: 15px 30px;
-  margin-bottom: 1em;
-  background-color: #2c3e50; /* Un azul oscuro institucional */
-  color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    /* Separa los 3 bloques equitativamente */
+    align-items: center;
+    /* Centra todo verticalmente */
+    padding: 15px 30px;
+    margin-bottom: 1em;
+    background-color: #043161;
+    /* Un azul oscuro institucional */
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
 }
 
 /* La lista de enlaces central */
 .nav-enlaces {
-  display: flex;
-  gap: 30px; /* Separación perfecta entre los 3 botones */
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    gap: 30px;
+    /* Separación perfecta entre los 3 botones */
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-enlaces a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
 }
 
-.nav-enlaces a:hover, .nav-enlaces a.activo {
-  color: #3498db; /* Color de resalte al pasar el mouse o estar activo */
+.nav-enlaces a:hover,
+.nav-enlaces a.activo {
+    font-weight: 550;
+
 }
 
 /* El bloque de la derecha */
 .nav-usuario {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Espacio entre el saludo y el botón */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Espacio entre el saludo y el botón */
 }
 
 .btn-salir {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
+    background-color: #e21e08ce;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .btn-salir:hover {
-  background-color: #c0392b;
+    background-color: #c0392b;
 }
 
 /* --- ESTILOS BASE PARA EL BOTÓN HAMBURGUESA --- */
 .menu-toggle {
-  display: none; /* Oculto por defecto en computadoras */
-  background: none;
-  border: none;
-  color: white;
-  font-size: 28px;
-  cursor: pointer;
+    display: none;
+    /* Oculto por defecto en computadoras */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 /* Ocultamos la línea divisoria en PC */
 .divisor-movil {
-  display: none; 
+    display: none;
 }
 
 /* Por defecto (PC), el contenedor colapsable se comporta como una fila (Flexbox) */
 .nav-colapsable {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.controles-busqueda,
+.controles-formato {
+
+    background-color: #5d8fc43a;
+    border-radius: 6px;
+    padding-inline: 0.5em;
+    margin: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.404);
+}
+
+.controles-busqueda p,
+.controles-formato p {
+    width: fit-content;
+    font-family: 'Barlow Condensed', sans-serif;
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em;
+    margin-inline: 0.11em;
+    font-weight: 600;
+    font-size: clamp(1.7em, 3vw, 2.3em);
+    color: rgb(39, 39, 39);
+
+    /* LA MAGIA DEL BORDE: */
+    border-bottom: 1px solid transparent;
+    /* Reservamos el espacio */
+    border-image: linear-gradient(#022279d7, #022279d7);
+    border-image-slice: 1;
+    /* Le dice a CSS que aplique el gradiente entero */
+
 }
 
 
 /* --- LA MAGIA PARA CELULARES (Menos de 768px) --- */
 @media (max-width: 768px) {
-  
-  /* 1. Mostramos el botón hamburguesa */
-  .menu-toggle {
-    display: block; 
-  }
 
-  /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
-  .navbar-principal {
-    flex-wrap: wrap;
-    position: relative; /* Para poder posicionar el menú desplegable debajo */
-  }
+    #encabezado {
+        padding: 1.4em 1em;
+        margin: 0 !important;
+        border-radius: 0;
 
-  /* 3. Transformamos el contenedor de enlaces en un menú desplegable */
-  .nav-colapsable {
-    display: none; /* Oculto hasta que toquen el botón */
-    flex-direction: column; /* Apila todo hacia abajo */
-    width: 100%; /* Ocupa todo el ancho */
-    position: absolute;
-    top: 100%; /* Se ubica justo debajo de la navbar */
-    left: 0;
-    background-color: #34495e; /* Un tono apenas más claro que la navbar para diferenciar */
-    padding: 20px 0;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1000; /* Asegura que flote por encima del calendario */
-  }
+    }
 
-  /* 4. Esta clase se la agregamos con JavaScript cuando tocan el botón */
-  .nav-colapsable.abierto {
-    display: flex; 
-  }
+    /* 1. Mostramos el botón hamburguesa */
+    .menu-toggle {
+        display: block;
+        font-size: 1.6em;
+        display: flex;
+        align-items: start;
+    }
 
-  /* 5. Acomodamos los enlaces para que parezcan botones grandes de menú */
-  .nav-enlaces {
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
-    gap: 0;
-  }
+    /* 2. Rompemos el flexbox del contenedor principal para que la navbar no se estire raro */
+    .navbar-principal {
+        margin-top: 0;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+        position: relative;
+        /* Para poder posicionar el menú desplegable debajo */
+        border-radius: 0;
+        padding-block: 0.4em;
+        padding-inline: 0.5em !important;
+    }
 
-  .nav-enlaces li {
-    width: 100%;
-  }
+    /* 3. Transformamos el contenedor de enlaces en un menú desplegable */
+    .nav-colapsable {
+        display: none;
+        /* Oculto hasta que toquen el botón */
+        flex-direction: column;
+        /* Apila todo hacia abajo */
+        width: 100%;
+        /* Ocupa todo el ancho */
+        position: absolute;
+        top: 100%;
+        /* Se ubica justo debajo de la navbar */
+        left: 0;
+        background-color: #34495e;
+        /* Un tono apenas más claro que la navbar para diferenciar */
+        padding: 20px 0;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        /* Asegura que flote por encima del calendario */
+    }
 
-  .nav-enlaces a {
-    display: block;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
+    /* 4. Esta clase se la agregamos con JavaScript cuando tocan el botón */
+    .nav-colapsable.abierto {
+        display: flex;
+    }
 
-  /* 6. Acomodamos la sección de usuario al final del menú */
-  .divisor-movil {
-    display: block;
-    width: 80%;
-    margin: 15px auto;
-    border: 0;
-    border-top: 1px solid rgba(255,255,255,0.2);
-  }
+    /* 5. Acomodamos los enlaces para que parezcan botones grandes de menú */
+    .nav-enlaces {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        gap: 0;
+    }
 
-  .nav-usuario {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-    padding-bottom: 10px;
-  }
+    .nav-enlaces li {
+        width: 100%;
+    }
 
-  .btn-salir {
-    width: 80%; /* Botón de salir ancho y fácil de tocar */
-  }
+    .nav-enlaces a {
+        display: block;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* 6. Acomodamos la sección de usuario al final del menú */
+    .divisor-movil {
+        display: block;
+        width: 80%;
+        margin: 15px auto;
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-usuario {
+        margin-top: 1.3em;
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+        padding-bottom: 10px;
+    }
+
+    .btn-salir {
+        width: 80%;
+        /* Botón de salir ancho y fácil de tocar */
+    }
+
+    .contenedor-acciones {
+        padding-inline: 0.3em;
+        margin-block: 0 !important;
+        margin-bottom: 0.3em !important;
+        background-color: #043161;
+        padding-block: 0.7em;
+        margin-bottom: 0 !important;
+    }
+
+    .controles-busqueda,
+    .controles-formato {
+
+        border-radius: 0px;
+
+    }
 }
 
 /* barra nav*/
@@ -228,8 +315,7 @@ body {
 #calendar {
     background-color: rgb(255, 255, 255);
     flex-grow: 1;
-
-    min-height: 800px;
+    min-height: 1100px;
     /* Altura mínima de seguridad */
     border: 2px solid #ccc;
     /* Borde gris para ver dónde termina */
@@ -237,9 +323,31 @@ body {
     padding: 10px;
 }
 
+/* =========================================
+   LÍNEAS DIVISORAS (Tiro de precisión al TD)
+========================================= */
+
+.modo-completo td.fc-timegrid-slot-label[data-time="14:00:00"] .fc-timegrid-slot-label-cushion,
+.modo-completo td.fc-timegrid-slot-label[data-time="19:00:00"] .fc-timegrid-slot-label-cushion {
+    color: #043161 !important;
+    font-weight: bold !important;
+    border-radius: 4px;
+}
+
+.modo-completo td.fc-timegrid-slot-lane[data-time="14:00:00"],
+.modo-completo td.fc-timegrid-slot-lane[data-time="19:00:00"] {
+    border-top: 2px solid #043161a6 !important;
+}
+
 .contenedor-acciones {
     display: flex;
     gap: 8px;
+    margin-block: 0.5em;
+}
+
+.contenedor-busqueda {
+
+    margin-bottom: 0em;
 }
 
 .btn-accion {
@@ -257,15 +365,16 @@ body {
 }
 
 .btn-primario {
-    background-color: #0859af;
+    background-color: #043161;
     color: white;
-    border-color: #0859af;
+    border-color: #ffffff;
+    padding: 0.65rem;
 }
 
 .btn-secundario {
     background-color: #f8f9fa;
-    color: #0859af;
-    border-color: #0859af;
+    color: #0a3d74;
+    border-color: #137beb;
 }
 
 .fc-day-today {
@@ -273,6 +382,15 @@ body {
     /* azul suave */
 }
 
+.fc-scroller::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fc-scroller::-webkit-scrollbar-thumb {
+    /* La magia del degradado: 45 grados, del rojo al azul */
+    background: linear-gradient(45deg, #000000ad);
+    border-radius: 4px;
+}
 
 
 /* REGLA PARA CELULARES (Pantallas menores a 768px) */
@@ -286,8 +404,9 @@ body {
         /* Quitamos el borde para ganar un par de píxeles extra */
         border-radius: 0;
         /* Que llegue bien pegado a los bordes del teléfono */
-        min-height: 80vh;
+        min-height: 85dvh;
         /* Usa el 80% del alto de la pantalla del celular en lugar de 500px fijos */
+        padding-top: 0.7em !important;
     }
 
     /* Si tu calendario está dentro de un contenedor padre, quitamos sus márgenes también */
@@ -302,38 +421,73 @@ body {
         /* Evita que se pueda hacer scroll horizontal accidentalmente */
     }
 
-    #encabezado {
-        margin-bottom: 0 !important;
-
-    }
-
-    #encabezado h2 {
-        font-size: 1.5em;
-    }
-
-    #encabezado figure {
-        width: 1.8em;
-    }
-
-    #encabezado figure img {
-        width: 1.8em;
-    }
-
-    .controles-busqueda {
-        margin: 1em
+    .controles-busqueda,
+    .controles-formato {
+        margin-inline: 0.4em;
+        margin-top: 0.6em;
     }
 
     .btn-primario {
         width: 50%;
+        margin: auto;
     }
 
     .btn-secundario {
         width: 50%;
     }
 
-    #selector-vista {
-        margin: 0.4em;
+    .fc-toolbar-title {
+        font-size: 1.25em !important;
     }
+
+    .fc-timegrid-slot-label-cushion {
+        font-size: 0.9em;
+    }
+
+    /* Fuerzo el estilo solo para el scroll del calendario */
+    .fc-scroller::-webkit-scrollbar {
+        width: 0;
+    }
+
+    #encabezado figure img {
+        padding-top: 0;
+    }
+
+    .fila-doble-select {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .grupo-selector,
+    .select-sencillo {
+        display: flex;
+        width: 100%;
+        max-width: 100% !important;
+
+    }
+
+    .select-sencillo {
+
+        margin-bottom: 0.7em !important;
+    }
+
+    .grupo-selector {
+
+        margin: 0 !important;
+    }
+
+    select,
+    select option,
+    .option {
+        font-size: 0.9rem !important;
+    }
+
+
+
+
+
 }
 
 /* El contenedor principal */
@@ -343,7 +497,6 @@ body {
     padding: 3px;
     overflow: hidden;
     color: black;
-    /* Evita que el texto se salga del cuadro */
 }
 
 /* El título principal (Actividad) */
@@ -374,10 +527,11 @@ body {
     /* Forzamos a que el texto sea negro (o tu color) */
     box-shadow: none !important;
     padding: 0 !important;
-    margin:0 ;
+    margin: 0;
     margin-left: 5px !important;
     margin-block: 3px !important;
 }
+
 .fc-event.evento-default {
     background-color: rgba(245, 245, 245, 0.808);
     border-color: #1a3a6b !important;
@@ -391,6 +545,10 @@ body {
 .fc-event.evento-ed-fisica {
     background-color: #dcffd7 !important;
     border-color: #006e09 !important;
+}
+.fc-event.evento-attp {
+    background-color: #daf9fd !important;
+    border-color: #001a6e !important;
 }
 
 
@@ -410,27 +568,25 @@ body {
     margin: 2px;
     /* Separación si hay dos clases pegadas */
 }
-.tarjeta-taller {
-    background-color: #fff563;   /* violeta por ejemplo */
-    border-left: 3px solid #ff0000;
-}
-.tarjeta-ed-fisica {
-    background-color: #b0fcba;   /* violeta por ejemplo */
-    border-left: 3px solid #00ff22;
-}
+
+
 
 /* Agregá esto a tu archivo CSS */
 .alerta-cuadrada {
-    width: 350px !important;  /* Ajustá este valor al tamaño de tu imagen */
-    height: 350px !important; /* Mismo valor para que sea un cuadrado perfecto */
+    width: 350px !important;
+    /* Ajustá este valor al tamaño de tu imagen */
+    height: 350px !important;
+    /* Mismo valor para que sea un cuadrado perfecto */
     display: flex !important;
     flex-direction: column;
-    justify-content: center;  /* Centra el texto y el spinner en el medio */
-    border-radius: 15px;      /* Opcional: bordes redondeados */
+    justify-content: center;
+    /* Centra el texto y el spinner en el medio */
+    border-radius: 15px;
+    /* Opcional: bordes redondeados */
 }
 
 #footer {
-    background-color: #1a3a6b;
+    background-color: #022041;
     color: #e0e8f5;
     font-size: 0.9em;
     margin-top: 2em;
@@ -504,4 +660,83 @@ body {
         align-items: center;
         text-align: center;
     }
+}
+
+
+
+
+.label-turno {
+    color: rgb(255, 255, 255);
+    background-color: rgb(7, 9, 122);
+    display: inline-block;
+    padding-inline: 0.4rem;
+    padding-block: 0.2rem;
+    margin-bottom: 0rem;
+    font-size: 0.8rem;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+    font-weight: 700;
+}
+
+/* Contenedor para mantener el orden */
+.grupo-selector {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 15px;
+    max-width: 50%;
+    /* Evita que el selector se estire por toda la pantalla */
+}
+
+/* Contenedor para mantener el orden */
+.unico-selector {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 15px;
+    /* Evita que el selector se estire por toda la pantalla */
+}
+
+/* Estilo del texto del Label */
+.label-sencillo {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #000000e0;
+    margin-bottom: 6px;
+    margin-left: 0.3em;
+}
+
+/* Estilo del Select (Reemplaza tus estilos en línea) */
+.select-sencillo {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+/* Efecto cuando el usuario hace clic o navega con el teclado */
+.select-sencillo:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.fila-doble-select {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+select option,
+.option {
+    font-size: 1rem;
+}
+
+.controles-formato {
+    margin-bottom: 0.5em !important;
 }
