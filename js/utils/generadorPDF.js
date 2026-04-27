@@ -21,17 +21,27 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
 
-    let textoDocente = document.getElementById('buscar-docente').value.toLowerCase().trim();
+    // --- NUEVO: Capturamos los 4 valores, incluyendo TomSelect y Especialidades ---
+    let textoDocente = window.tomSelectDocente
+        ? window.tomSelectDocente.getValue().toLowerCase().trim()
+        : document.getElementById('buscar-docente').value.toLowerCase().trim();
+        
     let textoDivision = document.getElementById('filtro-division').value.toLowerCase();
+    let textoEspecialidad = document.getElementById('filtro-tecni-oficio').value.toLowerCase(); // NUEVO
     let textoGabinete = document.getElementById('selectorEspacio').value.toLowerCase();
 
     let turnoSeleccionado = document.getElementById('selector-turno').value;
 
+    // --- ACTUALIZADO: Lógica del Título del PDF ---
     let tipoCronograma = 'Semana';
-    if (textoDocente && textoDocente !== '') {
+    if (textoDocente !== '') {
         tipoCronograma = textoDocente;
-    } else {
-        tipoCronograma = (textoGabinete && textoGabinete !== '') ? textoGabinete : textoDivision;
+    } else if (textoGabinete !== '') {
+        tipoCronograma = textoGabinete;
+    } else if (textoEspecialidad !== '') {
+        tipoCronograma = textoEspecialidad; // Si es tecnicatura/oficio
+    } else if (textoDivision !== '') {
+        tipoCronograma = textoDivision; // Si es básico/ATTP
     }
 
     const fechaInicio = calendarActual.view.activeStart;
@@ -44,7 +54,7 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
         'timeGridDay': fechaInicio.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
     }[vistaOriginal] || fechaInicio.toLocaleDateString('es-AR');
 
-    // Contenedor invisible (Le sacamos la altura fija de 700px)
+    // Contenedor invisible
     const tempDiv = document.createElement('div');
     tempDiv.style.cssText = `
         position: fixed; top: -9999px; left: -9999px; width: 1400px; z-index: -1; background: white;
@@ -52,30 +62,29 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
     document.body.appendChild(tempDiv);
 
     // ==========================================
-    // 🎯 NUEVO: TURNOS CON TUS ALTURAS EXACTAS
+    // TURNOS CON ALTURAS EXACTAS
     // ==========================================
     let turnos = [];
 
     if (turnoSeleccionado === 'mañana') {
-        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:01', altura: 730 });
+        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '13:30:01', altura: 730 });
     } else if (turnoSeleccionado === 'tarde') {
-        turnos.push({ nombre: 'Tarde', slotMin: '14:00:00', slotMax: '19:00:01', altura: 500 });
+        turnos.push({ nombre: 'Tarde', slotMin: '13:30:00', slotMax: '19:00:01', altura: 500 });
     } else if (turnoSeleccionado === 'noche') {
-        turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 400 });
+        turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 450 });
     } else if (turnoSeleccionado === 'completo') {
-        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:01', altura: 830 });
-        turnos.push({ nombre: 'Tarde', slotMin: '14:00:00', slotMax: '19:00:01', altura: 600 });
+        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '13:30:01', altura: 830 });
+        turnos.push({ nombre: 'Tarde', slotMin: '13:30:00', slotMax: '19:00:01', altura: 600 });
         turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 500 });
     } else {
-        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '14:00:01', altura: 830 });
-        turnos.push({ nombre: 'Tarde', slotMin: '14:00:00', slotMax: '19:00:01', altura: 600 });
+        turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '13:30:01', altura: 830 });
+        turnos.push({ nombre: 'Tarde', slotMin: '13:30:00', slotMax: '19:00:01', altura: 600 });
     }
 
     const capturas = [];
 
     try {
         for (const turno of turnos) {
-            // 1. Le damos al Div contenedor la altura exacta de este turno
             tempDiv.style.height = `${turno.altura}px`;
 
             const calTemp = new FullCalendar.Calendar(tempDiv, {
@@ -90,21 +99,33 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
                 slotMaxTime: turno.slotMax,
                 slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false, meridiem: false },
                 slotDuration: '00:15:00',
-
-                // 2. Le pasamos tu altura al motor de FullCalendar
                 height: turno.altura,
                 contentHeight: turno.altura,
-
                 displayEventTime: false,
+
+                // --- ACTUALIZADO: El mismo motor de filtro exacto que armamos antes ---
                 events: todosLosEventos.filter(evento => {
                     let docenteEv = (evento.extendedProps.responsable || '').toLowerCase();
                     let divisionEv = (evento.extendedProps.division || '').toLowerCase();
                     let gabineteEv = (evento.extendedProps.gabinete || '').toLowerCase();
 
-                    return (docenteEv.includes(textoDocente)) &&
-                        (textoDivision === '' || divisionEv === textoDivision) &&
-                        (textoGabinete === '' || gabineteEv === textoGabinete);
+                    let coincideDocente = textoDocente === '' || docenteEv.includes(textoDocente);
+                    let coincideGabinete = textoGabinete === '' || gabineteEv === textoGabinete;
+
+                    let coincideCurso = false;
+                    
+                    if (textoDivision !== '') {
+                        coincideCurso = (divisionEv === textoDivision);
+                    } else if (textoEspecialidad !== '') {
+                        coincideCurso = (divisionEv === textoEspecialidad);
+                    } else {
+                        // Modo global si se busca por Docente o Gabinete
+                        coincideCurso = true; 
+                    }
+
+                    return coincideDocente && coincideCurso && coincideGabinete;
                 }),
+
                 eventClassNames: function (arg) {
                     let actividad = arg.event.title.toLowerCase();
                     let gabinete = arg.event.extendedProps.gabinete.toLowerCase();
@@ -129,7 +150,6 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
             calTemp.render();
             await new Promise(r => setTimeout(r, 500));
 
-            // 3. Le decimos a la "cámara" que saque la foto usando tu altura exacta
             const canvas = await html2canvas(tempDiv, { scale: 1.7, useCORS: true, width: 1400, height: turno.altura });
             capturas.push({ canvas, nombre: turno.nombre });
 
@@ -150,7 +170,6 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
             doc.text(`Cronograma: ${tipoCronograma.toLocaleUpperCase()}  |  ${etiquetaVista}  |  Horario ${item.nombre}`, 8, 8);
 
             const imgWidth = pdfW - 10;
-
             const imgHeight = (item.canvas.height * imgWidth) / item.canvas.width;
 
             doc.addImage(imgData, 'JPEG', 5, 20, imgWidth, imgHeight, '', 'MEDIUM');
@@ -158,7 +177,7 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
 
         Swal.close();
         btnContext.disabled = false;
-        doc.save(`${tipoCronograma}-${etiquetaVista}.pdf`);
+        doc.save(`${tipoCronograma.toUpperCase()}-${etiquetaVista}.pdf`);
 
     } catch (error) {
         console.error('Error completo:', error);
