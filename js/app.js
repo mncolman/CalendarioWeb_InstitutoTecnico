@@ -114,7 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: info.event.title,
                 scrollbarPadding: false,
                 allowOutsideClick: true,
-                heightAuto: false,
+                heightAuto: false,     
+                returnFocus: false,
                 html: `
               <p>Profesor: <b>${props.responsable || ''}</b></p>
               <p>Horario: ${horaInicio} a ${horaFin}</p>
