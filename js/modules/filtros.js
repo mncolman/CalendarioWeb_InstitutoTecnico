@@ -67,9 +67,9 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
             : selectorDocente.value.trim();
 
         // Si TODO está vacío (es decir, el usuario recién entra a la página)
-        if (selectorDivision.value === '' && selectorEspecialidad.value === '' && 
+        if (selectorDivision.value === '' && selectorEspecialidad.value === '' &&
             selectorGabinete.value === '' && textoDocenteTemp === '') {
-            
+
             // Forzamos a que seleccione el primer curso de la lista (ej: 1º AÑO A)
             let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
             if (primeraOpcion) {
@@ -95,7 +95,7 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
         let coincideGabinete = textogabinete === '' || gabineteDelEvento === textogabinete;
 
         let coincideCurso = false;
-        
+
         if (textoDivision !== '') {
             coincideCurso = (divisionDelEvento === textoDivision);
         } else if (textoEspecialidad !== '') {
@@ -105,18 +105,19 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
             // Si ambos selectores de cursos están en "" (vacíos), significa que 
             // el usuario está filtrando por Docente o por Gabinete. 
             // Ponemos coincideCurso en TRUE para que busque en todo el colegio.
-            coincideCurso = true; 
+            coincideCurso = true;
         }
 
         return coincideDocente && coincideCurso && coincideGabinete;
     });
+
 
     calendar.addEventSource(eventosFiltrados);
 }
 
 export function configurarListenersFiltros(todosLosEventos, calendar) {
     let selectorDivision = document.getElementById('filtro-division');
-    let selectorEspecialidad = document.getElementById('filtro-tecni-oficio'); // <-- NUEVO
+    let selectorEspecialidad = document.getElementById('filtro-tecni-oficio'); 
     let selectorGabinete = document.getElementById('selectorEspacio');
     let selectorDocente = document.getElementById('buscar-docente');
 
@@ -125,7 +126,7 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
         if (origen !== 'division') {
             selectorDivision.value = ''; // Lo mandamos a la opción "Seleccione..."
         }
-        
+
         if (origen !== 'especialidad') {
             selectorEspecialidad.value = '';
         }
@@ -136,10 +137,24 @@ export function configurarListenersFiltros(todosLosEventos, calendar) {
 
         if (origen !== 'docente') {
             if (window.tomSelectDocente) {
-                window.tomSelectDocente.clear(true); 
+                window.tomSelectDocente.clear(true);
             } else {
                 selectorDocente.value = '';
             }
+        }
+
+        //cambio de franja horario automatico
+        let selectorTurno = document.getElementById('selector-turno');
+
+        if (origen === 'division') {
+            selectorTurno.value = 'mañana/tarde';
+
+            selectorTurno.dispatchEvent(new Event('change'));
+
+        } else if (origen === 'especialidad') {
+            selectorTurno.value = 'noche';
+
+            selectorTurno.dispatchEvent(new Event('change'));
         }
 
         aplicarFiltros(todosLosEventos, calendar);
