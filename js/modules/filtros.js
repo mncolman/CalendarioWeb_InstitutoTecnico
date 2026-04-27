@@ -40,27 +40,37 @@ export function llenarSelectorGabinetes(listaGabinetes) {
         selector.appendChild(option);
     });
 }
-
 export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
     calendar.removeAllEventSources();
 
     let selectorDivision = document.getElementById('filtro-division');
+    let selectorEspecialidad = document.getElementById('filtro-tecni-oficio');
     let selectorGabinete = document.getElementById('selectorEspacio');
-    let contenedorFiltros = document.getElementById('controles-busqueda');
+    let selectorDocente = document.getElementById('buscar-docente');
 
-
+    // --- Lógica de Roles ---
     if (rol && rol !== 'admi') {
         if (rol === 'doce') {
             window.tomSelectDocente.setValue(filtro);
         } else if (rol === 'alum') {
-            selectorDivision.value = filtro;
+            let esBasico = Array.from(selectorDivision.options).some(op => op.value === filtro);
+            if (esBasico) {
+                selectorDivision.value = filtro;
+            } else {
+                selectorEspecialidad.value = filtro;
+            }
         }
     } else {
+        // --- PREVENCIÓN DE COLAPSO (Autoselección inicial) ---
         let textoDocenteTemp = window.tomSelectDocente
-            ? window.tomSelectDocente.getValue().toLowerCase().trim()
-            : document.getElementById('buscar-docente').value.toLowerCase().trim();
+            ? window.tomSelectDocente.getValue().trim()
+            : selectorDocente.value.trim();
 
-        if (selectorDivision.value === '' && selectorGabinete.value === '' && textoDocenteTemp === '') {
+        // Si TODO está vacío (es decir, el usuario recién entra a la página)
+        if (selectorDivision.value === '' && selectorEspecialidad.value === '' &&
+            selectorGabinete.value === '' && textoDocenteTemp === '') {
+
+            // Forzamos a que seleccione el primer curso de la lista (ej: 1º AÑO A)
             let primeraOpcion = Array.from(selectorDivision.options).find(op => op.value !== '');
             if (primeraOpcion) {
                 selectorDivision.value = primeraOpcion.value;
@@ -70,9 +80,10 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
 
     let textoDocente = window.tomSelectDocente
         ? window.tomSelectDocente.getValue().toLowerCase().trim()
-        : document.getElementById('buscar-docente').value.toLowerCase().trim();
+        : selectorDocente.value.toLowerCase().trim();
 
     let textoDivision = selectorDivision.value.toLowerCase();
+    let textoEspecialidad = selectorEspecialidad.value.toLowerCase();
     let textogabinete = selectorGabinete.value.toLowerCase();
 
     let eventosFiltrados = todosLosEventos.filter(evento => {
@@ -81,48 +92,79 @@ export function aplicarFiltros(todosLosEventos, calendar, rol, filtro) {
         let gabineteDelEvento = (evento.extendedProps.gabinete || '').toLowerCase();
 
         let coincideDocente = textoDocente === '' || docenteDelEvento.includes(textoDocente);
-        let coincideDivision = textoDivision === '' || divisionDelEvento === textoDivision;
-        let coincidegabinete = textogabinete === '' || gabineteDelEvento === textogabinete;
+        let coincideGabinete = textogabinete === '' || gabineteDelEvento === textogabinete;
 
-        return coincideDocente && coincideDivision && coincidegabinete;
+        let coincideCurso = false;
+
+        if (textoDivision !== '') {
+            coincideCurso = (divisionDelEvento === textoDivision);
+        } else if (textoEspecialidad !== '') {
+            coincideCurso = (divisionDelEvento === textoEspecialidad);
+        } else {
+            // 🎯 MAGIA EN SEGUNDO PLANO: 
+            // Si ambos selectores de cursos están en "" (vacíos), significa que 
+            // el usuario está filtrando por Docente o por Gabinete. 
+            // Ponemos coincideCurso en TRUE para que busque en todo el colegio.
+            coincideCurso = true;
+        }
+
+        return coincideDocente && coincideCurso && coincideGabinete;
     });
+
 
     calendar.addEventSource(eventosFiltrados);
 }
 
-// Reemplazá tu configurarListenersFiltros por esta versión
 export function configurarListenersFiltros(todosLosEventos, calendar) {
     let selectorDivision = document.getElementById('filtro-division');
+    let selectorEspecialidad = document.getElementById('filtro-tecni-oficio'); 
     let selectorGabinete = document.getElementById('selectorEspacio');
     let selectorDocente = document.getElementById('buscar-docente');
 
-    // Función centralizada para manejar la exclusividad
     const manejarExclusividad = (origen) => {
-        // 1. Vaciamos silenciosamente los selectores que NO fueron los que el usuario tocó
+        
         if (origen !== 'division') {
-            selectorDivision.value = '';
+            selectorDivision.value = ''; // Lo mandamos a la opción "Seleccione..."
         }
+
+        if (origen !== 'especialidad') {
+            selectorEspecialidad.value = '';
+        }
+
         if (origen !== 'gabinete') {
             selectorGabinete.value = '';
         }
+
         if (origen !== 'docente') {
             if (window.tomSelectDocente) {
-                // El "true" es vital: lo limpia sin avisar, evitando bucles infinitos
-                window.tomSelectDocente.clear(true); 
+                window.tomSelectDocente.clear(true);
             } else {
                 selectorDocente.value = '';
             }
         }
 
-        // 2. Ahora que solo hay uno activo, disparamos tu filtro original
+        //cambio de franja horario automatico
+        let selectorTurno = document.getElementById('selector-turno');
+
+        if (origen === 'division') {
+            selectorTurno.value = 'mañana/tarde';
+
+            selectorTurno.dispatchEvent(new Event('change'));
+
+        } else if (origen === 'especialidad') {
+            selectorTurno.value = 'noche';
+
+            selectorTurno.dispatchEvent(new Event('change'));
+        }
+
         aplicarFiltros(todosLosEventos, calendar);
     };
 
-    // Le decimos a cada selector que avise "quién es" cuando lo cambian
+    // Le enchufamos el evento a los 4 selectores
     selectorDivision.addEventListener('change', () => manejarExclusividad('division'));
+    selectorEspecialidad.addEventListener('change', () => manejarExclusividad('especialidad'));
     selectorGabinete.addEventListener('change', () => manejarExclusividad('gabinete'));
     selectorDocente.addEventListener('change', () => manejarExclusividad('docente'));
-
 }
 
 export function ajustarInterfazPorRol() {

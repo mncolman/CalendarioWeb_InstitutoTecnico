@@ -54,80 +54,109 @@
         </nav>
 
         <div id="controles-busqueda" class="controles-busqueda"
-            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 0px;">
+            style="padding-bottom: 0.7em; display: flex; flex-direction: column; gap: 0.7em;">
             <p class="m-0">Filtros del calendario</p>
 
             <Section class="fila-doble-select">
 
                 <div class="grupo-selector">
                     <label for="selectorEspacio" class="label-sencillo">Gabinete / Espacio</label>
-
                     <select id="selectorEspacio" class="select-sencillo">
                         <option value="">Sincronizando...</option>
                     </select>
                 </div>
-                <!--
                 <div class="grupo-selector">
-                    <label for="selectorCategoria" class="label-sencillo">Categoria</label>
-                    <select id="selectorCategoria" class="select-sencillo">
-                        <option value="SECUNDARIO">Ciclo Básico/Profesional</option>
-                        <option value="TECNICATURAS">Tecnicaturas</option>
-                        <option value="OFICIOS">Oficios</option>
-                        <option value="ATTP">ATTP</option>
-                    </select>
+                    <label for="buscar-docente" class="label-sencillo">Docente</label>
+                    <select id="buscar-docente" class="select-sencillo" placeholder="Escribe o selecciona un docente..."></select>
                 </div>
-                -->
-                <div class="grupo-selector">
-
-                    <label for="filtro-division" class="label-sencillo">Division</label>
-                    <select id="filtro-division" class="select-sencillo">
-                        <option value="">Todas las divisiones</option>
-                        <option value="1º AÑO A">1º AÑO A</option>
-                        <option value="1º AÑO B">1º AÑO B</option>
-                        <option value="1º AÑO C">1º AÑO C</option>
-                        <option value="2º AÑO A">2º AÑO A</option>
-                        <option value="2º AÑO B">2º AÑO B</option>
-                        <option value="2º AÑO C">2º AÑO C</option>
-                        <option value="3º AÑO A">3º AÑO A</option>
-                        <option value="3º AÑO B">3º AÑO B</option>
-                        <option value="3º AÑO C">3º AÑO C</option>
-                        <option value="4º AÑO MMO A">4º AÑO MMO A</option>
-                        <option value="4º AÑO MMO B">4º AÑO MMO B</option>
-                        <option value="4º AÑO TME A">4º AÑO TME A</option>
-                        <option value="4º AÑO TME B">4º AÑO TME B</option>
-                        <option value="5º AÑO MMO A">5º AÑO MMO A</option>
-                        <option value="5º AÑO MMO B">5º AÑO MMO B</option>
-                        <option value="5º AÑO TME A">5º AÑO TME A</option>
-                        <option value="5º AÑO TME B">5º AÑO TME B</option>
-                        <option value="6º AÑO MMO A">6º AÑO MMO A</option>
-                        <option value="6º AÑO MMO B">6º AÑO MMO B</option>
-                        <option value="6º AÑO TME A">6º AÑO TME A</option>
-                        <option value="6º AÑO TME B">6º AÑO TME B</option>
-                        <option value="7º AÑO MMO A">7º AÑO MMO A</option>
-                        <option value="7º AÑO MMO B">7º AÑO MMO B</option>
-                        <option value="7º AÑO TME A">7º AÑO TME A</option>
-                        <option value="7º AÑO TME B">7º AÑO TME B</option>
-                    </select>
-                </div>
-
             </Section>
+            <section class="fila-doble-select">
+                <div class="grupo-selector">
+                    <label for="filtro-division" class="label-sencillo">Horarios Ciclo Básico / Ciclo Profesional / ATTP</label>
+                    <select id="filtro-division" class="select-sencillo">
+                        <option value="">Seleccione una opción..</option>
+                        <optgroup label="CICLO BÁSICO">
+                            <option value="1º AÑO A">1º AÑO A</option>
+                            <option value="1º AÑO B">1º AÑO B</option>
+                            <option value="1º AÑO C">1º AÑO C</option>
+                            <option value="2º AÑO A">2º AÑO A</option>
+                            <option value="2º AÑO B">2º AÑO B</option>
+                            <option value="2º AÑO C">2º AÑO C</option>
+                            <option value="3º AÑO A">3º AÑO A</option>
+                            <option value="3º AÑO B">3º AÑO B</option>
+                            <option value="3º AÑO C">3º AÑO C</option>
+                        </optgroup>
+                        <optgroup label="CICLO PROFESIONAL">
+                            <option value="4º AÑO MMO A">4º AÑO MMO A</option>
+                            <option value="4º AÑO MMO B">4º AÑO MMO B</option>
+                            <option value="4º AÑO TME A">4º AÑO TME A</option>
+                            <option value="4º AÑO TME B">4º AÑO TME B</option>
+                            <option value="5º AÑO MMO A">5º AÑO MMO A</option>
+                            <option value="5º AÑO MMO B">5º AÑO MMO B</option>
+                            <option value="5º AÑO TME A">5º AÑO TME A</option>
+                            <option value="5º AÑO TME B">5º AÑO TME B</option>
+                            <option value="6º AÑO MMO A">6º AÑO MMO A</option>
+                            <option value="6º AÑO MMO B">6º AÑO MMO B</option>
+                            <option value="6º AÑO TME A">6º AÑO TME A</option>
+                            <option value="6º AÑO TME B">6º AÑO TME B</option>
+                            <option value="7º AÑO MMO A">7º AÑO MMO A</option>
+                            <option value="7º AÑO MMO B">7º AÑO MMO B</option>
+                            <option value="7º AÑO TME A">7º AÑO TME A</option>
+                            <option value="7º AÑO TME B">7º AÑO TME B</option>
 
-            <section class="unico-selector">
-                <label for="buscar-docente" class="label-sencillo">Docente</label>
-
-                <select id="buscar-docente" placeholder="Escribe o selecciona un docente..."
-                    style="width: 100%; height: 2.6em;"></select>
+                        </optgroup>
+                        <optgroup label="ATTP">
+                            <option value="ATTP DIBUJO">ATTP DIBUJO</option>
+                            <option value="ATTP MATEMATICA">ATTP MATEMATICA</option>
+                            <option value="ATTP QUIMICA">ATTP QUIMICA</option>
+                            <option value="ATTP FISICA">ATTP FISICA</option>
+                            <option value="ATTP CONSTRUCCIONES (MMO)">ATTP CONSTRUCCIONES (MMO)</option>
+                            <option value="ATTP MECANICA (TME)">ATTP MECANICA (TME)</option>
+                            <option value="ATTP INFORMATICA">ATTP INFORMATICA</option>
+                            <option value="ATTP ELECTRICIDAD">ATTP ELECTRICIDAD</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="grupo-selector">
+                    <label for="filtro-tecni-oficio" class="label-sencillo"> Horarios Tecnicaturas / Oficios</label>
+                    <select id="filtro-tecni-oficio" class="select-sencillo" placeholder="Seleccione una ópcion..">
+                        <option value="">Seleccione una ópcion..</option>
+                        <optgroup label="TÉC. SUPERIOR EN ELECTRICIDAD INDUSTRIAL">
+                            <option value="1º AÑO TSEI">1º AÑO TSEI</option>
+                            <option value="2º AÑO TSEI">2º AÑO TSEI</option>
+                            <option value="3º AÑO TSEI">3º AÑO TSEI</option>
+                        </optgroup>
+                        <optgroup label="TÉC. SUPERIOR EN CONTROLES AUTO. IND.">
+                            <option value="1º AÑO TSCAI">1º AÑO TSCAI</option>
+                            <option value="2º AÑO TSCAI">2º AÑO TSCAI</option>
+                            <option value="3º AÑO TSCAI">3º AÑO TSCAI</option>
+                        </optgroup>
+                        <optgroup label="TÉC. SUPERIOR EN DISEÑO INDUSTRIALES">
+                            <option value="1º AÑO TSDI">1º AÑO TSDI</option>
+                            <option value="2º AÑO TSDI">2º AÑO TSDI</option>
+                            <option value="3º AÑO TSDI">3º AÑO TSDI</option>
+                        </optgroup>
+                        <optgroup label="OFICIOS">
+                            <option value="CARPINTERÍA DE ALUMINIO">CARPINTERÍA DE ALUMINIO</option>
+                            <option value="CARPINTERÍA DE OBRA FINA">CARPINTERÍA DE OBRA FINA</option>
+                            <option value="MEC. DEL AUTOMOTOR">MECANICA DEL AUTOMOTOR</option>
+                            <option value="OPERADOR DE MÁQ. HERR.">OPERADOR DE MÁQ. HERR.</option>
+                            <option value="SOLDADOR">SOLDADOR</option>
+                        </optgroup>
+                    </select>
+                </div>
             </section>
         </div>
+
 
         <Section class="contenedor-acciones">
             <button id="btn-descargar" class="btn-accion btn-primario">📄 Imprimir Semana</button>
         </Section>
 
         <div id="controles-formato" class="controles-formato"
-            style="margin-bottom: 0.6em; display: flex; flex-direction: column; gap: 10px;">
+            style="padding-bottom: 0.7em; display: flex; flex-direction: column; gap: 0.7em;">
             <p class="m-0">Formato del calendario</p>
-            
+
             <Section class="fila-doble-select" style="display: flex;gap:5px ; flex-wrap: wrap; align-items: center;">
 
                 <div class="grupo-selector">
@@ -151,7 +180,6 @@
                 </div>
 
             </Section>
-
         </div>
 
 

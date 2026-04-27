@@ -1,6 +1,6 @@
 import { cerrarSesion } from '../modules/Auth.js';
 
-const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbxjOsQFzfmdF_ihIdl6ipezdhkk1ogxRg1QeFghYAu9exAavBYbiZD2qeF8ezsPrFIb/exec';
+const URL_BACKEND = 'https://script.google.com/macros/s/AKfycbyFQmZAWwYKr_U54s43YawGwpFYK10ctAD7u1xF0TzlpSjvnIQjMjcXU73uNZFIQFHUAg/exec';
 
 export async function fetchDatosIniciales(tokenUsuario) {
     try {
@@ -13,7 +13,9 @@ export async function fetchDatosIniciales(tokenUsuario) {
         }
 
         const datos = await respuesta.json();
+        console.log(datos
 
+        )
         if (datos.error) {
             if (datos.sesionExpirada) {
 
