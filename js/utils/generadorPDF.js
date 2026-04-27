@@ -71,7 +71,7 @@ export async function generarPDF(btnContext, calendarActual, todosLosEventos) {
     } else if (turnoSeleccionado === 'tarde') {
         turnos.push({ nombre: 'Tarde', slotMin: '13:30:00', slotMax: '19:00:01', altura: 500 });
     } else if (turnoSeleccionado === 'noche') {
-        turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 400 });
+        turnos.push({ nombre: 'Noche', slotMin: '19:00:00', slotMax: '23:00:01', altura: 450 });
     } else if (turnoSeleccionado === 'completo') {
         turnos.push({ nombre: 'Mañana', slotMin: '07:00:00', slotMax: '13:30:01', altura: 830 });
         turnos.push({ nombre: 'Tarde', slotMin: '13:30:00', slotMax: '19:00:01', altura: 600 });
